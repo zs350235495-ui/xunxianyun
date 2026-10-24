@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- 渐变定义 -->
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="85%" stop-color="#F0F7FF"/>
+      <stop offset="100%" stop-color="#D9EBFC"/>
+    </linearGradient>
+
+    <linearGradient id="helmetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24"/>
+      <stop offset="40%" stop-color="#F5A623"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+
+    <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="35%" stop-color="#38BDF8"/>
+      <stop offset="70%" stop-color="#0369A1"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+
+    <linearGradient id="fiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
+      <stop offset="20%" stop-color="#38BDF8"/>
+      <stop offset="50%" stop-color="#60A5FA"/>
+      <stop offset="80%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#2563EB" stop-opacity="0.2"/>
+    </linearGradient>
+
+    <radialGradient id="pulseGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="30%" stop-color="#38BDF8"/>
+      <stop offset="70%" stop-color="#4A90E2" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#4A90E2" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="accentPulse" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFBEB"/>
+      <stop offset="40%" stop-color="#F5A623"/>
+      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- 柔和投影 -->
+    <filter id="softShadow" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#1E3A8A" flood-opacity="0.12"/>
+    </filter>
+    <filter id="glowFilter" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- 背景穿透专线光纤轨道 (下层光缆阴影) -->
+  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="url(#fiberGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glowFilter)"/>
+
+  <!-- 云朵主体容器 (带阴影) -->
+  <g filter="url(#softShadow)">
+    <!-- 可爱云朵主体泡泡组合 -->
+    <path d="M 170 370 
+             L 342 370 
+             A 64 64 0 0 0 406 306 
+             A 54 54 0 0 0 380 220 
+             A 72 72 0 0 0 320 160 
+             A 88 88 0 0 0 192 160 
+             A 72 72 0 0 0 132 220 
+             A 54 54 0 0 0 106 306 
+             A 64 64 0 0 0 170 370 Z" 
+          fill="url(#cloudGrad)" 
+          stroke="#C8DFF5" 
+          stroke-width="3" 
+          stroke-linejoin="round"/>
+  </g>
+
+  <!-- 巡线员暖橙安全帽 -->
+  <g id="safetyHelmet">
+    <!-- 帽顶半球 -->
+    <path d="M 186 160 
+             C 186 96, 326 96, 326 160 
+             Z" 
+          fill="url(#helmetGrad)"/>
+    <!-- 安全帽中脊加强筋 -->
+    <path d="M 251 102 
+             C 251 102, 256 125, 256 160 
+             C 256 125, 261 102, 261 102 
+             Z" 
+          fill="#FDE68A" opacity="0.8"/>
+    <!-- 安全帽反光条 -->
+    <path d="M 200 148 Q 256 138 312 148" 
+          fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+    <!-- 帽檐 -->
+    <path d="M 166 160 
+             C 166 150, 346 150, 346 160 
+             C 346 172, 166 172, 166 160 
+             Z" 
+          fill="#D97706"/>
+    <path d="M 172 160 
+             C 172 153, 340 153, 340 160 
+             C 340 166, 172 166, 172 160 
+             Z" 
+          fill="#F5A623"/>
+    <!-- 安全帽徽章：闪电/脉冲符号 -->
+    <circle cx="256" cy="132" r="10" fill="#FFFFFF" opacity="0.95"/>
+    <path d="M 257 124 L 251 133 L 255 133 L 254 140 L 261 131 L 257 131 Z" fill="#F5A623"/>
+  </g>
+
+  <!-- 科技护目镜 (Goggles) -->
+  <g id="techVisor">
+    <!-- 护目镜固定带 -->
+    <path d="M 124 235 C 130 230, 382 230, 388 235" 
+          fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- 护目镜主框 -->
+    <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
+    <!-- 护目镜镜片 (科技蓝高光) -->
+    <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGrad)"/>
+    
+    <!-- 护目镜科技扫描线与高光反射 -->
+    <path d="M 184 222 L 230 222" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+    <circle cx="242" cy="222" r="2" fill="#FFFFFF" opacity="0.8"/>
+    <!-- HUD 准星微刻度 -->
+    <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
+    <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
+    <!-- 镜片右侧反光条 -->
+    <path d="M 295 220 L 324 250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
+  </g>
+
+  <!-- 可爱面部腮红与微笑 -->
+  <circle cx="178" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
+  <circle cx="334" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
+  <path d="M 242 290 Q 256 304 270 290" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- 光纤专线前层脉冲节点 (带发光光晕) -->
+  <g id="pulseNodes">
+    <!-- 节点 1 (左侧浅蓝) -->
+    <circle cx="95" cy="416" r="18" fill="url(#pulseGlow)"/>
+    <circle cx="95" cy="416" r="5" fill="#FFFFFF"/>
+    <circle cx="95" cy="416" r="3" fill="#38BDF8"/>
+
+    <!-- 节点 2 (中间主脉冲 - 暖橙强调巡线点) -->
+    <circle cx="256" cy="442" r="24" fill="url(#accentPulse)"/>
+    <circle cx="256" cy="442" r="7" fill="#FFFFFF"/>
+    <circle cx="256" cy="442" r="4" fill="#F5A623"/>
+
+    <!-- 节点 3 (右侧科技蓝) -->
+    <circle cx="415" cy="416" r="18" fill="url(#pulseGlow)"/>
+    <circle cx="415" cy="416" r="5" fill="#FFFFFF"/>
+    <circle cx="415" cy="416" r="3" fill="#38BDF8"/>
+
+    <!-- 动态微脉冲粒子 -->
+    <circle cx="175" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
+    <circle cx="335" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
+  </g>
+</svg>

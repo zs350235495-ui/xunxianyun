@@ -1,0 +1,18 @@
+{
+  "name": "cloudpatrol",
+  "version": "1.0.0",
+  "description": "跨境网络专线测速、骨干链路拓扑观测与全天候 SLA 巡检技术知识库",
+  "scripts": {
+    "test": "node audit.js"
+  },
+  "keywords": [
+    "network-telemetry",
+    "sla-benchmark",
+    "iplc",
+    "iepl",
+    "bgp",
+    "cloudpatrol"
+  ],
+  "author": "Cloud Patrol Engineering Team",
+  "license": "MIT"
+}

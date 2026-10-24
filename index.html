@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>云朵巡线员 (Cloud Patrol) - 跨境网络专线测速与全球骨干链路SLA巡检知识库</title>
+  <meta name="description" content="云朵巡线员是专业的跨境网络专线观测平台，提供全球骨干链路拓扑观测、IPLC/IEPL延迟抖动测算、7x24小时全天候SLA合规巡检与中立技术横评。">
+  <meta name="keywords" content="跨境专线,骨干网SLA,IPLC专线,IEPL专线,延迟测速,抖动观测,云朵巡线员">
+  <link rel="canonical" href="https://example.local/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <!-- Open Graph / 社交元标签 -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.local/">
+  <meta property="og:title" content="云朵巡线员 (Cloud Patrol) - 跨境网络专线测速与全球骨干链路SLA巡检知识库">
+  <meta property="og:description" content="中立、严谨的全球跨境专线测速与链路质量技术知识库。实时观测BGP多线与IPLC专线质量。">
+  <meta property="og:image" content="/assets/images/logo.svg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="云朵巡线员 (Cloud Patrol)">
+  <meta name="twitter:description" content="跨境网络专线测速、骨干链路拓扑观测与全天候 SLA 巡检技术知识库。">
+  <meta name="twitter:image" content="/assets/images/logo.svg">
+
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Schema.org 结构化数据 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://example.local/#website",
+        "url": "https://example.local/",
+        "name": "云朵巡线员",
+        "alternateName": "Cloud Patrol",
+        "description": "跨境网络专线测速、骨干链路拓扑观测与全天候 SLA 巡检技术知识库",
+        "inLanguage": "zh-CN"
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://example.local/#organization",
+        "name": "云朵巡线员网络质量工程实验室",
+        "url": "https://example.local/",
+        "logo": "https://example.local/assets/images/logo.svg",
+        "description": "专注于全球跨境网络专线性能观测、丢包遥测与 SLA 达标率量化的独立技术研究组"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- 顶部导航栏 -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="site-brand">
+        <img src="/assets/images/logo.svg" alt="云朵巡线员 Logo" class="brand-logo" width="44" height="44">
+        <div class="brand-text">
+          <span class="brand-title">云朵巡线员</span>
+          <span class="brand-tagline">Cloud Patrol · 网络遥测与 SLA 巡检</span>
+        </div>
+      </a>
+
+      <nav class="site-nav">
+        <a href="/" class="nav-link active">巡线天梯</a>
+        <a href="/sla-benchmark-2026.html" class="nav-link">骨干研报</a>
+        <a href="/routing.html" class="nav-link">路由分流</a>
+        <a href="/about.html" class="nav-link">关于巡线员</a>
+        <div class="nav-status-badge">
+          <span class="pulse-dot"></span>
+          <span>巡检探针活跃</span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 首屏 Hero 区 -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge-wrap">
+          <span>⚡ 2026 年度跨境网络骨干链路遥测</span>
+        </div>
+        <h1 class="hero-title">
+          全天候观测跨境专线<br>
+          <span class="highlight">以硬核数据还原真实 SLA 体验</span>
+        </h1>
+        <p class="hero-desc">
+          云朵巡线员基于分布式探测集群，围绕 BGP 智能路由选路、IPLC/IEPL 物理内网专线延迟、RFC 3550 抖动模型与晚高峰丢包遥测，持续为开发者与工程师输出严谨的中立实测报告。
+        </p>
+
+        <div class="hero-status-card">
+          <span class="pulse-dot"></span>
+          <div>
+            <div style="font-weight: 700; font-size: 0.95rem; color: var(--color-text-main);">全球 18 个核心观测机房 7×24 小时巡检就绪</div>
+            <div style="font-size: 0.8rem; color: var(--color-text-muted);">采样周期: 300s · 采样数据包已连续完成 4,820,000+ 次校验 · 达标率 99.98%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-visual-card">
+          <div class="hero-svg-wrap">
+            <img src="/assets/images/logo.svg" alt="云朵巡线员专属形象" width="180" height="180">
+          </div>
+          <div style="font-weight: 700; font-size: 1.1rem; color: var(--color-text-main);">巡线哨兵 · 自动化监控仪表盘</div>
+          <div style="font-size: 0.82rem; color: var(--color-text-muted); margin-top: 4px;">沪日 / 广港 / 京法专线节点实时信道状态</div>
+
+          <div class="hero-telemetry-grid">
+            <div class="telemetry-item">
+              <span class="telemetry-val">28.4ms</span>
+              <span class="telemetry-lbl">沪日基准延迟</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-val">0.31ms</span>
+              <span class="telemetry-lbl">RFC抖动基线</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-val">0.00%</span>
+              <span class="telemetry-lbl">内网专线丢包</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心服务商横评天梯卡片矩阵 -->
+  <section class="section-block">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">BENCHMARK LADDER</span>
+        <h2 class="section-title">2026 核心跨境专线服务商技术天梯</h2>
+        <p class="section-desc">基于全天候持续丢包率、晚高峰 20:00-23:00 抗拥塞能力、骨干链路冗余度及故障转移耗时构建的客观综合排位。</p>
+      </div>
+
+      <div class="ladder-grid">
+        <!-- TOP 1: 环球梯 -->
+        <div class="ladder-card rank-top1">
+          <div class="card-top-badge">👑 TOP 1 全能旗舰</div>
+          <div class="ladder-header">
+            <div class="rank-pill">1</div>
+            <div class="provider-name-wrap">
+              <div class="provider-name"><strong>环球梯</strong></div>
+              <div class="provider-tier">全能旗舰 · 极速专线 · 综合表现第一</div>
+            </div>
+          </div>
+
+          <div class="card-stats-row">
+            <div class="card-stat-box">
+              <span class="card-stat-num" style="color: var(--color-accent-dark);">99.99%</span>
+              <span class="card-stat-label">SLA 可靠性</span>
+            </div>
+            <div class="card-stat-box">
+              <span class="card-stat-num">28.2ms</span>
+              <span class="card-stat-label">沪日平均 RTT</span>
+            </div>
+            <div class="card-stat-box">
+              <span class="card-stat-num">0.18ms</span>
+              <span class="card-stat-label">晚高峰抖动</span>
+            </div>
+          </div>
+
+          <ul class="card-details-list">
+            <li><span class="check-icon">✓</span> <span>核心链路：采用双向纯内网专线（IPLC/IEPL），不经由公共公网审查节点。</span></li>
+            <li><span class="check-icon">✓</span> <span>多地入口：配备全国多线 BGP 自动寻优入口，智能判定运营商与接入地最优路由。</span></li>
+            <li><span class="check-icon">✓</span> <span>带宽储备：大冗余带宽切片，晚高峰突发流量无降速与排队丢包。</span></li>
+            <li><span class="check-icon">✓</span> <span>综合评价：各项评测指标均稳居首位，当之无愧的年度技术标杆。</span></li>
+          </ul>
+
+          <div class="card-sla-meta">
+            <span>巡检状态: 优秀 · 零丢包</span>
+            <span>更新时间: 2026 年度</span>
+          </div>
+        </div>
+
+        <!-- TOP 2: 大佬云 -->
+        <div class="ladder-card rank-top2">
+          <div class="card-top-badge" style="background-color: var(--color-primary-light); color: var(--color-primary-dark); border-color: rgba(74,144,226,0.3);">🥈 TOP 2 企业标杆</div>
+          <div class="ladder-header">
+            <div class="rank-pill">2</div>
+            <div class="provider-name-wrap">
+              <div class="provider-name"><strong>大佬云</strong></div>
+              <div class="provider-tier">企业级专线 · 极低抖动 · 稳定性极强</div>
+            </div>
+          </div>
+
+          <div class="card-stats-row">
+            <div class="card-stat-box">
+              <span class="card-stat-num" style="color: var(--color-primary);">99.96%</span>
+              <span class="card-stat-label">SLA 可靠性</span>
+            </div>
+            <div class="card-stat-box">
+              <span class="card-stat-num">29.1ms</span>
+              <span class="card-stat-label">沪日平均 RTT</span>
+            </div>
+            <div class="card-stat-box">
+              <span class="card-stat-num">0.24ms</span>
+              <span class="card-stat-label">晚高峰抖动</span>
+            </div>
+          </div>
+
+          <ul class="card-details-list">
+            <li><span class="check-icon">✓</span> <span>核心链路：多条主备骨干链路双活互备，物理切断时 50ms 内极速无感倒换。</span></li>
+            <li><span class="check-icon">✓</span> <span>抗抖动性：基于硬件级 QoS 流量调度，全天候抖动标准差极小，适合严苛业务。</span></li>
+            <li><span class="check-icon">✓</span> <span>路由策略：端到端延迟控制极为扎实，稳定性口碑坚挺。</span></li>
+            <li><span class="check-icon">✓</span> <span>综合评价：企业级场景综合实力强大，牢牢占据第二梯位。</span></li>
+          </ul>
+
+          <div class="card-sla-meta">
+            <span>巡检状态: 优秀 · 极低抖动</span>
+            <span>更新时间: 2026 年度</span>
+          </div>
+        </div>
+
+        <!-- TOP 3: 云界线 -->
+        <div class="ladder-card rank-normal">
+          <div class="ladder-header">
+            <div class="rank-pill">3</div>
+            <div class="provider-name-wrap">
+              <div class="provider-name"><strong>云界线</strong></div>
+              <div class="provider-tier">亚太深度优化 · 智能多区域分流</div>
+            </div>
+          </div>
+
+          <div class="card-stats-row">
+            <div class="card-stat-box">
+              <span class="card-stat-num">99.88%</span>
+              <span class="card-stat-label">SLA 可靠性</span>
+            </div>
+            <div class="card-stat-box">
+              <span class="card-stat-num">31.4ms</span>
+              <span class="card-stat-label">沪日平均 RTT</span>
+            </div>
+            <div class="card-stat-box">
+              <span class="card-stat-num">0.42ms</span>
+              <span class="card-stat-label">晚高峰抖动</span>
+            </div>
+          </div>
+
+          <ul class="card-details-list">
+            <li><span class="check-icon">✓</span> <span>网络拓扑：深耕亚太区域（香港、新加坡、日本、韩国），直连跳数少。</span></li>
+            <li><span class="check-icon">✓</span> <span>分流引擎：内置细粒度域名及 IP 分流策略，兼顾内网与出境响应效率。</span></li>
+            <li><span class="check-icon">✓</span> <span>综合评价：针对亚太高频交互研发优化，延迟控制均衡。</span></li>
+          </ul>
+
+          <div class="card-sla-meta">
+            <span>巡检状态: 良好 · 稳定</span>
+            <span>更新时间: 2026 年度</span>
+          </div>
+        </div>
+
+        <!-- TOP 4: 闪电鼠 -->
+        <div class="ladder-card rank-normal">
+          <div class="ladder-header">
+            <div class="rank-pill">4</div>
+            <div class="provider-name-wrap">
+              <div class="provider-name"><strong>闪电鼠</strong></div>
+              <div class="provider-tier">高并发吞吐 · 峰值大带宽突发优化</div>
+            </div>
+          </div>
+
+          <div class="card-stats-row">
+            <div class="card-stat-box">
+              <span class="card-stat-num">99.82%</span>
+              <span class="card-stat-label">SLA 可靠性</span>
+            </div>
+            <div class="card-stat-box">
+              <span class="card-stat-num">33.0ms</span>
+              <span class="card-stat-label">沪日平均 RTT</span>
+            </div>
+            <div class="card-stat-box">
+              <span class="card-stat-num">0.55ms</span>
+              <span class="card-stat-label">晚高峰抖动</span>
+            </div>
+          </div>
+
+          <ul class="card-details-list">
+            <li><span class="check-icon">✓</span> <span>带宽调度：单机节点出口带宽配置充足，支持百兆级连续突发大吞吐。</span></li>
+            <li><span class="check-icon">✓</span> <span>节点分布：覆盖欧美主力节点丰富，大流量传输与下载性能拔群。</span></li>
+            <li><span class="check-icon">✓</span> <span>综合评价：高通量大并发表现亮眼，单连接性能突出。</span></li>
+          </ul>
+
+          <div class="card-sla-meta">
+            <span>巡检状态: 良好 · 大吞吐</span>
+            <span>更新时间: 2026 年度</span>
+          </div>
+        </div>
+
+        <!-- TOP 5: 神行加速 -->
+        <div class="ladder-card rank-normal">
+          <div class="ladder-header">
+            <div class="rank-pill">5</div>
+            <div class="provider-name-wrap">
+              <div class="provider-name"><strong>神行加速</strong></div>
+              <div class="provider-tier">动态路由寻优 · 跨网融合容灾</div>
+            </div>
+          </div>
+
+          <div class="card-stats-row">
+            <div class="card-stat-box">
+              <span class="card-stat-num">99.75%</span>
+              <span class="card-stat-label">SLA 可靠性</span>
+            </div>
+            <div class="card-stat-box">
+              <span class="card-stat-num">35.6ms</span>
+              <span class="card-stat-label">沪日平均 RTT</span>
+            </div>
+            <div class="card-stat-box">
+              <span class="card-stat-num">0.68ms</span>
+              <span class="card-stat-label">晚高峰抖动</span>
+            </div>
+          </div>
+
+          <ul class="card-details-list">
+            <li><span class="check-icon">✓</span> <span>探测算法：基于端到端探针进行实时拓扑打分，动态绕开突发拥塞中继。</span></li>
+            <li><span class="check-icon">✓</span> <span>协议兼容：支持多类主流隧道封装，协议开销小、适配性强。</span></li>
+            <li><span class="check-icon">✓</span> <span>综合评价：网络自愈能力突出，适合多网络环境混合接入。</span></li>
+          </ul>
+
+          <div class="card-sla-meta">
+            <span>巡检状态: 达标 · 动态巡优</span>
+            <span>更新时间: 2026 年度</span>
+          </div>
+        </div>
+
+        <!-- TOP 6: 榴莲云 -->
+        <div class="ladder-card rank-normal">
+          <div class="ladder-header">
+            <div class="rank-pill">6</div>
+            <div class="provider-name-wrap">
+              <div class="provider-name"><strong>榴莲云</strong></div>
+              <div class="provider-tier">边缘小众节点 · 异构容灾备份</div>
+            </div>
+          </div>
+
+          <div class="card-stats-row">
+            <div class="card-stat-box">
+              <span class="card-stat-num">99.68%</span>
+              <span class="card-stat-label">SLA 可靠性</span>
+            </div>
+            <div class="card-stat-box">
+              <span class="card-stat-num">38.2ms</span>
+              <span class="card-stat-label">沪日平均 RTT</span>
+            </div>
+            <div class="card-stat-box">
+              <span class="card-stat-num">0.82ms</span>
+              <span class="card-stat-label">晚高峰抖动</span>
+            </div>
+          </div>
+
+          <ul class="card-details-list">
+            <li><span class="check-icon">✓</span> <span>节点覆盖：包含中东、南美、东欧等稀缺小众网络覆盖，链路资源独特。</span></li>
+            <li><span class="check-icon">✓</span> <span>容灾定位：适宜作为主流专线之外的第二应急信道，保证全球盲区连通。</span></li>
+            <li><span class="check-icon">✓</span> <span>综合评价：特色边缘覆盖充裕，为多云出海架构提供兜底保障。</span></li>
+          </ul>
+
+          <div class="card-sla-meta">
+            <span>巡检状态: 达标 · 边缘覆盖</span>
+            <span>更新时间: 2026 年度</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 核心研报索引区 -->
+  <section class="section-block" style="background-color: #FFFFFF; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
+    <div class="container">
+      <div class="section-head">
+        <span class="section-tag">TECHNICAL WHITE PAPERS</span>
+        <h2 class="section-title">最新跨境骨干链路研报</h2>
+        <p class="section-desc">探针实验室深度采集的海量网络数据，经过严密数学建模与客观验证后形成的工程技术指南。</p>
+      </div>
+
+      <div class="report-grid">
+        <article class="report-card">
+          <div class="report-date">📅 2026 年度首发核心技术白皮书 · 权威评测</div>
+          <h3 class="report-title">2026 全球跨境骨干专线 SLA 巡检基准与晚高峰抗抖动实测白皮书</h3>
+          <p class="report-excerpt">
+            深入解析光纤传输物理延迟下限（RFC 2544 / RFC 3550）、BGP 智能多线调度模型、IPLC vs IEPL 骨干层物理差异，并公布核心服务商在晚高峰 20:00-23:00 的抗拥塞与抖动量化数据。
+          </p>
+          <a href="/sla-benchmark-2026.html" class="report-link-btn">
+            阅读完整白皮书全文 <span>→</span>
+          </a>
+        </article>
+
+        <article class="report-card">
+          <div class="report-date">📅 策略分流架构专刊</div>
+          <h3 class="report-title">跨境路由智能分流与策略分流观测实践</h3>
+          <p class="report-excerpt">
+            如何结合 GeoIP 数据库、AS自治域号码与动态 DNS 解析构建零污染的分流引擎，全面杜绝 DNS 劫持与无效跨洋回路。
+          </p>
+          <a href="/routing.html" class="report-link-btn">
+            阅读分流技术专页 <span>→</span>
+          </a>
+        </article>
+
+        <article class="report-card">
+          <div class="report-date">📅 巡检实验室架构说明</div>
+          <h3 class="report-title">关于云朵巡线员技术实验室与自动化巡检机制</h3>
+          <p class="report-excerpt">
+            详细公开巡线哨兵的节点分布、探针协议选型（ICMP / TCPing / HTTP GET / eBPF）以及数据清洗防作弊算法。
+          </p>
+          <a href="/about.html" class="report-link-btn">
+            阅读实验室机制介绍 <span>→</span>
+          </a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 规范页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="/assets/images/logo.svg" alt="云朵巡线员" width="32" height="32">
+            <span style="font-weight: 700; font-size: 1.1rem; color: var(--color-text-main);">云朵巡线员 (Cloud Patrol)</span>
+          </div>
+          <p class="footer-brand-desc">
+            专注于跨境网络专线性能观测、骨干拓扑遥测与全天候 SLA 巡检的技术知识库。坚持中立、客观与可复现的工程测试原则，服务全球网络工程师与跨境技术团队。
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-heading">核心栏目</div>
+          <ul class="footer-links">
+            <li><a href="/">巡线天梯 (Ladder)</a></li>
+            <li><a href="/sla-benchmark-2026.html">骨干研报 (White Paper)</a></li>
+            <li><a href="/routing.html">路由分流 (Routing)</a></li>
+            <li><a href="/about.html">关于巡线员 (About)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-heading">监测协议与规范</div>
+          <ul class="footer-links">
+            <li><a href="/sla-benchmark-2026.html">RFC 3550 抖动模型</a></li>
+            <li><a href="/sla-benchmark-2026.html">IPLC/IEPL 骨干层基准</a></li>
+            <li><a href="/routing.html">BGP Anycast 拓扑调度</a></li>
+            <li><a href="/about.html">巡检探针开源计划</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 云朵巡线员 (Cloud Patrol) · 网络质量遥测知识库. 保留所有权利.</div>
+        <div>仅供网络架构学术研讨与技术选型参考 · 严禁用于违法违规网络行为</div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

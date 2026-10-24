@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="100%" height="100%">
+  <defs>
+    <linearGradient id="favCloud" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#E2EEFC"/>
+    </linearGradient>
+    <linearGradient id="favHelmet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FBBF24"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="favVisor" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="50%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#0369A1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 光纤基座弧线 -->
+  <path d="M 6 52 C 20 60, 44 60, 58 52" fill="none" stroke="#38BDF8" stroke-width="4" stroke-linecap="round"/>
+  <!-- 光纤脉冲点 -->
+  <circle cx="32" cy="57" r="3.5" fill="#F5A623"/>
+  <circle cx="16" cy="54" r="2" fill="#38BDF8"/>
+  <circle cx="48" cy="54" r="2" fill="#38BDF8"/>
+
+  <!-- 云朵主体 -->
+  <path d="M 22 48 L 42 48 A 9 9 0 0 0 51 39 A 8 8 0 0 0 46 27 A 11 11 0 0 0 38 18 A 12 12 0 0 0 25 18 A 11 11 0 0 0 17 27 A 8 8 0 0 0 13 39 A 9 9 0 0 0 22 48 Z" 
+        fill="url(#favCloud)" stroke="#93C5FD" stroke-width="1.5"/>
+
+  <!-- 安全帽 -->
+  <path d="M 23 18 C 23 9, 41 9, 41 18 Z" fill="url(#favHelmet)"/>
+  <path d="M 19 18 C 19 16, 45 16, 45 18 C 45 20, 19 20, 19 18 Z" fill="#F5A623" stroke="#D97706" stroke-width="1"/>
+
+  <!-- 护目镜 -->
+  <rect x="20" y="25" width="24" height="10" rx="4.5" fill="#1E293B"/>
+  <rect x="22" y="26.5" width="20" height="7" rx="3" fill="url(#favVisor)"/>
+  <circle cx="32" cy="30" r="1.5" fill="#FFFFFF"/>
+</svg>
