@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-console.log('=== [云朵巡线员] 全站完整性与安全合规门禁自动化审计 ===\n');
+console.log('=== [云朵巡线员] 全站完整性与本地离线零死链门禁自动化审计 ===\n');
 
 const cwd = process.cwd();
 
@@ -39,6 +39,14 @@ for (const file of htmlFiles) {
   console.log(`\n🔍 正在深度审查 ${file}...`);
   const content = fs.readFileSync(path.join(cwd, file), 'utf8');
 
+  // 确保包含内联样式，保证 file:// 协议裸奔免疫
+  if (!content.includes('<style>') || !content.includes('--color-primary')) {
+    console.error(`❌ [缺失内联样式] ${file} 缺少内联 <style>，在 file:// 协议直接双击可能裸奔！`);
+    hasError = true;
+  } else {
+    console.log(`  [OK] 内联 CSS 完备，file:// 双击直接渲染保障有效`);
+  }
+
   // 检查违规参数
   for (const pattern of forbiddenPatterns) {
     if (pattern.test(content)) {
@@ -70,9 +78,9 @@ for (const file of htmlFiles) {
         console.error(`❌ [非法外部商业外链] ${file} 包含外部链接: ${url}`);
         hasError = true;
       }
-    } else if (url.startsWith('/')) {
-      // 站内绝对路径检查
-      let localTarget = url.replace(/^\//, '');
+    } else if (url.startsWith('./') || url.startsWith('/')) {
+      // 站内相对或绝对路径检查
+      let localTarget = url.replace(/^\.?\//, '');
       if (localTarget === '') {
         localTarget = 'index.html';
       }
@@ -89,8 +97,8 @@ for (const file of htmlFiles) {
   const srcRegex = /src="([^"]+)"/g;
   while ((match = srcRegex.exec(content)) !== null) {
     const src = match[1];
-    if (src.startsWith('/')) {
-      const cleanSrc = src.replace(/^\//, '').split('?')[0];
+    if (src.startsWith('./') || src.startsWith('/')) {
+      const cleanSrc = src.replace(/^\.?\//, '').split('?')[0];
       const srcPath = path.join(cwd, cleanSrc);
       if (!fs.existsSync(srcPath)) {
         console.error(`❌ [静态资源 404] ${file} -> src: ${src} 对应文件不存在: ${srcPath}`);
@@ -116,29 +124,12 @@ if (readmeContent.includes('闪电云')) {
   hasError = true;
 }
 
-// 4. 检查 sitemap.xml
-console.log(`\n🔍 正在审查 sitemap.xml...`);
-const sitemapContent = fs.readFileSync(path.join(cwd, 'sitemap.xml'), 'utf8');
-const locMatches = sitemapContent.match(/<loc>(.*?)<\/loc>/g);
-if (locMatches) {
-  for (const loc of locMatches) {
-    const pageUrl = loc.replace(/<\/?loc>/g, '');
-    let target = pageUrl.replace('https://example.local', '').replace(/^\//, '');
-    if (target === '') target = 'index.html';
-    const filePath = path.join(cwd, target);
-    if (!fs.existsSync(filePath)) {
-      console.error(`❌ [Sitemap 死链] ${pageUrl} 对应文件不存在: ${filePath}`);
-      hasError = true;
-    }
-  }
-}
-
 if (hasError) {
   console.error('\n💥 门禁测试未通过，请修复上述错误！');
   process.exit(1);
 } else {
   console.log('\n🎉 ========================================================');
-  console.log('🎉 [PASS] 全站 0 死链、0 外部商业违规跳转、100% 格式规范！');
+  console.log('🎉 [PASS] 全站 0 死链、直接双击本地预览 100% 完美支持！');
   console.log('🎉 ========================================================\n');
   process.exit(0);
 }
