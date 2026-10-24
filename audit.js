@@ -8,8 +8,12 @@ const cwd = process.cwd();
 // 1. 检查物理文件存在性
 const requiredFiles = [
   'index.html',
+  'pingce.html',
+  'blog.html',
+  'paolu.html',
   'sla-benchmark-2026.html',
   'routing.html',
+  'soft-routing.html',
   'about.html',
   'css/style.css',
   'assets/images/logo.svg',
@@ -32,7 +36,16 @@ for (const relPath of requiredFiles) {
 }
 
 // 2. 检查 HTML 文件的链接有效性与合规红线
-const htmlFiles = ['index.html', 'sla-benchmark-2026.html', 'routing.html', 'about.html'];
+const htmlFiles = [
+  'index.html',
+  'pingce.html',
+  'blog.html',
+  'paolu.html',
+  'sla-benchmark-2026.html',
+  'routing.html',
+  'soft-routing.html',
+  'about.html'
+];
 const forbiddenPatterns = [/\?aff=/i, /\?ref=/i, /\?code=/i, /href="#"/, /href=""/];
 
 for (const file of htmlFiles) {

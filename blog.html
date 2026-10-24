@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>巡线日志与技术文献归档 - 云朵巡线员</title>
+  <meta name="description" content="云朵巡线员技术日志与研报归档专页：包含2026跨境专线SLA白皮书、Fake-IP客户端分流调优、双软路由防DNS与WebRTC泄露工程实操文献。">
+  <meta name="keywords" content="巡线日志,网络研报,Fake-IP,双软路由分流,WebRTC防泄露,SLA白皮书,云朵巡线员">
+  <link rel="canonical" href="https://example.local/blog.html">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://example.local/blog.html">
+  <meta property="og:title" content="巡线日志与技术文献归档 - 云朵巡线员">
+  <meta property="og:description" content="中立严谨的跨境网络工程实测日志与技术指南。">
+  <meta property="og:image" content="./assets/images/logo.svg">
+
+  <link rel="stylesheet" href="./css/style.css">
+  <style>
+/* ==========================================================================
+   云朵巡线员 (Cloud Patrol) - 全局核心设计系统样式表
+   Design System: Sky Blue & Safety Orange Low-Saturation Warm Tech
+   ========================================================================== */
+
+:root {
+  /* 核心色彩系统 */
+  --color-primary: #4A90E2;          /* 天空与专线蓝 */
+  --color-primary-dark: #357ABD;
+  --color-primary-light: #EBF4FC;
+  --color-accent: #F5A623;           /* 巡线安全橙 / 护目镜暖橙 */
+  --color-accent-dark: #D98207;
+  --color-accent-light: #FEF6E9;
+  
+  --color-bg-page: #FAFAF8;          /* 舒适柔和米白底色 */
+  --color-bg-card: #FFFFFF;          /* 纯净白容器底色 */
+  --color-border: #EAECEF;           /* 低饱和浅灰边框 */
+  --color-border-hover: #CBD5E1;
+  
+  --color-text-main: #2C3E50;        /* 深板岩灰，高可读性 WCAG AAA */
+  --color-text-muted: #606F7B;       /* 中性副文本灰 */
+  --color-text-light: #94A3B8;
+  
+  --color-success: #10B981;          /* 探针在线/达标绿 */
+  --color-success-bg: #ECFDF5;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+
+  /* 阴影层次 */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 14px 25px -4px rgba(74, 144, 226, 0.12), 0 6px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* 圆角 */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* 布局与间距 */
+  --container-max: 1180px;
+  --transition-normal: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 基础重置 */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background-color: var(--color-bg-page);
+  color: var(--color-text-main);
+  line-height: 1.65;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: var(--transition-normal);
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+
+/* 页面主要容器 */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* 顶部导航栏 */
+.site-header {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: var(--transition-normal);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.site-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  letter-spacing: -0.02em;
+}
+
+.brand-tagline {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-main);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-normal);
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.nav-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background-color: var(--color-success-bg);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #065F46;
+  margin-left: 8px;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-success);
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulseAnimation 2s infinite;
+}
+
+@keyframes pulseAnimation {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* 首屏 Hero 区 */
+.hero-section {
+  padding: 60px 0 40px;
+  background: linear-gradient(180deg, #FFFFFF 0%, var(--color-bg-page) 100%);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: center;
+  gap: 48px;
+}
+
+.hero-badge-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-accent-light);
+  border: 1px solid rgba(245, 166, 35, 0.3);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-accent-dark);
+  margin-bottom: 16px;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--color-text-main);
+  letter-spacing: -0.03em;
+  margin-bottom: 18px;
+}
+
+.hero-title .highlight {
+  color: var(--color-primary);
+  background: linear-gradient(120deg, var(--color-primary), #2563EB);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-desc {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+.hero-status-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.hero-visual-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+}
+
+.hero-svg-wrap {
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 16px;
+}
+
+.hero-telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
+}
+
+.telemetry-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.telemetry-val {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  font-feature-settings: "tnum";
+}
+
+.telemetry-lbl {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* 核心板块区域通用 */
+.section-block {
+  padding: 60px 0;
+}
+
+.section-head {
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.section-tag {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-accent-dark);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.section-desc {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 核心服务商天梯矩阵 */
+.ladder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.ladder-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.ladder-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(74, 144, 226, 0.4);
+}
+
+.ladder-card.rank-top1 {
+  border-top: 4px solid var(--color-accent);
+}
+
+.ladder-card.rank-top2 {
+  border-top: 4px solid var(--color-primary);
+}
+
+.card-top-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--color-accent-light);
+  color: var(--color-accent-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-bottom-left-radius: var(--radius-sm);
+  border-left: 1px solid rgba(245, 166, 35, 0.3);
+  border-bottom: 1px solid rgba(245, 166, 35, 0.3);
+}
+
+.ladder-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.rank-pill {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.rank-top1 .rank-pill {
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+}
+
+.rank-top2 .rank-pill {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+}
+
+.rank-normal .rank-pill {
+  background-color: var(--color-border);
+  color: var(--color-text-main);
+}
+
+.provider-name-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.provider-name {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  line-height: 1.2;
+}
+
+.provider-tier {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.card-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: var(--color-bg-page);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.card-stat-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-stat-num {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.card-stat-label {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+}
+
+.card-details-list {
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-grow: 1;
+}
+
+.card-details-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.45;
+}
+
+.card-details-list li strong {
+  color: var(--color-text-main);
+}
+
+.check-icon {
+  color: var(--color-primary);
+  font-weight: bold;
+}
+
+.card-sla-meta {
+  padding-top: 12px;
+  border-top: 1px dashed var(--color-border);
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 研报索引网格 */
+.report-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+.report-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+}
+
+.report-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-primary);
+}
+
+.report-date {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.report-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.report-excerpt {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 18px;
+  flex-grow: 1;
+}
+
+.report-link-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.report-link-btn:hover {
+  gap: 10px;
+}
+
+/* 研报单页与文章样式 */
+.article-container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 24px;
+}
+
+.breadcrumbs a {
+  color: var(--color-text-muted);
+}
+
+.breadcrumbs a:hover {
+  color: var(--color-primary);
+}
+
+.article-header {
+  margin-bottom: 36px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.article-title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--color-text-main);
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.article-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.article-body {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--color-text-main);
+}
+
+.article-body h2 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-top: 48px;
+  margin-bottom: 18px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--color-primary-light);
+}
+
+.article-body h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+
+.article-body p {
+  margin-bottom: 20px;
+}
+
+.article-body ul, .article-body ol {
+  margin-bottom: 24px;
+  padding-left: 24px;
+}
+
+.article-body li {
+  margin-bottom: 8px;
+}
+
+/* 科技注记框与提示 Callout */
+.callout-box {
+  background-color: var(--color-primary-light);
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  padding: 18px 20px;
+  margin: 28px 0;
+  font-size: 0.95rem;
+  color: var(--color-text-main);
+}
+
+.callout-box.warning {
+  background-color: var(--color-accent-light);
+  border-left-color: var(--color-accent);
+}
+
+.callout-title {
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 硬核数据表格样式 */
+.data-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  margin: 30px 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  background-color: var(--color-bg-card);
+}
+
+.tech-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.92rem;
+}
+
+.tech-table th {
+  background-color: #F8FAFC;
+  color: var(--color-text-main);
+  font-weight: 700;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.tech-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-main);
+}
+
+.tech-table tr:last-child td {
+  border-bottom: none;
+}
+
+.tech-table tr:hover td {
+  background-color: #F9FAFB;
+}
+
+.badge-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+}
+
+.badge-tag.tag-blue {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+}
+
+.badge-tag.tag-orange {
+  background-color: var(--color-accent-light);
+  color: var(--color-accent-dark);
+}
+
+.badge-tag.tag-green {
+  background-color: var(--color-success-bg);
+  color: #065F46;
+}
+
+/* 代码高亮块 */
+pre.code-block {
+  background-color: #1E293B;
+  color: #E2E8F0;
+  padding: 20px;
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin: 24px 0;
+  box-shadow: var(--shadow-md);
+}
+
+code.inline-code {
+  background-color: #EEF2F6;
+  color: #D97706;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.88em;
+}
+
+/* 页脚 */
+.site-footer {
+  margin-top: auto;
+  background-color: #FFFFFF;
+  border-top: 1px solid var(--color-border);
+  padding: 48px 0 32px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 36px;
+}
+
+.footer-brand-desc {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-top: 12px;
+  max-width: 440px;
+}
+
+.footer-heading {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 14px;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links a {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.footer-links a:hover {
+  color: var(--color-primary);
+}
+
+.footer-bottom {
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: var(--color-text-light);
+}
+
+/* 响应式设计 */
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .hero-visual {
+    order: -1;
+  }
+  .hero-title {
+    font-size: 2rem;
+  }
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-inner {
+    height: auto;
+    padding: 12px 0;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .site-nav {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    justify-content: flex-start;
+  }
+  .nav-status-badge {
+    display: none;
+  }
+  .hero-title {
+    font-size: 1.65rem;
+  }
+  .ladder-grid {
+    grid-template-columns: 1fr;
+  }
+  .report-grid {
+    grid-template-columns: 1fr;
+  }
+  .article-title {
+    font-size: 1.65rem;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Blog",
+        "@id": "https://example.local/blog.html#blog",
+        "url": "https://example.local/blog.html",
+        "name": "巡线日志 - 云朵巡线员",
+        "description": "跨境网络工程深度技术日志与研报归档"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://example.local/blog.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://example.local/index.html" },
+          { "@type": "ListItem", "position": 2, "name": "巡线日志", "item": "https://example.local/blog.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  
+  <!-- 顶部导航栏 -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="./index.html" class="site-brand">
+        <div class="brand-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="85%" stop-color="#F0F7FF"/>
+      <stop offset="100%" stop-color="#D9EBFC"/>
+    </linearGradient>
+    <linearGradient id="helmetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24"/>
+      <stop offset="40%" stop-color="#F5A623"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="35%" stop-color="#38BDF8"/>
+      <stop offset="70%" stop-color="#0369A1"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="fiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
+      <stop offset="20%" stop-color="#38BDF8"/>
+      <stop offset="50%" stop-color="#60A5FA"/>
+      <stop offset="80%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#2563EB" stop-opacity="0.2"/>
+    </linearGradient>
+    <radialGradient id="pulseGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="30%" stop-color="#38BDF8"/>
+      <stop offset="70%" stop-color="#4A90E2" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#4A90E2" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="accentPulse" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFBEB"/>
+      <stop offset="40%" stop-color="#F5A623"/>
+      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softShadow" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#1E3A8A" flood-opacity="0.12"/>
+    </filter>
+    <filter id="glowFilter" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="url(#fiberGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glowFilter)"/>
+  <g filter="url(#softShadow)">
+    <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGrad)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
+  </g>
+  <g id="safetyHelmet">
+    <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGrad)"/>
+    <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
+    <path d="M 200 148 Q 256 138 312 148" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+    <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
+    <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
+    <circle cx="256" cy="132" r="10" fill="#FFFFFF" opacity="0.95"/>
+    <path d="M 257 124 L 251 133 L 255 133 L 254 140 L 261 131 L 257 131 Z" fill="#F5A623"/>
+  </g>
+  <g id="techVisor">
+    <path d="M 124 235 C 130 230, 382 230, 388 235" fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
+    <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
+    <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGrad)"/>
+    <path d="M 184 222 L 230 222" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+    <circle cx="242" cy="222" r="2" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
+    <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
+    <path d="M 295 220 L 324 250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
+  </g>
+  <circle cx="178" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
+  <circle cx="334" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
+  <path d="M 242 290 Q 256 304 270 290" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
+  <g id="pulseNodes">
+    <circle cx="95" cy="416" r="18" fill="url(#pulseGlow)"/>
+    <circle cx="95" cy="416" r="5" fill="#FFFFFF"/>
+    <circle cx="95" cy="416" r="3" fill="#38BDF8"/>
+    <circle cx="256" cy="442" r="24" fill="url(#accentPulse)"/>
+    <circle cx="256" cy="442" r="7" fill="#FFFFFF"/>
+    <circle cx="256" cy="442" r="4" fill="#F5A623"/>
+    <circle cx="415" cy="416" r="18" fill="url(#pulseGlow)"/>
+    <circle cx="415" cy="416" r="5" fill="#FFFFFF"/>
+    <circle cx="415" cy="416" r="3" fill="#38BDF8"/>
+    <circle cx="175" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
+    <circle cx="335" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
+  </g>
+</svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">云朵巡线员</span>
+          <span class="brand-tagline">Cloud Patrol · 网络遥测与 SLA 巡检</span>
+        </div>
+      </a>
+
+      <nav class="site-nav">
+        <a href="./pingce.html" class="nav-link ">测速天梯</a>
+        <a href="./blog.html" class="nav-link active">巡线日志</a>
+        <a href="./paolu.html" class="nav-link ">断线黑榜</a>
+        <div class="nav-status-badge">
+          <span class="pulse-dot"></span>
+          <span>巡检探针活跃</span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero-section" style="padding: 40px 0 30px;">
+    <div class="container">
+      <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <div class="hero-badge-wrap">
+          <span>📚 巡检技术文献与工程日志</span>
+        </div>
+        <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 14px;">
+          巡线日志 · <span class="highlight">技术归档与实操指南</span>
+        </h1>
+        <p class="hero-desc" style="font-size: 1rem; margin-bottom: 20px;">
+          记录每一次海底光缆割接观测、BGP 路由震荡遥测及网络工程师必须掌握的本地分流调优工程实践。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block" style="padding-top: 20px;">
+    <div class="container">
+      <div class="report-grid">
+        <!-- 核心白皮书 -->
+        <article class="report-card">
+          <div class="report-date">📅 2026 年度首发核心技术研报 · 权威必读</div>
+          <h3 class="report-title">
+            <a href="./sla-benchmark-2026.html" style="color: var(--color-text-main);">《2026 全球跨境骨干专线 SLA 巡检基准与晚高峰抗抖动实测白皮书》</a>
+          </h3>
+          <p class="report-excerpt">
+            深入剖析单模石英光纤介质的传播群速度、沪日理论极限 RTT 数学模型、IPLC vs IEPL 物理层与数据链路层本质差异，并公布核心服务商在 20:00-23:00 晚高峰抗拥塞与 RFC 3550 抖动实测矩阵。
+          </p>
+          <div style="margin-top: auto; padding-top: 14px; border-top: 1px dashed var(--color-border); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.8rem; color: var(--color-text-muted);">标签: 骨干网SLA · 物理模型</span>
+            <a href="./sla-benchmark-2026.html" class="report-link-btn">阅读全文 <span>→</span></a>
+          </div>
+        </article>
+
+        <!-- 客户端分流调优 -->
+        <article class="report-card">
+          <div class="report-date">📅 客户端策略分流专题指南</div>
+          <h3 class="report-title">
+            <a href="./routing.html" style="color: var(--color-text-main);">《跨平台网络客户端分流规则与 Fake-IP 调优实操指南》</a>
+          </h3>
+          <p class="report-excerpt">
+            探讨 Clash Meta / Sing-box / Surge 内核在处理 Fake-IP 模式与 Redir-Host 模式时的性能损耗；详解 DNS 预解析、GEOIP-CN 快速匹配及避免境内域名跨洋折返的规则链拓扑设计。
+          </p>
+          <div style="margin-top: auto; padding-top: 14px; border-top: 1px dashed var(--color-border); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.8rem; color: var(--color-text-muted);">标签: Fake-IP · 策略分流</span>
+            <a href="./routing.html" class="report-link-btn">阅读全文 <span>→</span></a>
+          </div>
+        </article>
+
+        <!-- 双软路由防泄露 -->
+        <article class="report-card">
+          <div class="report-date">📅 家庭与企业网关工程实践</div>
+          <h3 class="report-title">
+            <a href="./soft-routing.html" style="color: var(--color-text-main);">《双软路由（iKuai + OpenWrt）分流与 WebRTC IP 防泄漏工程实践》</a>
+          </h3>
+          <p class="report-excerpt">
+            以 iKuai 作为物理主路由处理多拨与硬件 NAT 流控，OpenWrt 作为旁路网关处理出境流量。详细讲解防火墙规则配置、STUN 协议端口阻断以及解决浏览器端 WebRTC 真实外网 IP 泄露的硬核工程方案。
+          </p>
+          <div style="margin-top: auto; padding-top: 14px; border-top: 1px dashed var(--color-border); display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-size: 0.8rem; color: var(--color-text-muted);">标签: 双软路由 · WebRTC防漏</span>
+            <a href="./soft-routing.html" class="report-link-btn">阅读全文 <span>→</span></a>
+          </div>
+        </article>
+      </div>
+
+      <!-- 巡线日志时间线 -->
+      <div style="margin-top: 60px; background: #FFFFFF; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 32px;">
+        <h3 style="font-size: 1.3rem; margin-bottom: 20px; color: var(--color-text-main);">🕒 巡线观测哨兵 · 动态日志记录</h3>
+        <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px;">
+          <li style="border-left: 3px solid var(--color-primary); padding-left: 16px;">
+            <div style="font-size: 0.8rem; color: var(--color-text-muted);">2026-10-24 16:30 · 华东机房</div>
+            <div style="font-weight: 600; color: var(--color-text-main);">亚太 APG 海缆例行维护观测完成</div>
+            <div style="font-size: 0.88rem; color: var(--color-text-muted);">监测到主要服务商触发主备路由调度，<strong>大佬云</strong> 与 <strong>环球梯</strong> 专线无感切换，丢包率均低于 0.001%。</div>
+          </li>
+          <li style="border-left: 3px solid var(--color-accent); padding-left: 16px;">
+            <div style="font-size: 0.8rem; color: var(--color-text-muted);">2026-10-20 09:15 · 探针网络</div>
+            <div style="font-weight: 600; color: var(--color-text-main);">上线 RFC 3550 一阶低通滤波器抖动采样模块</div>
+            <div style="font-size: 0.88rem; color: var(--color-text-muted);">探针采样频率提升至 300s/轮，全面收录晚高峰 20:00 - 23:00 突发方差指标。</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  
+  <!-- 规范页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="85%" stop-color="#F0F7FF"/>
+      <stop offset="100%" stop-color="#D9EBFC"/>
+    </linearGradient>
+    <linearGradient id="helmetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FBBF24"/>
+      <stop offset="40%" stop-color="#F5A623"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="35%" stop-color="#38BDF8"/>
+      <stop offset="70%" stop-color="#0369A1"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="fiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
+      <stop offset="20%" stop-color="#38BDF8"/>
+      <stop offset="50%" stop-color="#60A5FA"/>
+      <stop offset="80%" stop-color="#38BDF8"/>
+      <stop offset="100%" stop-color="#2563EB" stop-opacity="0.2"/>
+    </linearGradient>
+    <radialGradient id="pulseGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="30%" stop-color="#38BDF8"/>
+      <stop offset="70%" stop-color="#4A90E2" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#4A90E2" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="accentPulse" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFBEB"/>
+      <stop offset="40%" stop-color="#F5A623"/>
+      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="softShadow" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#1E3A8A" flood-opacity="0.12"/>
+    </filter>
+    <filter id="glowFilter" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="url(#fiberGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glowFilter)"/>
+  <g filter="url(#softShadow)">
+    <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGrad)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
+  </g>
+  <g id="safetyHelmet">
+    <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGrad)"/>
+    <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
+    <path d="M 200 148 Q 256 138 312 148" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+    <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
+    <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
+    <circle cx="256" cy="132" r="10" fill="#FFFFFF" opacity="0.95"/>
+    <path d="M 257 124 L 251 133 L 255 133 L 254 140 L 261 131 L 257 131 Z" fill="#F5A623"/>
+  </g>
+  <g id="techVisor">
+    <path d="M 124 235 C 130 230, 382 230, 388 235" fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
+    <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
+    <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGrad)"/>
+    <path d="M 184 222 L 230 222" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+    <circle cx="242" cy="222" r="2" fill="#FFFFFF" opacity="0.8"/>
+    <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
+    <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
+    <path d="M 295 220 L 324 250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
+  </g>
+  <circle cx="178" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
+  <circle cx="334" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
+  <path d="M 242 290 Q 256 304 270 290" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
+  <g id="pulseNodes">
+    <circle cx="95" cy="416" r="18" fill="url(#pulseGlow)"/>
+    <circle cx="95" cy="416" r="5" fill="#FFFFFF"/>
+    <circle cx="95" cy="416" r="3" fill="#38BDF8"/>
+    <circle cx="256" cy="442" r="24" fill="url(#accentPulse)"/>
+    <circle cx="256" cy="442" r="7" fill="#FFFFFF"/>
+    <circle cx="256" cy="442" r="4" fill="#F5A623"/>
+    <circle cx="415" cy="416" r="18" fill="url(#pulseGlow)"/>
+    <circle cx="415" cy="416" r="5" fill="#FFFFFF"/>
+    <circle cx="415" cy="416" r="3" fill="#38BDF8"/>
+    <circle cx="175" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
+    <circle cx="335" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
+  </g>
+</svg></div>
+            <span style="font-weight: 700; font-size: 1.1rem; color: var(--color-text-main);">云朵巡线员 (Cloud Patrol)</span>
+          </div>
+          <p class="footer-brand-desc">
+            专注于跨境网络专线性能观测、骨干拓扑遥测与全天候 SLA 巡检的技术知识库。坚持中立、客观与可复现的工程测试原则，服务全球网络工程师与跨境技术团队。
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-heading">核心栏目</div>
+          <ul class="footer-links">
+            <li><a href="./pingce.html">测速天梯 (Speed Ladder)</a></li>
+            <li><a href="./blog.html">巡线日志 (Patrol Logs)</a></li>
+            <li><a href="./paolu.html">断线黑榜 (Risk Audit)</a></li>
+            <li><a href="./index.html">首页仪表盘 (Dashboard)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-heading">核心技术文献</div>
+          <ul class="footer-links">
+            <li><a href="./sla-benchmark-2026.html">2026 SLA 巡检白皮书</a></li>
+            <li><a href="./routing.html">Fake-IP 分流调优指南</a></li>
+            <li><a href="./soft-routing.html">双软路由防泄露实践</a></li>
+            <li><a href="./about.html">关于巡线员技术实验室</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 云朵巡线员 (Cloud Patrol) · 网络质量遥测知识库. 保留所有权利.</div>
+        <div>仅供网络架构学术研讨与技术选型参考 · 严禁用于违法违规网络行为</div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

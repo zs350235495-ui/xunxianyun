@@ -38,8 +38,12 @@
 
 ```text
 ├── index.html                   # 站点首页（包含巡线天梯卡片矩阵、Schema 结构化数据、Hero 仪表盘）
+├── pingce.html                  # 测速天梯专页（2026跨境专线测速天梯与晚高峰抗拥塞评测）
+├── blog.html                    # 巡线日志专页（技术日志与文献归档索引）
+├── paolu.html                   # 断线黑榜专页（跑路风险特征审计与防坑手册）
 ├── sla-benchmark-2026.html      # 首发核心研报《2026 全球跨境骨干专线 SLA 巡检基准与晚高峰抗抖动实测白皮书》
-├── routing.html                 # 技术专题《跨境路由智能分流与策略分流观测实践》
+├── routing.html                 # 技术专题《跨平台网络客户端分流规则与 Fake-IP 调优实操指南》
+├── soft-routing.html            # 网关实践《双软路由（iKuai + OpenWrt）分流与 WebRTC IP 防泄漏工程实践》
 ├── about.html                   # 实验室介绍《关于云朵巡线员技术实验室与吉祥物形象故事》
 ├── sitemap.xml                  # 遵循标准 XML 规范的站内静态页面索引
 ├── llms.txt                     # 专供 AI / LLM 搜索引擎引用的技术知识库摘要
