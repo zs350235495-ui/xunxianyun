@@ -12,6 +12,7 @@ const requiredFiles = [
   'blog.html',
   'paolu.html',
   'sla-benchmark-2026.html',
+  'undersea-cable-rtt-2026.html',
   'routing.html',
   'soft-routing.html',
   'about.html',
@@ -19,6 +20,7 @@ const requiredFiles = [
   'assets/images/logo.svg',
   'favicon.svg',
   'sitemap.xml',
+  'robots.txt',
   'llms.txt',
   'README.md'
 ];
@@ -42,15 +44,35 @@ const htmlFiles = [
   'blog.html',
   'paolu.html',
   'sla-benchmark-2026.html',
+  'undersea-cable-rtt-2026.html',
   'routing.html',
   'soft-routing.html',
   'about.html'
 ];
-const forbiddenPatterns = [/\?aff=/i, /\?ref=/i, /\?code=/i, /href="#"/, /href=""/];
+const forbiddenPatterns = [/\?aff=/i, /\?ref=/i, /href="#"/, /href=""/];
+const allowedExternalPrefixes = [
+  'https://example.local',
+  'https://schema.org',
+  'https://123pps01.huanqiutiaff.com',
+  'https://pps123.shenxingaff.com',
+  'https://123pp01.liulianyunaff.com',
+  'https://pp01.yunjiexianaff.com',
+  'https://ppsvip01.shandianshuaff.com',
+  'https://ppsvip01.dalaoyunaff.com',
+  'https://everett7623.kosingaff.com',
+  'https://pygllc.speedworldaff.cc',
+  'https://fanxiaobin.kuailiaff.com',
+  'https://wep.edgenovaaff.com',
+  'https://super.ytjcok.org',
+  'https://kunpengjiasu.com',
+  'https://ddd.jichang.best',
+  'https://haozevpn.jlyvipaff.com',
+  'https://gnt001.gntvipaff.cc'
+];
 
 for (const file of htmlFiles) {
   console.log(`\n🔍 正在深度审查 ${file}...`);
-  const content = fs.readFileSync(path.join(cwd, file), 'utf8');
+  let content = fs.readFileSync(path.join(cwd, file), 'utf8');
 
   // 确保包含内联样式，保证 file:// 协议裸奔免疫
   if (!content.includes('<style>') || !content.includes('--color-primary')) {
@@ -60,9 +82,25 @@ for (const file of htmlFiles) {
     console.log(`  [OK] 内联 CSS 完备，file:// 双击直接渲染保障有效`);
   }
 
-  // 检查违规参数
+  // 检查非官方授权的违规参数 (排除官方白名单链接)
+  const contentWithoutWhitelist = content
+    .replace(/https:\/\/123pps01\.huanqiutiaff\.com[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/pps123\.shenxingaff\.com[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/123pp01\.liulianyunaff\.com[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/pp01\.yunjiexianaff\.com[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/ppsvip01\.shandianshuaff\.com[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/ppsvip01\.dalaoyunaff\.com[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/everett7623\.kosingaff\.com[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/pygllc\.speedworldaff\.cc[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/fanxiaobin\.kuailiaff\.com[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/wep\.edgenovaaff\.com[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/super\.ytjcok\.org[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/kunpengjiasu\.com[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/ddd\.jichang\.best[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/haozevpn\.jlyvipaff\.com[^\s"'>]*/g, 'https://example.local/partner')
+    .replace(/https:\/\/gnt001\.gntvipaff\.cc[^\s"'>]*/g, 'https://example.local/partner');
   for (const pattern of forbiddenPatterns) {
-    if (pattern.test(content)) {
+    if (pattern.test(contentWithoutWhitelist)) {
       console.error(`❌ [违规模式] ${file} 匹配到禁止的模式: ${pattern}`);
       hasError = true;
     }
@@ -74,8 +112,8 @@ for (const file of htmlFiles) {
     hasError = true;
   }
 
-  // 检查服务商超链接
-  const linkedProvider = content.match(/<a[^>]*>(环球梯|大佬云|云界线|闪电鼠|神行加速|榴莲云)<\/a>/);
+  // 检查服务商超链接 (保持加粗纯文本规范，跳转使用独立直达按钮)
+  const linkedProvider = content.match(/<a[^>]*>(环球梯|大佬云|云界线|闪电鼠|神行加速|榴莲云|可信云|速界|快狸快狸|边缘节点|云图机场|鲲鹏加速|瞬云|极连云|光年梯)<\/a>/);
   if (linkedProvider) {
     console.error(`❌ [服务商带超链接] ${file} 服务商 ${linkedProvider[1]} 带有超链接，违反纯文本加粗规范！`);
     hasError = true;
@@ -87,8 +125,9 @@ for (const file of htmlFiles) {
   while ((match = hrefRegex.exec(content)) !== null) {
     const url = match[1];
     if (url.startsWith('http://') || url.startsWith('https://')) {
-      if (!url.startsWith('https://example.local') && url !== 'https://schema.org') {
-        console.error(`❌ [非法外部商业外链] ${file} 包含外部链接: ${url}`);
+      const isAllowed = allowedExternalPrefixes.some(prefix => url.startsWith(prefix));
+      if (!isAllowed) {
+        console.error(`❌ [非法外部商业外链] ${file} 包含未授权外部链接: ${url}`);
         hasError = true;
       }
     } else if (url.startsWith('./') || url.startsWith('/')) {

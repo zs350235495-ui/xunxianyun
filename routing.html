@@ -165,16 +165,21 @@ a:hover {
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(2px, 0.6vw, 8px);
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .nav-link {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 500;
   color: var(--color-text-main);
-  padding: 8px 14px;
+  padding: 6px clamp(6px, 0.6vw, 12px);
   border-radius: var(--radius-sm);
   transition: var(--transition-normal);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -186,14 +191,16 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 5px 10px;
   background-color: var(--color-success-bg);
   border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: var(--radius-full);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #065F46;
-  margin-left: 8px;
+  margin-left: clamp(2px, 0.5vw, 6px);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .pulse-dot {
@@ -864,6 +871,17 @@ code.inline-code {
   }
 }
 
+@media (max-width: 900px) {
+  .site-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
   .header-inner {
     height: auto;
@@ -876,6 +894,11 @@ code.inline-code {
     overflow-x: auto;
     padding-bottom: 4px;
     justify-content: flex-start;
+    gap: 6px;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar {
+    display: none;
   }
   .nav-status-badge {
     display: none;
@@ -899,6 +922,17 @@ code.inline-code {
   }
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
   </style>
 
   <script type="application/ld+json">
@@ -910,7 +944,14 @@ code.inline-code {
         "@id": "https://example.local/routing.html#article",
         "headline": "跨境路由智能分流与策略分流观测实践",
         "description": "探讨基于 GeoIP、BGP 自治域与动态规则集的策略分流优化方案。",
+        "image": "https://example.local/assets/images/logo.svg",
         "inLanguage": "zh-CN",
+        "datePublished": "2026-01-20T08:00:00+08:00",
+        "dateModified": "2026-10-25T18:40:00+08:00",
+        "author": {
+          "@type": "Organization",
+          "name": "云朵巡线员技术实验室"
+        },
         "publisher": {
           "@type": "Organization",
           "name": "云朵巡线员",
@@ -1043,9 +1084,13 @@ code.inline-code {
       </a>
 
       <nav class="site-nav">
-        <a href="./pingce.html" class="nav-link ">测速天梯</a>
-        <a href="./blog.html" class="nav-link active">巡线日志</a>
-        <a href="./paolu.html" class="nav-link ">断线黑榜</a>
+        <a href="./index.html" class="nav-link">首页</a>
+        <a href="./pingce.html" class="nav-link">测速天梯</a>
+        <a href="./sla-benchmark-2026.html" class="nav-link">骨干研报</a>
+        <a href="./routing.html" class="nav-link active">路由分流</a>
+        <a href="./blog.html" class="nav-link">巡线日志</a>
+        <a href="./paolu.html" class="nav-link">断线黑榜</a>
+        <a href="./about.html" class="nav-link">关于巡线员</a>
         <div class="nav-status-badge">
           <span class="pulse-dot"></span>
           <span>巡检探针活跃</span>
@@ -1075,39 +1120,306 @@ code.inline-code {
 
     <article class="article-body">
       <p>
-        在跨境网络通信场景中，纯粹依靠专线物理带宽并不能直接带来极致的端到端交互体验。如果缺少精细化的<strong>分流策略引擎 (Policy-Based Routing, PBR)</strong>，国内本地域名误走海外专线会导致严重的“绕洋折返”，而海外高敏业务走公网直连则会遭遇丢包与阻断。
+        在跨境网络与高性能接入工程中，纯粹依靠优质的专线物理带宽并不能自动带来极致的交互体验。如果缺少一套严谨精细的<strong>策略分流引擎 (Policy-Based Routing, PBR)</strong>，国内日常服务误走海外专线会带来严重的<strong>“绕洋折返”</strong>（导致国内访问慢如蜗牛），而海外高敏感云业务走公网直连则会遭遇严重的阻断与丢包。
       </p>
 
-      <h2>一、分流三层决策模型</h2>
+      <div class="callout-box">
+        <div class="callout-title">💡 为什么说“分流策略是专线体验的放大器”？</div>
+        <p>
+          物理专线（IEPL/IPLC）解决了公网海底光缆拥塞与跨境 GFW 干扰问题，但端到端延迟还由<strong>DNS 解析路径</strong>与<strong>出口网关选路策略</strong>决定。科学的分流系统能确保：“大陆流量零延迟走本地公网、高敏业务秒级直达专线、媒体高吞吐走大带宽节点、P2P 下载杜绝挤占专线”。
+        </p>
+      </div>
+
+      <h2>一、分流架构范式演进：Fake-IP vs Redir-Host 深度选型</h2>
       <p>
-        云朵巡线员推荐在工程部署中推行“域名预裁决 → IP 地址归属决议 → 动态质量感知选路”三级过滤管道：
+        在透明网关（透明代理）分流体系中，DNS 的解析与拦截方式直接决定了网络首包建立连接的时延（Time to First Byte, TTFB）与稳定性。业界主要存在两大解析范式：
+      </p>
+
+      <div class="data-table-wrap">
+        <table class="tech-table">
+          <caption class="sr-only">Redir-Host 模式与现代 Fake-IP 模式性能与兼容性技术对比</caption>
+          <thead>
+            <tr>
+              <th scope="col">对比维度</th>
+              <th scope="col">传统 Redir-Host 模式</th>
+              <th scope="col">现代 Fake-IP 模式 (推荐)</th>
+              <th scope="col">技术解析与工程影响</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>DNS 首包时延</strong></td>
+              <td>较高（增加 1~2 个 RTT 往返）</td>
+              <td><span class="badge-tag tag-green">0ms 极限响应</span>（本地内存直回）</td>
+              <td>Fake-IP 在本地直接分配虚拟 IP，无需等待远端 DNS 结果即可完成握手。</td>
+            </tr>
+            <tr>
+              <td><strong>DNS 污染防御力</strong></td>
+              <td>脆弱（本地极易受 GFW 污染）</td>
+              <td><span class="badge-tag tag-green">100% 免疫污染</span></td>
+              <td>域名随流量直接封包转发至专线远端节点解析，客户端全程不发起境外 DNS 明文查询。</td>
+            </tr>
+            <tr>
+              <td><strong>CDN 调度精准度</strong></td>
+              <td>依赖本地远端解析器的配置</td>
+              <td>极高（远端出口就近调度）</td>
+              <td>远端专线出口代为发起 DNS 解析，海外网站自动返回匹配该出口物理大洲的 CDN IP。</td>
+            </tr>
+            <tr>
+              <td><strong>系统资源消耗</strong></td>
+              <td>内存开销低，但频繁建立 DNS 连接</td>
+              <td>占用极微量内存维护虚拟 IP 映射表</td>
+              <td>Fake-IP 维护一个 <code>198.18.0.0/15</code> 路由池，千台设备并发仅消耗数兆内存。</td>
+            </tr>
+            <tr>
+              <td><strong>特殊应用兼容性</strong></td>
+              <td>高（兼容古老硬编码 IP 协议）</td>
+              <td>极高（需配置合理的 Filter 白名单）</td>
+              <td>对 NTP 对时、STUN 穿透与局域网打印机需配置 <code>fake-ip-filter</code> 排除。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Fake-IP 模式核心处理流水线</h3>
+      <p>
+        当客户端发起 <code>api.github.com</code> 请求时，Fake-IP 模式的处理过程如下：
+      </p>
+      <pre class="code-block"><code>[客户端应用]
+    │  1. 发起 DNS 查询: api.github.com
+    ▼
+[本地网关 DNS 模块] ──> (检查缓存/立即响应虚拟 IP) ──> 返回 198.18.0.124 (耗时 &lt; 0.5ms)
+    │
+    │  2. 客户端立即建立 TCP 连接: 目标 198.18.0.124:443
+    ▼
+[透明代理内核 (TUN/TProxy)] 
+    │  3. 逆向查表: 198.18.0.124 对应原始域名 api.github.com
+    │  4. 规则引擎匹配: api.github.com 命中境外专线代理策略组
+    ▼
+[专线出境隧道 (IEPL/IPLC)] ──> 封包传输目标域名至专线远端
+    ▼
+[远端落地节点] ──> 本地解析真实海外 CDN IP ──> 发起上游连接</code></pre>
+
+      <div class="callout-box warning">
+        <div class="callout-title">⚠️ 必须加入 Fake-IP 过滤名单（Fake-IP Filter）的关键服务</div>
+        <p>
+          部分网络协议对“域名解析返回虚假保留段 IP”极其敏感，甚至会导致系统功能故障。生产环境中必须将以下目标加入直连过滤规则：
+        </p>
+        <ul>
+          <li><strong>网络时间同步 (NTP)</strong>：<code>pool.ntp.org</code>, <code>time.windows.com</code>, <code>time.apple.com</code>（NTP 校验时钟漂移，返回 Fake-IP 会导致系统对时失败）。</li>
+          <li><strong>局域网设备自发现与打印</strong>：<code>*.local</code>, <code>*.lan</code>, <code>localhost</code>, <code>workgroup</code>（mDNS 与 NetBIOS 广播）。</li>
+          <li><strong>语音穿透与直连握手 (STUN/TURN)</strong>：<code>*.stun.*</code>, <code>stun.*</code>（WebRTC 穿透需要感知真实外网公网反射 IP）。</li>
+          <li><strong>国内高频专有长连接</strong>：某些国内银行安全控件与企业 VPN 拨号客户端。</li>
+        </ul>
+      </div>
+
+      <h2>二、四级流水线精准分流决策模型 (Pipeline Routing Architecture)</h2>
+      <p>
+        云朵巡线员团队在企业与跨国团队实测中，总结出一套高容错、低碰撞的<strong>四级管道分流架构</strong>。规则命中严格遵循“从高精特定到泛化兜底”的单向匹配顺序：
+      </p>
+
+      <h3>1. 第一级：域名强匹配规则 (Exact & Suffix Domain Rules)</h3>
+      <p>
+        针对高优先级、要求严格路径隔离的核心业务，采用精确匹配（<code>DOMAIN</code>）或后缀匹配（<code>DOMAIN-SUFFIX</code>）。
       </p>
       <ul>
-        <li><strong>第一层：精确域名与通配匹配 (Domain / Domain-Suffix)</strong>：对于明确知晓的目标海外云服务、API 端点，采用前置 Trie 树高速匹配，直接分配专用加速通道。</li>
-        <li><strong>第二层：大陆内外 IP 集合 (GeoIP & IP-CIDR)</strong>：针对解析后的目标 IP 执行二分查找判定。若目标属于中国大陆公网网段（如三大运营商及国内头部 CDN 节点），强制执行直连（Direct）出口，杜绝国内流量走专线带来的额外物理时延。</li>
-        <li><strong>第三层：BGP AS 自治域分流 (GeoSite / ASN)</strong>：通过 BGP 自治系统编号（如 AS13335、AS15169、AS16509）对特定云厂商进行流量归集，保障同一服务提供商内部通信路径一致性。</li>
+        <li><strong>AI 研发套件</strong>：<code>DOMAIN-SUFFIX, openai.com</code>, <code>DOMAIN-SUFFIX, anthropic.com</code>, <code>DOMAIN-SUFFIX, claude.ai</code> 强制调度至“纯净静态专线组”。</li>
+        <li><strong>代码协同与容器镜像</strong>：<code>DOMAIN-SUFFIX, github.com</code>, <code>DOMAIN-SUFFIX, docker.com</code>, <code>DOMAIN-SUFFIX, huggingface.co</code> 调度至“低延迟开发专线组”。</li>
       </ul>
 
-      <h2>二、DNS 污染防范与 ECS 最佳实践</h2>
+      <h3>2. 第二级：GeoSite 规则集 (Trie-Tree Rule-Set)</h3>
       <p>
-        DNS 决议是分流的核心前哨。传统的跨网 DNS 查询极易遭遇本地运营商劫持或返回畸变解析结果：
+        依赖基于 Radix-Trie 优化的二进制规则集，对海量已知域名执行极速分类：
       </p>
-      <pre class="code-block"><code># 常见推荐安全解析拓扑：
-国内域名 (GeoSite:CN)   ──> 本地加密 DNS (DoH/DoT) ──> 返回国内真实低延迟 Anycast IP ──> 直连
-海外域名 (GeoSite:!CN)  ──> 专线远端安全解析器     ──> 返回海外原厂边缘 CDN IP   ──> 走专线内网</code></pre>
+      <ul>
+        <li><code>GEOSITE, cn</code>：收录了国内全部主流互联网站点、CDN 与政企域名，强制匹配 <strong>DIRECT（直连）</strong>，走境内三大运营商物理骨干。</li>
+        <li><code>GEOSITE, category-entertainment</code>：国际主流流媒体平台（Netflix、Disney+、Spotify、YouTube），匹配 <strong>Media-Proxy（流媒体专线组）</strong>。</li>
+      </ul>
 
+      <h3>3. 第三级：GeoIP 与 IP-CIDR 二分归属判定 (IP Allocation Routing)</h3>
       <p>
-        在此过程中，如采用支持双向专线与内网 BGP 调度的优质服务商（如天梯领跑的 <strong>环球梯</strong> 与 <strong>大佬云</strong>），其专线远端自带就近递归 DNS 节点，能原生消除海外网站解析到错误大洲节点的现象。
+        在域名未命中前序规则时，系统进入 IP 层研判：
+      </p>
+      <ul>
+        <li><strong>私网段强阻断</strong>：<code>GEOIP, private</code> (如 <code>10.0.0.0/8</code>, <code>172.16.0.0/12</code>, <code>192.168.0.0/16</code>) 强制走 DIRECT，防止本地局域网 NAS、智能家居流量被误封装出境。</li>
+        <li><strong>中国大陆 IP 库</strong>：<code>GEOIP, cn</code> 针对解析得到的境内公网 IP，一律放行 DIRECT，杜绝任何形式的二次折返。</li>
+      </ul>
+
+      <h3>4. 第四级：协议嗅探与应用特征分流 (Protocol Sniffing & Anti-Leak)</h3>
+      <p>
+        针对纯 IP 流量（无域名查询的长连接或 P2P 应用），开启<strong>端口嗅探器 (Port & Protocol Sniffing)</strong>：
+      </p>
+      <ul>
+        <li><strong>识别 TLS SNI 与 HTTP Host</strong>：在没有 DNS 记录的情况下，从流量首包中提取域名重新送入分流引擎。</li>
+        <li><strong>BT / P2P 流量隔离</strong>：识别 BitTorrent、P2P 下载流量，强制指定 DIRECT 直连或专用下载通道，严禁高并发 UDP 冲垮企业 IEPL 物理专线信道。</li>
+      </ul>
+
+      <h2>三、高阶业务场景策略分流实战方案</h2>
+      <p>
+        在复杂的跨境工作环境中，单一代理通道无法兼顾所有业务。巡线员推荐配置多策略组联动架构：
       </p>
 
-      <h2>三、常见分流陷阱与巡检指标</h2>
+      <div class="data-table-wrap">
+        <table class="tech-table">
+          <caption class="sr-only">跨境业务场景分流诉求与专线节点调度策略矩阵</caption>
+          <thead>
+            <tr>
+              <th scope="col">业务场景</th>
+              <th scope="col">网络核心诉求</th>
+              <th scope="col">推荐调度策略</th>
+              <th scope="col">适配专线服务商特征</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>AI 大模型交互</strong><br><small>ChatGPT / Claude / Gemini</small></td>
+              <td>IP 清洁度极高、防 Cloudflare 盾拦截、防账号风控封禁</td>
+              <td>固定节点 / 故障被动切换，禁止频繁并发漂移</td>
+              <td>选用提供原生商业宽带/住宅级静态 IP 的专线服务商，如 <strong>极连云</strong>、<strong>云图机场</strong>。</td>
+            </tr>
+            <tr>
+              <td><strong>跨境电竞与研发即时协同</strong><br><small>SSH / GitHub / 远程调试</small></td>
+              <td>往返延迟极低 (RTT &lt; 30ms)、Jitter 抖动 &lt; 1.5ms、零丢包</td>
+              <td>主备自动故障转移 (Fallback)，优先亚太 IPLC 物理电路</td>
+              <td>必须采用双程独立海缆的标杆服务商，如稳居天梯榜首的 <strong>环球梯</strong> 与 <strong>大佬云</strong>。</td>
+            </tr>
+            <tr>
+              <td><strong>4K/8K 国际流媒体</strong><br><small>Netflix / YouTube / Disney+</small></td>
+              <td>超大突发带宽、不限速并发、单价性价比高</td>
+              <td>负载均衡 (Load Balance) 或按延迟轮询 (URL-Test)</td>
+              <td>选用大容量流量池、全节点 1 倍率架构的节点，如 <strong>速界</strong>、<strong>鲲鹏加速</strong>。</td>
+            </tr>
+            <tr>
+              <td><strong>移动备用与边缘容灾</strong><br><small>差旅办公 / 敏感期冷备</small></td>
+              <td>开箱免配、多端极速接入、按需弹性扣费</td>
+              <td>按需连接，低成本维持可用通道</td>
+              <td>选用支持开箱扫码、弹性按量计费的服务商，如 <strong>闪电鼠</strong>、<strong>榴莲云</strong>。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>四、生产级分流策略配置规范 (YAML 模板解析)</h2>
+      <p>
+        以下为标准的生产级分流核心配置文件架构，可直接作为 Clash Meta (Mihomo) 或 Sing-box 策略参考：
+      </p>
+
+      <pre class="code-block"><code># 1. 核心 DNS 分流体系 (Fake-IP 模式)
+dns:
+  enable: true
+  listen: 0.0.0.0:1053
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  fake-ip-filter:
+    - '*.lan'
+    - '*.local'
+    - 'time.*.com'
+    - 'pool.ntp.org'
+    - '+.stun.*'
+  nameserver:
+    - https://223.5.5.5/dns-query     # 国内优质加密 DoH 解析
+    - https://119.29.29.29/dns-query
+  fallback:
+    - https://1.1.1.1/dns-query         # 专线远端纯净加密 DoH (受代理控制)
+    - https://8.8.8.8/dns-query
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+
+# 2. 策略代理组架构设计 (Proxy Groups)
+proxy-groups:
+  - name: "🚀 核心出口"
+    type: select
+    proxies:
+      - "♻️ 自动选优"
+      - "🇭🇰 香港专线"
+      - "🇯🇵 日本专线"
+      - "🇸🇬 新加坡专线"
+      - "🇺🇸 美国专线"
+
+  - name: "🤖 AI 研发服务"
+    type: select
+    proxies:
+      - "🇺🇸 美国专线"
+      - "🇯🇵 日本专线"
+      - "🇸🇬 新加坡专线"
+
+  - name: "🎬 国际流媒体"
+    type: url-test
+    url: http://cp.cloudflare.com/generate_204
+    interval: 300
+    tolerance: 50
+    proxies:
+      - "🇭🇰 香港专线"
+      - "🇯🇵 日本专线"
+      - "🇸🇬 新加坡专线"
+
+  - name: "♻️ 自动选优"
+    type: url-test
+    url: http://cp.cloudflare.com/generate_204
+    interval: 180
+    tolerance: 30
+    proxies:
+      - "🇭🇰 香港专线"
+      - "🇯🇵 日本专线"
+
+# 3. 四级流水线分流规则 (Rules)
+rules:
+  # L1: 局域网直连与私网保留
+  - GEOIP,private,DIRECT,no-resolve
+
+  # L2: AI 专属高精域名匹配
+  - DOMAIN-SUFFIX,openai.com,🤖 AI 研发服务
+  - DOMAIN-SUFFIX,chatgpt.com,🤖 AI 研发服务
+  - DOMAIN-SUFFIX,anthropic.com,🤖 AI 研发服务
+  - DOMAIN-SUFFIX,claude.ai,🤖 AI 研发服务
+
+  # L3: 国际流媒体 GeoSite 规则
+  - GEOSITE,youtube,🎬 国际流媒体
+  - GEOSITE,netflix,🎬 国际流媒体
+
+  # L4: 开发者平台与海外基础设施
+  - GEOSITE,github,🚀 核心出口
+  - GEOSITE,google,🚀 核心出口
+  - GEOSITE,geolocation-!cn,🚀 核心出口
+
+  # L5: 国内网站与大陆 IP 强行直连
+  - GEOSITE,cn,DIRECT
+  - GEOIP,CN,DIRECT
+
+  # 兜底漏斗：未匹配请求
+  - MATCH,🚀 核心出口</code></pre>
+
+      <h2>五、DNS 泄露防护与全天候巡检排障清单</h2>
       <div class="callout-box">
-        <div class="callout-title">💡 巡检避坑要点</div>
+        <div class="callout-title">🔍 巡线员实测排障指南</div>
         <ol>
-          <li><strong>DNS 缓存污染引发的路由震荡</strong>：国内直连与海外专线分别维护独立 DNS Cache，TTL 必须严格对齐上游授权服务器。</li>
-          <li><strong>UDP/QUIC 降级兜底</strong>：部分跨境节点若屏蔽 UDP 443 端口，客户端策略应具备毫秒级无缝回落 TCP/TLS 管道的能力。</li>
-          <li><strong>多专线备份切换</strong>：结合 <strong>云界线</strong>、<strong>闪电鼠</strong> 等特色节点的互备配置，设置健康的自愈探测阈值。</li>
+          <li>
+            <strong>验证 DNS 是否外泄（DNS Leak Test）</strong>：
+            访问 <code>dnsleaktest.com</code> 运行 Extended Test。如果解析列表出现你本地家庭宽带运营商（如中国电信、中国联通、中国移动）的 DNS 服务器，说明分流规则配置不当，发生境外请求本地解析泄露。正确状态下应仅显示专线远端机房所属的权威解析 IP。
+          </li>
+          <li>
+            <strong>EDNS Client Subnet (ECS) 的双刃剑效应</strong>：
+            向海外 DNS 发送请求时，若携带了本地客户端的真实大陆 IP 子网信息（ECS），部分境外 CDN 会错误返回已被墙或绕远的国内边缘 IP，导致连接失败。建议在专线代理配置中<strong>显式禁用 ECS (<code>edns-client-subnet: false</code>)</strong>。
+          </li>
+          <li>
+            <strong>QUIC / HTTP3 丢包导致的卡顿处理</strong>：
+            部分国内运营商对 UDP 443（QUIC）采取激进的 QoS 降速或瞬时丢包策略，导致 Chrome 等浏览器访问 YouTube/Google 时首屏白屏数秒。巡检建议：在规则中拦截外部 UDP 443 端口，强迫客户端回落极度成熟的 TCP/TLS 管道，保障吞吐平稳。
+          </li>
+          <li>
+            <strong>Fake-IP 内存映射表溢出规避</strong>：
+            在长时间高并发的软路由或网关设备上，将 <code>fake-ip-range</code> 设为标准的 <code>198.18.0.1/16</code>（提供 65,534 个地址空间），并开启 LRU 淘汰机制，避免冷门域名堆积造成内存泄漏与路由映射错乱。
+          </li>
         </ol>
+      </div>
+
+      <div style="margin-top: 36px; padding: 20px; background-color: var(--color-primary-light); border-radius: var(--radius-md); border: 1px solid rgba(74, 144, 226, 0.2);">
+        <h4 style="font-size: 1.05rem; color: var(--color-primary-dark); margin-bottom: 8px;">📡 巡线员工程总结</h4>
+        <p style="font-size: 0.92rem; color: var(--color-text-main); margin-bottom: 0;">
+          分流的本质是<strong>在网络物理时延与访问安全之间达成最优均衡</strong>。一套配置得当的 Fake-IP 四级分流策略，能将境内访问延迟压缩在 5ms 以内，境外访问首包降低至专线极限（如沪日 28ms、广深港 14ms），同时彻底消除 DNS 劫持风险，实现“无感、顺畅、全天候稳定”的跨境互联生产环境。
+        </p>
       </div>
     </article>
   </main>
@@ -1225,9 +1537,9 @@ code.inline-code {
           <div class="footer-heading">核心技术文献</div>
           <ul class="footer-links">
             <li><a href="./sla-benchmark-2026.html">2026 SLA 巡检白皮书</a></li>
+            <li><a href="./undersea-cable-rtt-2026.html">海缆时延物理极限测算</a></li>
             <li><a href="./routing.html">Fake-IP 分流调优指南</a></li>
             <li><a href="./soft-routing.html">双软路由防泄露实践</a></li>
-            <li><a href="./about.html">关于巡线员技术实验室</a></li>
           </ul>
         </div>
       </div>

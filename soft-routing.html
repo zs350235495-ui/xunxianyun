@@ -164,16 +164,21 @@ a:hover {
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(2px, 0.6vw, 8px);
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .nav-link {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 500;
   color: var(--color-text-main);
-  padding: 8px 14px;
+  padding: 6px clamp(6px, 0.6vw, 12px);
   border-radius: var(--radius-sm);
   transition: var(--transition-normal);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -185,14 +190,16 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 5px 10px;
   background-color: var(--color-success-bg);
   border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: var(--radius-full);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #065F46;
-  margin-left: 8px;
+  margin-left: clamp(2px, 0.5vw, 6px);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .pulse-dot {
@@ -863,6 +870,17 @@ code.inline-code {
   }
 }
 
+@media (max-width: 900px) {
+  .site-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
   .header-inner {
     height: auto;
@@ -875,6 +893,11 @@ code.inline-code {
     overflow-x: auto;
     padding-bottom: 4px;
     justify-content: flex-start;
+    gap: 6px;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar {
+    display: none;
   }
   .nav-status-badge {
     display: none;
@@ -898,6 +921,17 @@ code.inline-code {
   }
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
   </style>
 
   <script type="application/ld+json">
@@ -909,7 +943,14 @@ code.inline-code {
         "@id": "https://example.local/soft-routing.html#article",
         "headline": "双软路由（iKuai + OpenWrt）分流与 WebRTC IP 防泄漏工程实践",
         "description": "探讨基于 iKuai 与 OpenWrt 的旁路分流拓扑与 WebRTC IP 泄漏解决方案。",
+        "image": "https://example.local/assets/images/logo.svg",
         "inLanguage": "zh-CN",
+        "datePublished": "2026-02-10T08:00:00+08:00",
+        "dateModified": "2026-10-25T18:40:00+08:00",
+        "author": {
+          "@type": "Organization",
+          "name": "云朵巡线员技术实验室"
+        },
         "publisher": {
           "@type": "Organization",
           "name": "云朵巡线员",
@@ -1033,9 +1074,13 @@ code.inline-code {
       </a>
 
       <nav class="site-nav">
-        <a href="./pingce.html" class="nav-link ">测速天梯</a>
-        <a href="./blog.html" class="nav-link active">巡线日志</a>
-        <a href="./paolu.html" class="nav-link ">断线黑榜</a>
+        <a href="./index.html" class="nav-link">首页</a>
+        <a href="./pingce.html" class="nav-link">测速天梯</a>
+        <a href="./sla-benchmark-2026.html" class="nav-link">骨干研报</a>
+        <a href="./routing.html" class="nav-link active">路由分流</a>
+        <a href="./blog.html" class="nav-link">巡线日志</a>
+        <a href="./paolu.html" class="nav-link">断线黑榜</a>
+        <a href="./about.html" class="nav-link">关于巡线员</a>
         <div class="nav-status-badge">
           <span class="pulse-dot"></span>
           <span>巡检探针活跃</span>
@@ -1209,9 +1254,9 @@ code.inline-code {
           <div class="footer-heading">核心技术文献</div>
           <ul class="footer-links">
             <li><a href="./sla-benchmark-2026.html">2026 SLA 巡检白皮书</a></li>
+            <li><a href="./undersea-cable-rtt-2026.html">海缆时延物理极限测算</a></li>
             <li><a href="./routing.html">Fake-IP 分流调优指南</a></li>
             <li><a href="./soft-routing.html">双软路由防泄露实践</a></li>
-            <li><a href="./about.html">关于巡线员技术实验室</a></li>
           </ul>
         </div>
       </div>

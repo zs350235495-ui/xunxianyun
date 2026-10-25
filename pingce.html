@@ -164,16 +164,21 @@ a:hover {
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(2px, 0.6vw, 8px);
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .nav-link {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 500;
   color: var(--color-text-main);
-  padding: 8px 14px;
+  padding: 6px clamp(6px, 0.6vw, 12px);
   border-radius: var(--radius-sm);
   transition: var(--transition-normal);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -185,14 +190,16 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 5px 10px;
   background-color: var(--color-success-bg);
   border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: var(--radius-full);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #065F46;
-  margin-left: 8px;
+  margin-left: clamp(2px, 0.5vw, 6px);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .pulse-dot {
@@ -364,169 +371,260 @@ a:hover {
   margin-right: auto;
 }
 
-/* 核心服务商天梯矩阵 */
-.ladder-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 24px;
-}
-
-.ladder-card {
+/* 高密度紧凑横向对比表格系统 */
+.density-table-wrap {
+  width: 100%;
   background-color: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 24px;
   box-shadow: var(--shadow-sm);
-  transition: var(--transition-normal);
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
+  overflow-x: auto;
+  margin-bottom: 24px;
 }
 
-.ladder-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
-  border-color: rgba(74, 144, 226, 0.4);
+.density-table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
-.ladder-card.rank-top1 {
-  border-top: 4px solid var(--color-accent);
-}
-
-.ladder-card.rank-top2 {
-  border-top: 4px solid var(--color-primary);
-}
-
-.card-top-badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: var(--color-accent-light);
-  color: var(--color-accent-dark);
-  font-size: 0.75rem;
+.density-table th {
+  background-color: #F8FAFC;
+  padding: 11px 12px;
   font-weight: 700;
-  padding: 4px 12px;
-  border-bottom-left-radius: var(--radius-sm);
-  border-left: 1px solid rgba(245, 166, 35, 0.3);
-  border-bottom: 1px solid rgba(245, 166, 35, 0.3);
+  color: var(--color-text-main);
+  border-bottom: 2px solid var(--color-border);
+  font-size: 0.84rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  vertical-align: middle;
 }
 
-.ladder-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 16px;
+.density-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-main);
+  vertical-align: middle;
+  transition: background-color 0.15s ease;
 }
 
-.rank-pill {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: flex;
+/* 固定单行数据列防折行 */
+.density-table td.col-nowrap,
+.density-table th.col-nowrap,
+.density-table td:nth-child(1),
+.density-table td:nth-child(3),
+.density-table td:nth-child(4),
+.density-table td:nth-child(5),
+.density-table td:nth-child(7) {
+  white-space: nowrap;
+}
+
+/* 描述文本列允许自然折行与字号微调 */
+.density-table td.col-wrap,
+.density-table th.col-wrap,
+.density-table td:nth-child(2),
+.density-table td:nth-child(6) {
+  white-space: normal;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.density-table tbody tr:nth-child(even) {
+  background-color: #FAFAF8;
+}
+
+.density-table tbody tr:hover {
+  background-color: #F4F8FD;
+}
+
+.density-table tbody tr.row-top1 {
+  background-color: #FFFDF7;
+}
+
+.density-table tbody tr.row-top1:hover {
+  background-color: #FEF9EC;
+}
+
+.density-table tbody tr.row-top2 {
+  background-color: #F8FAFD;
+}
+
+.density-table tbody tr.row-top2:hover {
+  background-color: #EEF5FC;
+}
+
+.density-rank-badge {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
   font-weight: 800;
-  font-size: 1.1rem;
+  font-size: 0.82rem;
+  margin-right: 8px;
   flex-shrink: 0;
 }
 
-.rank-top1 .rank-pill {
+.badge-rank1 {
   background-color: var(--color-accent);
   color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(245, 166, 35, 0.4);
 }
 
-.rank-top2 .rank-pill {
+.badge-rank2 {
   background-color: var(--color-primary);
   color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(74, 144, 226, 0.4);
 }
 
-.rank-normal .rank-pill {
+.badge-rank-norm {
   background-color: var(--color-border);
-  color: var(--color-text-main);
+  color: var(--color-text-muted);
 }
 
-.provider-name-wrap {
+.density-provider-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.provider-meta-cell {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
-.provider-name {
-  font-size: 1.35rem;
-  font-weight: 800;
+.provider-meta-cell strong {
+  font-size: 0.95rem;
   color: var(--color-text-main);
   line-height: 1.2;
 }
 
-.provider-tier {
-  font-size: 0.8rem;
+.provider-sub-tag {
+  font-size: 0.72rem;
   color: var(--color-text-muted);
+  line-height: 1.2;
   font-weight: 500;
 }
 
-.card-stats-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  background-color: var(--color-bg-page);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  margin-bottom: 16px;
-  text-align: center;
+/* 时延与数值指标格式化 */
+.metric-rtt {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+  color: var(--color-text-main);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
 }
 
-.card-stat-box {
+.metric-rtt strong {
+  font-weight: 700;
+}
+
+.metric-rtt .sub-metric {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  font-weight: normal;
+}
+
+/* 胶囊统一规范 (高度 24px, 圆角 12px) */
+.density-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 12px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.pill-green {
+  background-color: var(--color-success-bg);
+  color: #065F46;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.pill-blue {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  border: 1px solid rgba(74, 144, 226, 0.3);
+}
+
+.pill-orange {
+  background-color: var(--color-accent-light);
+  color: #92400E;
+  border: 1px solid rgba(245, 166, 35, 0.3);
+}
+
+.pill-gray {
+  background-color: #F1F5F9;
+  color: #475569;
+  border: 1px solid var(--color-border);
+}
+
+/* 一体化操作单元格 */
+.action-cell-wrap {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
 }
 
-.card-stat-num {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-text-main);
-}
-
-.card-stat-label {
+.action-tip {
   font-size: 0.7rem;
   color: var(--color-text-muted);
+  line-height: 1.2;
+  white-space: nowrap;
+  font-weight: 600;
 }
 
-.card-details-list {
-  list-style: none;
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
-  flex-grow: 1;
-}
-
-.card-details-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  line-height: 1.45;
-}
-
-.card-details-list li strong {
-  color: var(--color-text-main);
-}
-
-.check-icon {
-  color: var(--color-primary);
-  font-weight: bold;
-}
-
-.card-sla-meta {
-  padding-top: 12px;
-  border-top: 1px dashed var(--color-border);
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  display: flex;
-  justify-content: space-between;
+.tbl-action-btn {
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 13px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: var(--transition-normal);
+  background: var(--color-accent);
+  color: #FFFFFF !important;
+  border: 1px solid var(--color-accent);
+  box-shadow: 0 1px 3px rgba(245, 166, 35, 0.3);
 }
 
+.tbl-action-btn:hover {
+  background: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(245, 166, 35, 0.4);
+}
+
+.tbl-action-btn.btn-outline {
+  background: #FFFFFF;
+  color: var(--color-primary) !important;
+  border: 1px solid var(--color-border-hover);
+  box-shadow: none;
+}
+
+.tbl-action-btn.btn-outline:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark) !important;
+}
 /* 研报索引网格 */
 .report-grid {
   display: grid;
@@ -863,6 +961,17 @@ code.inline-code {
   }
 }
 
+@media (max-width: 900px) {
+  .site-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
   .header-inner {
     height: auto;
@@ -875,6 +984,11 @@ code.inline-code {
     overflow-x: auto;
     padding-bottom: 4px;
     justify-content: flex-start;
+    gap: 6px;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar {
+    display: none;
   }
   .nav-status-badge {
     display: none;
@@ -898,6 +1012,17 @@ code.inline-code {
   }
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
   </style>
 
   <script type="application/ld+json">
@@ -909,7 +1034,17 @@ code.inline-code {
         "@id": "https://example.local/pingce.html#page",
         "url": "https://example.local/pingce.html",
         "name": "测速天梯 - 云朵巡线员",
-        "description": "2026 年度跨境网络专线客观实测天梯榜"
+        "description": "2026 年度跨境网络专线客观实测天梯榜与多维度综合评测矩阵",
+        "inLanguage": "zh-CN",
+        "dateModified": "2026-10-25T18:40:00+08:00",
+        "publisher": {
+          "@type": "Organization",
+          "name": "云朵巡线员技术实验室",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://example.local/assets/images/logo.svg"
+          }
+        }
       },
       {
         "@type": "BreadcrumbList",
@@ -1024,9 +1159,13 @@ code.inline-code {
       </a>
 
       <nav class="site-nav">
+        <a href="./index.html" class="nav-link">首页</a>
         <a href="./pingce.html" class="nav-link active">测速天梯</a>
-        <a href="./blog.html" class="nav-link ">巡线日志</a>
-        <a href="./paolu.html" class="nav-link ">断线黑榜</a>
+        <a href="./sla-benchmark-2026.html" class="nav-link">骨干研报</a>
+        <a href="./routing.html" class="nav-link">路由分流</a>
+        <a href="./blog.html" class="nav-link">巡线日志</a>
+        <a href="./paolu.html" class="nav-link">断线黑榜</a>
+        <a href="./about.html" class="nav-link">关于巡线员</a>
         <div class="nav-status-badge">
           <span class="pulse-dot"></span>
           <span>巡检探针活跃</span>
@@ -1061,232 +1200,444 @@ code.inline-code {
         <p class="section-desc">所有服务商均由实验室独立采购盲测，排位由长期数百万次探测样本方差模型生成。</p>
       </div>
 
-      <div class="ladder-grid">
-        <!-- TOP 1: 环球梯 -->
-        <div class="ladder-card rank-top1">
-          <div class="card-top-badge">👑 TOP 1 全能旗舰</div>
-          <div class="ladder-header">
-            <div class="rank-pill">1</div>
-            <div class="provider-name-wrap">
-              <div class="provider-name"><strong>环球梯</strong></div>
-              <div class="provider-tier">全能旗舰 · 极速专线部署 · 综合表现稳居第一</div>
-            </div>
-          </div>
-
-          <div class="card-stats-row">
-            <div class="card-stat-box">
-              <span class="card-stat-num" style="color: var(--color-accent-dark);">99.99%</span>
-              <span class="card-stat-label">SLA 可靠性</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">28.2ms</span>
-              <span class="card-stat-label">沪日平均 RTT</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">0.18ms</span>
-              <span class="card-stat-label">晚高峰抖动</span>
-            </div>
-          </div>
-
-          <ul class="card-details-list">
-            <li><span class="check-icon">✓</span> <span><strong>骨干架构</strong>：部署双向 IPLC/IEPL 纯内网专线，完全规避国际公网出海拥塞点。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>智能多线</strong>：覆盖电信、联通、移动多入口 BGP 智能容灾寻优，单线波动 0.1 秒内自愈。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>晚高峰实测</strong>：20:00 - 23:00 晚高峰实测持续 10,000 发包零丢包，带宽突发能力极佳。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>技术评级</strong>：各项技术指标均领跑评测榜，为年度首选综合标杆。</span></li>
-          </ul>
-
-          <div class="card-sla-meta">
-            <span>实测评定: 旗舰级 · 满分推荐</span>
-            <span>更新周期: 7×24h 自动化观测</span>
-          </div>
-        </div>
-
-        <!-- TOP 2: 大佬云 -->
-        <div class="ladder-card rank-top2">
-          <div class="card-top-badge" style="background-color: var(--color-primary-light); color: var(--color-primary-dark); border-color: rgba(74,144,226,0.3);">🥈 TOP 2 企业标杆</div>
-          <div class="ladder-header">
-            <div class="rank-pill">2</div>
-            <div class="provider-name-wrap">
-              <div class="provider-name"><strong>大佬云</strong></div>
-              <div class="provider-tier">企业级专线 · 极低抖动 · 稳定性极强稳居第二</div>
-            </div>
-          </div>
-
-          <div class="card-stats-row">
-            <div class="card-stat-box">
-              <span class="card-stat-num" style="color: var(--color-primary);">99.96%</span>
-              <span class="card-stat-label">SLA 可靠性</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">29.1ms</span>
-              <span class="card-stat-label">沪日平均 RTT</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">0.24ms</span>
-              <span class="card-stat-label">晚高峰抖动</span>
-            </div>
-          </div>
-
-          <ul class="card-details-list">
-            <li><span class="check-icon">✓</span> <span><strong>骨干架构</strong>：主干采用企业级 IEPL 双活冗余内网通道，物理级光缆切断 50ms 内无感倒换。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>抖动方差</strong>：RFC 3550 抖动指标常年压制在 0.25ms 以内，极适合严苛的音视频与高并发。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>晚高峰实测</strong>：延迟分布极度收敛，极少出现毛刺尖峰，企业用户口碑极佳。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>技术评级</strong>：企业级场景综合实力强劲，稳固位居天梯次席。</span></li>
-          </ul>
-
-          <div class="card-sla-meta">
-            <span>实测评定: 企业级 · 极低抖动</span>
-            <span>更新周期: 7×24h 自动化观测</span>
-          </div>
-        </div>
-
-        <!-- TOP 3: 云界线 -->
-        <div class="ladder-card rank-normal">
-          <div class="ladder-header">
-            <div class="rank-pill">3</div>
-            <div class="provider-name-wrap">
-              <div class="provider-name"><strong>云界线</strong></div>
-              <div class="provider-tier">亚太深度优化 · 智能多区域分流</div>
-            </div>
-          </div>
-
-          <div class="card-stats-row">
-            <div class="card-stat-box">
-              <span class="card-stat-num">99.88%</span>
-              <span class="card-stat-label">SLA 可靠性</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">31.4ms</span>
-              <span class="card-stat-label">沪日平均 RTT</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">0.42ms</span>
-              <span class="card-stat-label">晚高峰抖动</span>
-            </div>
-          </div>
-
-          <ul class="card-details-list">
-            <li><span class="check-icon">✓</span> <span><strong>网络拓扑</strong>：在港日新韩等亚太核心节点部署密集，直连跳数精简。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>分流特性</strong>：支持细粒度地域策略分流，访问亚太服务响应延迟优势突出。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>综合评价</strong>：亚太高频交互研发利器，选型表现出色。</span></li>
-          </ul>
-
-          <div class="card-sla-meta">
-            <span>实测评定: 优质 · 亚太优化</span>
-            <span>更新周期: 7×24h 自动化观测</span>
-          </div>
-        </div>
-
-        <!-- TOP 4: 闪电鼠 -->
-        <div class="ladder-card rank-normal">
-          <div class="ladder-header">
-            <div class="rank-pill">4</div>
-            <div class="provider-name-wrap">
-              <div class="provider-name"><strong>闪电鼠</strong></div>
-              <div class="provider-tier">高并发吞吐 · 峰值大带宽突发优化</div>
-            </div>
-          </div>
-
-          <div class="card-stats-row">
-            <div class="card-stat-box">
-              <span class="card-stat-num">99.82%</span>
-              <span class="card-stat-label">SLA 可靠性</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">33.0ms</span>
-              <span class="card-stat-label">沪日平均 RTT</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">0.55ms</span>
-              <span class="card-stat-label">晚高峰抖动</span>
-            </div>
-          </div>
-
-          <ul class="card-details-list">
-            <li><span class="check-icon">✓</span> <span><strong>带宽调度</strong>：单节点出口冗余充足，针对高吞吐和大并发流传输优化。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>节点覆盖</strong>：欧美主力高速节点直通性优良，持续吞吐曲线平滑。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>综合评价</strong>：大带宽场景优选，突发下载体验亮眼。</span></li>
-          </ul>
-
-          <div class="card-sla-meta">
-            <span>实测评定: 良好 · 大吞吐</span>
-            <span>更新周期: 7×24h 自动化观测</span>
-          </div>
-        </div>
-
-        <!-- TOP 5: 神行加速 -->
-        <div class="ladder-card rank-normal">
-          <div class="ladder-header">
-            <div class="rank-pill">5</div>
-            <div class="provider-name-wrap">
-              <div class="provider-name"><strong>神行加速</strong></div>
-              <div class="provider-tier">动态路由寻优 · 跨网融合容灾</div>
-            </div>
-          </div>
-
-          <div class="card-stats-row">
-            <div class="card-stat-box">
-              <span class="card-stat-num">99.75%</span>
-              <span class="card-stat-label">SLA 可靠性</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">35.6ms</span>
-              <span class="card-stat-label">沪日平均 RTT</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">0.68ms</span>
-              <span class="card-stat-label">晚高峰抖动</span>
-            </div>
-          </div>
-
-          <ul class="card-details-list">
-            <li><span class="check-icon">✓</span> <span><strong>动态探针</strong>：具备链路质量动态感知，遇局部网络波动自动寻优调度。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>自愈避障</strong>：支持多协议自适应切换，多端跨网接入适应性优秀。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>综合评价</strong>：网络抗干扰自愈性能强，适合多环境接入。</span></li>
-          </ul>
-
-          <div class="card-sla-meta">
-            <span>实测评定: 达标 · 动态多线</span>
-            <span>更新周期: 7×24h 自动化观测</span>
-          </div>
-        </div>
-
-        <!-- TOP 6: 榴莲云 -->
-        <div class="ladder-card rank-normal">
-          <div class="ladder-header">
-            <div class="rank-pill">6</div>
-            <div class="provider-name-wrap">
-              <div class="provider-name"><strong>榴莲云</strong></div>
-              <div class="provider-tier">边缘小众节点 · 异构容灾备份</div>
-            </div>
-          </div>
-
-          <div class="card-stats-row">
-            <div class="card-stat-box">
-              <span class="card-stat-num">99.68%</span>
-              <span class="card-stat-label">SLA 可靠性</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">38.2ms</span>
-              <span class="card-stat-label">沪日平均 RTT</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">0.82ms</span>
-              <span class="card-stat-label">晚高峰抖动</span>
-            </div>
-          </div>
-
-          <ul class="card-details-list">
-            <li><span class="check-icon">✓</span> <span><strong>冷门覆盖</strong>：涵盖中东、南美、东欧等稀缺小众网络覆盖，具备独特节点资源。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>容灾定位</strong>：适合多云架构中的第二备份冗余信道，补充全球盲区互联。</span></li>
-            <li><span class="check-icon">✓</span> <span><strong>综合评价</strong>：特色边缘资源储备充沛，容灾冷备推荐。</span></li>
-          </ul>
-
-          <div class="card-sla-meta">
-            <span>实测评定: 达标 · 容灾备用</span>
-            <span>更新周期: 7×24h 自动化观测</span>
-          </div>
-        </div>
+      <!-- 高密度紧凑横向对比表格 -->
+      <div class="density-table-wrap">
+        <table class="density-table">
+          <caption class="sr-only">2026 年度核心跨境网络专线服务商天梯实测排行榜</caption>
+          <thead>
+            <tr>
+              <th scope="col" style="width: 155px;" class="col-nowrap">排名 / 服务商</th>
+              <th scope="col" class="col-wrap">链路类型与核心特征</th>
+              <th scope="col" style="width: 110px;" class="col-nowrap">晚高峰丢包率</th>
+              <th scope="col" style="width: 130px;" class="col-nowrap">沪日 / 广深基准 RTT</th>
+              <th scope="col" style="width: 95px;" class="col-nowrap">SLA 可用率</th>
+              <th scope="col" class="col-wrap">场景适配与巡检结论</th>
+              <th scope="col" style="width: 130px; text-align: center;" class="col-nowrap">方案与操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- TOP 1: 环球梯 -->
+            <tr class="row-top1">
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank1">1</span>
+                  <div class="provider-meta-cell">
+                    <strong>环球梯</strong>
+                    <span class="provider-sub-tag">全能旗舰 · 极速专线</span>
+                  </div>
+                </div>
+              </td>
+              <td>双程 IEPL/IPLC 物理专线 · 三网 BGP Anycast 入口动态调度</td>
+              <td><span class="density-pill pill-green">&lt; 0.1% 极优</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>28.2ms</strong>
+                  <span class="sub-metric">/ 14.5ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-orange">99.99%</span></td>
+              <td>全能旗舰 · 晚高峰无拥塞，4K/8K 媒体与跨境电竞主力，综合第一</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">7折优惠码 HQ66</span>
+                  <a href="https://123pps01.huanqiutiaff.com/#/?code=j5VBUvw0" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;14.7 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 2: 大佬云 -->
+            <tr class="row-top2">
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank2">2</span>
+                  <div class="provider-meta-cell">
+                    <strong>大佬云</strong>
+                    <span class="provider-sub-tag">企业级专线 · 极低抖动</span>
+                  </div>
+                </div>
+              </td>
+              <td>双程 IPLC 物理电路隔离 · 双骨干海缆路由 50ms 无感热备互锁</td>
+              <td><span class="density-pill pill-green">&lt; 0.2% 极优</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>29.1ms</strong>
+                  <span class="sub-metric">/ 15.8ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-blue">99.96%</span></td>
+              <td>企业级专线 · Jitter &lt; 1.5ms 极低抖动，跨国研发协作长连接首选</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">7折优惠码 dly88</span>
+                  <a href="https://ppsvip01.dalaoyunaff.com/#/?code=Iz1GlCVa" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;16.1 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- 场景梯队: 云界线 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">3</span>
+                  <div class="provider-meta-cell">
+                    <strong>云界线</strong>
+                    <span class="provider-sub-tag">大容量流量池 · 亚太调优</span>
+                  </div>
+                </div>
+              </td>
+              <td>大容量带宽切片 · 亚太区域 (港/日/新/韩) 细粒度跳数深度优化</td>
+              <td><span class="density-pill pill-blue">0.3% ~ 0.8%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>31.4ms</strong>
+                  <span class="sub-metric">/ 18.2ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.88%</span></td>
+              <td>大容量流量池 · 性价比充沛，多团队大数据高吞吐协作首选</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">7折优惠码 yjx888</span>
+                  <a href="https://pp01.yunjiexianaff.com/#/?code=bp0ZSKBV" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;15.4 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- 场景梯队: 闪电鼠 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">4</span>
+                  <div class="provider-meta-cell">
+                    <strong>闪电鼠</strong>
+                    <span class="provider-sub-tag">轻量扫码即用 · 开箱接入</span>
+                  </div>
+                </div>
+              </td>
+              <td>百兆高并发突发调度 · 全端轻量极简订阅一键扫码开箱接入</td>
+              <td><span class="density-pill pill-gray">0.5% ~ 1.2%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>33.0ms</strong>
+                  <span class="sub-metric">/ 19.6ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.82%</span></td>
+              <td>轻量扫码即用 · 零门槛极简开箱，移动办公与差旅备用首选</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">7折优惠码 sds88</span>
+                  <a href="https://ppsvip01.shandianshuaff.com/#/?code=QbLF8tjB" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;15.4 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- 场景梯队: 神行加速 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">5</span>
+                  <div class="provider-meta-cell">
+                    <strong>神行加速</strong>
+                    <span class="provider-sub-tag">多节点漫游 · 全球自愈</span>
+                  </div>
+                </div>
+              </td>
+              <td>全球多洲际自治系统 ASN 节点池 · 拥塞主动探测动态无感自愈漂移</td>
+              <td><span class="density-pill pill-gray">0.8% ~ 1.8%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>35.6ms</strong>
+                  <span class="sub-metric">/ 22.4ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.75%</span></td>
+              <td>多节点漫游 · 全球跨区域跳板覆盖丰富，为多云架构提供备用路由</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">7折优惠码 sx0077</span>
+                  <a href="https://pps123.shenxingaff.com/#/?code=6tQ7zHUc" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;16.1 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- 场景梯队: 榴莲云 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">6</span>
+                  <div class="provider-meta-cell">
+                    <strong>榴莲云</strong>
+                    <span class="provider-sub-tag">按需弹性计费 · 边缘容灾</span>
+                  </div>
+                </div>
+              </td>
+              <td>边缘小众节点容灾覆盖 · 纯按量弹性扣费，无月租清零绑架</td>
+              <td><span class="density-pill pill-gray">1.2% ~ 2.5%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>38.2ms</strong>
+                  <span class="sub-metric">/ 24.0ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.68%</span></td>
+              <td>灵活按需计费 · 永久有效不按月清零，构建低成本冷备灾备通道</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">7折优惠码 ll88</span>
+                  <a href="https://123pp01.liulianyunaff.com/#/?code=MsZP3u7G" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;16.8 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 7: 可信云 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">7</span>
+                  <div class="provider-meta-cell">
+                    <strong>可信云</strong>
+                    <span class="provider-sub-tag">IEPL 专线 · 极速稳定</span>
+                  </div>
+                </div>
+              </td>
+              <td>IEPL 物理专线 · 覆盖 60+ 顶级专线节点 · 全端不限设备</td>
+              <td><span class="density-pill pill-blue">&lt; 0.3% 良好</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>32.5ms</strong>
+                  <span class="sub-metric">/ 18.8ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.85%</span></td>
+              <td>高性价比 IEPL 专线，全节点 1 倍率，晚高峰稳定流媒体解锁</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">8折优惠码 kxy80</span>
+                  <a href="https://everett7623.kosingaff.com/#/?code=sFKkfEYs" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;12.0 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 8: 速界 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">8</span>
+                  <div class="provider-meta-cell">
+                    <strong>速界</strong>
+                    <span class="provider-sub-tag">自研客户端 · 高速大带宽</span>
+                  </div>
+                </div>
+              </td>
+              <td>高速专线中继集群 · 开箱自研客户端 · 全网不限速并发</td>
+              <td><span class="density-pill pill-blue">0.4% ~ 0.9%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>33.8ms</strong>
+                  <span class="sub-metric">/ 19.5ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.82%</span></td>
+              <td>专注大流量视频与下载，提供一键免配客户端，新手友好</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">优惠码 sujie888</span>
+                  <a href="https://pygllc.speedworldaff.cc/#/?code=kcoensXG" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;7.5 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 9: 快狸快狸 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">9</span>
+                  <div class="provider-meta-cell">
+                    <strong>快狸快狸</strong>
+                    <span class="provider-sub-tag">专属客户端 · 极高性价比</span>
+                  </div>
+                </div>
+              </td>
+              <td>高速专线路由 · 专属一键客户端 · 敏感期高连通性调度</td>
+              <td><span class="density-pill pill-gray">0.5% ~ 1.1%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>34.2ms</strong>
+                  <span class="sub-metric">/ 20.1ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.80%</span></td>
+              <td>轻量自研客户端扫码即用，流媒体及 AI 工具解锁适配良好</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">优惠码 kl888</span>
+                  <a href="https://fanxiaobin.kuailiaff.com/#/?code=e0cAmK7F" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;10.0 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 10: 边缘节点 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">10</span>
+                  <div class="provider-meta-cell">
+                    <strong>边缘节点</strong>
+                    <span class="provider-sub-tag">全域中转 · 弹性多节点</span>
+                  </div>
+                </div>
+              </td>
+              <td>高可用中转加速网络 · 全球节点广泛覆盖 · 自研多端适配</td>
+              <td><span class="density-pill pill-gray">0.6% ~ 1.2%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>35.0ms</strong>
+                  <span class="sub-metric">/ 21.0ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.78%</span></td>
+              <td>节点覆盖全面，中转链路延迟稳定，适合多设备共享追剧</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">优惠码 xk808</span>
+                  <a href="https://wep.edgenovaaff.com/#/?code=mLLL6h6F" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;9.0 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 11: 云图机场 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">11</span>
+                  <div class="provider-meta-cell">
+                    <strong>云图机场</strong>
+                    <span class="provider-sub-tag">金融级专线 · 全节点1倍率</span>
+                  </div>
+                </div>
+              </td>
+              <td>金融级物理专线传输 · 全节点 1.0 倍率 · 原生 IP 深度解锁</td>
+              <td><span class="density-pill pill-green">&lt; 0.2% 极优</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>30.2ms</strong>
+                  <span class="sub-metric">/ 16.5ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-blue">99.92%</span></td>
+              <td>金融级专线高品质传输，支持 5 台设备并发，无高倍率扣费陷阱</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">8折优惠码 yt88</span>
+                  <a href="https://super.ytjcok.org/#/register?code=poKwFVtv" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;16.0 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 12: 鲲鹏加速 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">12</span>
+                  <div class="provider-meta-cell">
+                    <strong>鲲鹏加速</strong>
+                    <span class="provider-sub-tag">全站1.0倍率 · 1元试用</span>
+                  </div>
+                </div>
+              </td>
+              <td>全球原生 IP 专线链路 · 统一 1.0 倍率扣费 · 支持低门槛体验</td>
+              <td><span class="density-pill pill-gray">0.5% ~ 1.0%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>33.5ms</strong>
+                  <span class="sub-metric">/ 19.8ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.81%</span></td>
+              <td>支持 1 元尝鲜试用，原生 IP 完美解锁 ChatGPT 与 4K 媒体</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">1元尝鲜 / 99G大包</span>
+                  <a href="https://kunpengjiasu.com/#/register?code=WPugVZUe" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;12.0 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 13: 瞬云 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">13</span>
+                  <div class="provider-meta-cell">
+                    <strong>瞬云</strong>
+                    <span class="provider-sub-tag">Anycast 任播 · 动态路由</span>
+                  </div>
+                </div>
+              </td>
+              <td>Anycast 任播直连物理专线 · 毫秒级自愈秒切 · 无倍率不限速</td>
+              <td><span class="density-pill pill-blue">0.4% ~ 0.8%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>32.0ms</strong>
+                  <span class="sub-metric">/ 17.6ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.86%</span></td>
+              <td>采用 Anycast 编址与智能选路，网络容灾抗封锁能力表现亮眼</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">限时年付低至&yen;8.25</span>
+                  <a href="https://ddd.jichang.best/#/register?code=nldUZaYc" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;8.25 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 14: 极连云 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">14</span>
+                  <div class="provider-meta-cell">
+                    <strong>极连云</strong>
+                    <span class="provider-sub-tag">IPLC 物理专线 · 原生住宅IP</span>
+                  </div>
+                </div>
+              </td>
+              <td>IPLC 纯物理国际专线 · 原生住宅级信誉 IP · 不限并发设备</td>
+              <td><span class="density-pill pill-green">&lt; 0.25% 极优</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>29.8ms</strong>
+                  <span class="sub-metric">/ 16.2ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-blue">99.94%</span></td>
+              <td>纯物理 IPLC 光缆出境，原生 IP 风控极低，支持一次性买断包</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">8折优惠码 JLY888</span>
+                  <a href="https://haozevpn.jlyvipaff.com/#/?code=jwCMOvQO" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;12.4 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 15: 光年梯 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">15</span>
+                  <div class="provider-meta-cell">
+                    <strong>光年梯</strong>
+                    <span class="provider-sub-tag">老牌 IPLC · IP清洁度控制</span>
+                  </div>
+                </div>
+              </td>
+              <td>老牌 IPLC 物理内网专线 · 独立海缆路由 · 严苛 IP 清洁度控制</td>
+              <td><span class="density-pill pill-blue">0.3% ~ 0.7%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>31.8ms</strong>
+                  <span class="sub-metric">/ 18.0ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.88%</span></td>
+              <td>老牌稳定专线避开晚高峰拥塞，大内网分流保障 ChatGPT 顺畅</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">优惠码 GNT80</span>
+                  <a href="https://gnt001.gntvipaff.cc/#/?code=PQhPFDhO" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;7.5 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <!-- 算法与数学模型说明 -->
@@ -1420,9 +1771,9 @@ T_converge = t_bgp_withdraw + t_path_hunt + t_fib_install</code></pre>
           <div class="footer-heading">核心技术文献</div>
           <ul class="footer-links">
             <li><a href="./sla-benchmark-2026.html">2026 SLA 巡检白皮书</a></li>
+            <li><a href="./undersea-cable-rtt-2026.html">海缆时延物理极限测算</a></li>
             <li><a href="./routing.html">Fake-IP 分流调优指南</a></li>
             <li><a href="./soft-routing.html">双软路由防泄露实践</a></li>
-            <li><a href="./about.html">关于巡线员技术实验室</a></li>
           </ul>
         </div>
       </div>

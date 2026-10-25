@@ -170,16 +170,21 @@ a:hover {
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(2px, 0.6vw, 8px);
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .nav-link {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 500;
   color: var(--color-text-main);
-  padding: 8px 14px;
+  padding: 6px clamp(6px, 0.6vw, 12px);
   border-radius: var(--radius-sm);
   transition: var(--transition-normal);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -191,14 +196,16 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 5px 10px;
   background-color: var(--color-success-bg);
   border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: var(--radius-full);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #065F46;
-  margin-left: 8px;
+  margin-left: clamp(2px, 0.5vw, 6px);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .pulse-dot {
@@ -869,6 +876,17 @@ code.inline-code {
   }
 }
 
+@media (max-width: 900px) {
+  .site-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
   .header-inner {
     height: auto;
@@ -881,6 +899,11 @@ code.inline-code {
     overflow-x: auto;
     padding-bottom: 4px;
     justify-content: flex-start;
+    gap: 6px;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar {
+    display: none;
   }
   .nav-status-badge {
     display: none;
@@ -904,6 +927,17 @@ code.inline-code {
   }
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
   </style>
 
   <script type="application/ld+json">
@@ -1067,9 +1101,13 @@ code.inline-code {
       </a>
 
       <nav class="site-nav">
-        <a href="./pingce.html" class="nav-link ">测速天梯</a>
-        <a href="./blog.html" class="nav-link active">巡线日志</a>
-        <a href="./paolu.html" class="nav-link ">断线黑榜</a>
+        <a href="./index.html" class="nav-link">首页</a>
+        <a href="./pingce.html" class="nav-link">测速天梯</a>
+        <a href="./sla-benchmark-2026.html" class="nav-link active">骨干研报</a>
+        <a href="./routing.html" class="nav-link">路由分流</a>
+        <a href="./blog.html" class="nav-link">巡线日志</a>
+        <a href="./paolu.html" class="nav-link">断线黑榜</a>
+        <a href="./about.html" class="nav-link">关于巡线员</a>
         <div class="nav-status-badge">
           <span class="pulse-dot"></span>
           <span>巡检探针活跃</span>
@@ -1137,6 +1175,14 @@ code.inline-code {
         <li><strong>北京 ↔ 法兰克福 (欧亚陆缆/海缆)</strong>：物理路由距离逾 8,200 km，物理往返延迟极限在 <strong>108ms ~ 116ms</strong> 之间。</li>
       </ul>
 
+      <div class="callout-box" style="margin-top: 16px;">
+        <div class="callout-title">📖 深度海缆光学与微观时延测算专页</div>
+        <div>
+          关于光纤折射率推导、全球跨洋海缆物理冗余度模型及中美/沪日/沪新链路详细测算，请参阅专题文献：
+          <a href="./undersea-cable-rtt-2026.html" style="font-weight: 600;">《2026 全球跨境光纤拓扑与海缆时延物理极限测算：从光折射率到骨干专线 RTT 调优实战》 &rarr;</a>
+        </div>
+      </div>
+
       <h2>二、IPLC 与 IEPL 骨干层物理差异</h2>
       <p>
         许多工程师常将 IPLC 与 IEPL 混为一谈。从 OSI 模型与电信网络承载层分析，两者的底层隔离技术与故障特征存在显著技术分水岭：
@@ -1144,12 +1190,13 @@ code.inline-code {
 
       <div class="data-table-wrap">
         <table class="tech-table">
+          <caption class="sr-only">IPLC 国际私有专线、IEPL 国际以太网专线与公网优化线路技术维度对比</caption>
           <thead>
             <tr>
-              <th>对比维度</th>
-              <th>IPLC (国际专线电路)</th>
-              <th>IEPL (国际以太网专线)</th>
-              <th>公网优化线路 (CN2/AS9929)</th>
+              <th scope="col">对比维度</th>
+              <th scope="col">IPLC (国际专线电路)</th>
+              <th scope="col">IEPL (国际以太网专线)</th>
+              <th scope="col">公网优化线路 (CN2/AS9929)</th>
             </tr>
           </thead>
           <tbody>
@@ -1208,15 +1255,16 @@ code.inline-code {
 
       <div class="data-table-wrap">
         <table class="tech-table">
+          <caption class="sr-only">2026 年度跨境网络骨干专线晚高峰 (20:00 - 23:00) 连续实测数据矩阵</caption>
           <thead>
             <tr>
-              <th>服务商</th>
-              <th>评测梯位</th>
-              <th>骨干通道类型</th>
-              <th>沪日晚高峰 RTT</th>
-              <th>RFC 3550 抖动</th>
-              <th>丢包率 (晚高峰)</th>
-              <th>综合 SLA 履约率</th>
+              <th scope="col">服务商</th>
+              <th scope="col">评测梯位</th>
+              <th scope="col">骨干通道类型</th>
+              <th scope="col">沪日晚高峰 RTT</th>
+              <th scope="col">RFC 3550 抖动</th>
+              <th scope="col">丢包率 (晚高峰)</th>
+              <th scope="col">综合 SLA 履约率</th>
             </tr>
           </thead>
           <tbody>
@@ -1410,9 +1458,9 @@ code.inline-code {
           <div class="footer-heading">核心技术文献</div>
           <ul class="footer-links">
             <li><a href="./sla-benchmark-2026.html">2026 SLA 巡检白皮书</a></li>
+            <li><a href="./undersea-cable-rtt-2026.html">海缆时延物理极限测算</a></li>
             <li><a href="./routing.html">Fake-IP 分流调优指南</a></li>
             <li><a href="./soft-routing.html">双软路由防泄露实践</a></li>
-            <li><a href="./about.html">关于巡线员技术实验室</a></li>
           </ul>
         </div>
       </div>

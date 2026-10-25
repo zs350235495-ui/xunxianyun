@@ -12,8 +12,8 @@
   <!-- Open Graph / 社交元标签 -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://example.local/">
-  <meta property="og:title" content="云朵巡线员 (Cloud Patrol) - 跨境网络专线测速与全球骨干链路SLA巡检知识库">
-  <meta property="og:description" content="中立、严谨的全球跨境专线测速与链路质量技术知识库。实时观测BGP多线与IPLC专线质量。">
+  <meta property="og:title" content="云朵巡线员 (Cloud Patrol) - 全天候跨域网络遥测与 SLA 巡检">
+  <meta property="og:description" content="穿透骨干网迷雾，基于真实物理链路丢包、RFC 3550 抖动与晚高峰拥塞模型建立的客观基准。">
   <meta property="og:image" content="./assets/images/logo.svg">
 
   <!-- Twitter Card -->
@@ -54,6 +54,7 @@
   --color-success-bg: #ECFDF5;
   --color-warning: #F59E0B;
   --color-danger: #EF4444;
+  --color-danger-bg: #FEF2F2;
 
   /* 阴影层次 */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -171,19 +172,25 @@ a:hover {
   letter-spacing: 0.02em;
 }
 
+/* 顶部导航弹性不折行 */
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(2px, 0.6vw, 8px);
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .nav-link {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 500;
   color: var(--color-text-main);
-  padding: 8px 14px;
+  padding: 6px clamp(6px, 0.6vw, 12px);
   border-radius: var(--radius-sm);
   transition: var(--transition-normal);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -195,14 +202,16 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 5px 10px;
   background-color: var(--color-success-bg);
   border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: var(--radius-full);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #065F46;
-  margin-left: 8px;
+  margin-left: clamp(2px, 0.5vw, 6px);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .pulse-dot {
@@ -228,7 +237,7 @@ a:hover {
 
 /* 首屏 Hero 区 */
 .hero-section {
-  padding: 60px 0 40px;
+  padding: 60px 0 48px;
   background: linear-gradient(180deg, #FFFFFF 0%, var(--color-bg-page) 100%);
   border-bottom: 1px solid var(--color-border);
 }
@@ -255,12 +264,12 @@ a:hover {
 }
 
 .hero-title {
-  font-size: 2.5rem;
+  font-size: 2.35rem;
   font-weight: 800;
-  line-height: 1.25;
+  line-height: 1.28;
   color: var(--color-text-main);
-  letter-spacing: -0.03em;
-  margin-bottom: 18px;
+  letter-spacing: -0.025em;
+  margin-bottom: 16px;
 }
 
 .hero-title .highlight {
@@ -271,23 +280,89 @@ a:hover {
 }
 
 .hero-desc {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--color-text-muted);
   line-height: 1.7;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
-.hero-status-card {
+/* 实时遥测状态看板 */
+.telemetry-dashboard-card {
   background-color: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  padding: 18px 22px;
   box-shadow: var(--shadow-sm);
+  margin-top: 10px;
 }
 
+.telemetry-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.telemetry-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+}
+
+.telemetry-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #065F46;
+  background: var(--color-success-bg);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.telemetry-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.metric-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-num {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  font-feature-settings: "tnum";
+  line-height: 1.2;
+}
+
+.metric-num.accent {
+  color: var(--color-accent-dark);
+}
+
+.metric-num.success {
+  color: var(--color-success);
+}
+
+.metric-lbl {
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.metric-sub {
+  font-size: 0.7rem;
+  color: var(--color-text-light);
+}
+
+/* Hero 右侧拟态哨兵卡片 */
 .hero-visual {
   display: flex;
   justify-content: center;
@@ -307,9 +382,9 @@ a:hover {
 }
 
 .hero-svg-wrap {
-  width: 180px;
-  height: 180px;
-  margin: 0 auto 16px;
+  width: 170px;
+  height: 170px;
+  margin: 0 auto 14px;
 }
 
 .hero-telemetry-grid {
@@ -327,14 +402,14 @@ a:hover {
 }
 
 .telemetry-val {
-  font-size: 1.15rem;
+  font-size: 1.12rem;
   font-weight: 700;
   color: var(--color-primary);
   font-feature-settings: "tnum";
 }
 
 .telemetry-lbl {
-  font-size: 0.75rem;
+  font-size: 0.74rem;
   color: var(--color-text-muted);
 }
 
@@ -359,7 +434,7 @@ a:hover {
 }
 
 .section-title {
-  font-size: 2rem;
+  font-size: 1.95rem;
   font-weight: 800;
   color: var(--color-text-main);
   letter-spacing: -0.02em;
@@ -367,459 +442,423 @@ a:hover {
 }
 
 .section-desc {
-  font-size: 1rem;
+  font-size: 0.98rem;
   color: var(--color-text-muted);
-  max-width: 680px;
+  max-width: 720px;
   margin-left: auto;
   margin-right: auto;
+  line-height: 1.65;
 }
 
-/* 核心服务商天梯矩阵 */
-.ladder-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 24px;
-}
-
-.ladder-card {
+/* 高密度紧凑横向对比表格系统 */
+.density-table-wrap {
+  width: 100%;
   background-color: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
-  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+  margin-bottom: 24px;
+}
+
+.density-table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.density-table th {
+  background-color: #F8FAFC;
+  padding: 11px 12px;
+  font-weight: 700;
+  color: var(--color-text-main);
+  border-bottom: 2px solid var(--color-border);
+  font-size: 0.84rem;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.density-table td {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-main);
+  vertical-align: middle;
+  transition: background-color 0.15s ease;
+}
+
+/* 固定单行数据列防折行 */
+.density-table td.col-nowrap,
+.density-table th.col-nowrap,
+.density-table td:nth-child(1),
+.density-table td:nth-child(3),
+.density-table td:nth-child(4),
+.density-table td:nth-child(5),
+.density-table td:nth-child(7) {
+  white-space: nowrap;
+}
+
+/* 描述文本列允许自然折行与字号微调 */
+.density-table td.col-wrap,
+.density-table th.col-wrap,
+.density-table td:nth-child(2),
+.density-table td:nth-child(6) {
+  white-space: normal;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.density-table tbody tr:nth-child(even) {
+  background-color: #FAFAF8;
+}
+
+.density-table tbody tr:hover {
+  background-color: #F4F8FD;
+}
+
+.density-table tbody tr.row-top1 {
+  background-color: #FFFDF7;
+}
+
+.density-table tbody tr.row-top1:hover {
+  background-color: #FEF9EC;
+}
+
+.density-table tbody tr.row-top2 {
+  background-color: #F8FAFD;
+}
+
+.density-table tbody tr.row-top2:hover {
+  background-color: #EEF5FC;
+}
+
+.density-rank-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-weight: 800;
+  font-size: 0.82rem;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.badge-rank1 {
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(245, 166, 35, 0.4);
+}
+
+.badge-rank2 {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  box-shadow: 0 1px 3px rgba(74, 144, 226, 0.4);
+}
+
+.badge-rank-norm {
+  background-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.density-provider-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.provider-meta-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.provider-meta-cell strong {
+  font-size: 0.95rem;
+  color: var(--color-text-main);
+  line-height: 1.2;
+}
+
+.provider-sub-tag {
+  font-size: 0.72rem;
+  color: var(--color-text-muted);
+  line-height: 1.2;
+  font-weight: 500;
+}
+
+/* 时延与数值指标格式化 */
+.metric-rtt {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.9rem;
+  color: var(--color-text-main);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.metric-rtt strong {
+  font-weight: 700;
+}
+
+.metric-rtt .sub-metric {
+  font-size: 0.75rem;
+  color: var(--color-text-light);
+  font-weight: normal;
+}
+
+/* 胶囊统一规范 (高度 24px, 圆角 12px) */
+.density-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 0 10px;
+  border-radius: 12px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.pill-green {
+  background-color: var(--color-success-bg);
+  color: #065F46;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.pill-blue {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  border: 1px solid rgba(74, 144, 226, 0.3);
+}
+
+.pill-orange {
+  background-color: var(--color-accent-light);
+  color: #92400E;
+  border: 1px solid rgba(245, 166, 35, 0.3);
+}
+
+.pill-gray {
+  background-color: #F1F5F9;
+  color: #475569;
+  border: 1px solid var(--color-border);
+}
+
+/* 一体化操作单元格 */
+.action-cell-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.action-tip {
+  font-size: 0.7rem;
+  color: var(--color-text-muted);
+  line-height: 1.2;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.tbl-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 13px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: var(--transition-normal);
+  background: var(--color-accent);
+  color: #FFFFFF !important;
+  border: 1px solid var(--color-accent);
+  box-shadow: 0 1px 3px rgba(245, 166, 35, 0.3);
+}
+
+.tbl-action-btn:hover {
+  background: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(245, 166, 35, 0.4);
+}
+
+.tbl-action-btn.btn-outline {
+  background: #FFFFFF;
+  color: var(--color-primary) !important;
+  border: 1px solid var(--color-border-hover);
+  box-shadow: none;
+}
+
+.tbl-action-btn.btn-outline:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark) !important;
+}
+
+.tbl-detail-pill:hover {
+  background-color: var(--color-primary);
+  color: #FFFFFF !important;
+  border-color: var(--color-primary);
+}
+
+.ladder-footer-cta {
+  margin-top: 32px;
+  text-align: center;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border: 1px solid var(--color-border-hover);
+  background-color: #FFFFFF;
+  color: var(--color-text-main);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: var(--transition-normal);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* 巡线专题核心索引网格 */
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(265px, 1fr));
+  gap: 22px;
+}
+
+.topic-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 22px;
   box-shadow: var(--shadow-sm);
   transition: var(--transition-normal);
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
 }
 
-.ladder-card:hover {
+.topic-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
-  border-color: rgba(74, 144, 226, 0.4);
-}
-
-.ladder-card.rank-top1 {
-  border-top: 4px solid var(--color-accent);
-}
-
-.ladder-card.rank-top2 {
-  border-top: 4px solid var(--color-primary);
-}
-
-.card-top-badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: var(--color-accent-light);
-  color: var(--color-accent-dark);
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-bottom-left-radius: var(--radius-sm);
-  border-left: 1px solid rgba(245, 166, 35, 0.3);
-  border-bottom: 1px solid rgba(245, 166, 35, 0.3);
-}
-
-.ladder-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 16px;
-}
-
-.rank-pill {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-
-.rank-top1 .rank-pill {
-  background-color: var(--color-accent);
-  color: #FFFFFF;
-}
-
-.rank-top2 .rank-pill {
-  background-color: var(--color-primary);
-  color: #FFFFFF;
-}
-
-.rank-normal .rank-pill {
-  background-color: var(--color-border);
-  color: var(--color-text-main);
-}
-
-.provider-name-wrap {
-  display: flex;
-  flex-direction: column;
-}
-
-.provider-name {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--color-text-main);
-  line-height: 1.2;
-}
-
-.provider-tier {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  font-weight: 500;
-}
-
-.card-stats-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  background-color: var(--color-bg-page);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-.card-stat-box {
-  display: flex;
-  flex-direction: column;
-}
-
-.card-stat-num {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-text-main);
-}
-
-.card-stat-label {
-  font-size: 0.7rem;
-  color: var(--color-text-muted);
-}
-
-.card-details-list {
-  list-style: none;
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
-  flex-grow: 1;
-}
-
-.card-details-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  line-height: 1.45;
-}
-
-.card-details-list li strong {
-  color: var(--color-text-main);
-}
-
-.check-icon {
-  color: var(--color-primary);
-  font-weight: bold;
-}
-
-.card-sla-meta {
-  padding-top: 12px;
-  border-top: 1px dashed var(--color-border);
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* 研报索引网格 */
-.report-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 24px;
-}
-
-.report-card {
-  background-color: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-normal);
-  display: flex;
-  flex-direction: column;
-}
-
-.report-card:hover {
-  transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
   border-color: var(--color-primary);
 }
 
-.report-date {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  font-weight: 500;
-  margin-bottom: 8px;
+.topic-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: 14px;
 }
 
-.report-title {
-  font-size: 1.2rem;
+.badge-danger {
+  background-color: var(--color-danger-bg);
+  color: #B91C1C;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.badge-primary {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  border: 1px solid rgba(74, 144, 226, 0.2);
+}
+
+.badge-accent {
+  background-color: var(--color-accent-light);
+  color: var(--color-accent-dark);
+  border: 1px solid rgba(245, 166, 35, 0.2);
+}
+
+.badge-success {
+  background-color: var(--color-success-bg);
+  color: #065F46;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.topic-title {
+  font-size: 1.12rem;
   font-weight: 700;
   color: var(--color-text-main);
   line-height: 1.4;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
-.report-excerpt {
-  font-size: 0.9rem;
+.topic-card:hover .topic-title {
+  color: var(--color-primary);
+}
+
+.topic-desc {
+  font-size: 0.86rem;
   color: var(--color-text-muted);
   line-height: 1.6;
   margin-bottom: 18px;
   flex-grow: 1;
 }
 
-.report-link-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.9rem;
+.topic-meta {
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.82rem;
   font-weight: 600;
   color: var(--color-primary);
-}
-
-.report-link-btn:hover {
-  gap: 10px;
-}
-
-/* 研报单页与文章样式 */
-.article-container {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 40px 20px 80px;
-}
-
-.breadcrumbs {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  margin-bottom: 24px;
+  justify-content: space-between;
 }
 
-.breadcrumbs a {
-  color: var(--color-text-muted);
+.topic-arrow {
+  transition: transform 0.2s ease;
 }
 
-.breadcrumbs a:hover {
-  color: var(--color-primary);
+.topic-card:hover .topic-arrow {
+  transform: translateX(4px);
 }
 
-.article-header {
-  margin-bottom: 36px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--color-border);
-}
-
-.article-title {
-  font-size: 2.25rem;
-  font-weight: 800;
-  line-height: 1.3;
-  color: var(--color-text-main);
-  letter-spacing: -0.02em;
-  margin-bottom: 16px;
-}
-
-.article-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-}
-
-.article-meta-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.article-body {
-  font-size: 1.05rem;
-  line-height: 1.8;
-  color: var(--color-text-main);
-}
-
-.article-body h2 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--color-text-main);
-  margin-top: 48px;
-  margin-bottom: 18px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--color-primary-light);
-}
-
-.article-body h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-text-main);
-  margin-top: 32px;
-  margin-bottom: 12px;
-}
-
-.article-body p {
-  margin-bottom: 20px;
-}
-
-.article-body ul, .article-body ol {
-  margin-bottom: 24px;
-  padding-left: 24px;
-}
-
-.article-body li {
-  margin-bottom: 8px;
-}
-
-/* 科技注记框与提示 Callout */
-.callout-box {
-  background-color: var(--color-primary-light);
-  border-left: 4px solid var(--color-primary);
-  border-radius: var(--radius-sm);
-  padding: 18px 20px;
-  margin: 28px 0;
-  font-size: 0.95rem;
-  color: var(--color-text-main);
-}
-
-.callout-box.warning {
-  background-color: var(--color-accent-light);
-  border-left-color: var(--color-accent);
-}
-
-.callout-title {
-  font-weight: 700;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-/* 硬核数据表格样式 */
-.data-table-wrap {
-  width: 100%;
-  overflow-x: auto;
-  margin: 30px 0;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-sm);
-  background-color: var(--color-bg-card);
-}
-
-.tech-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 0.92rem;
-}
-
-.tech-table th {
-  background-color: #F8FAFC;
-  color: var(--color-text-main);
-  font-weight: 700;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--color-border);
-  white-space: nowrap;
-}
-
-.tech-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--color-border);
-  color: var(--color-text-main);
-}
-
-.tech-table tr:last-child td {
-  border-bottom: none;
-}
-
-.tech-table tr:hover td {
-  background-color: #F9FAFB;
-}
-
-.badge-tag {
-  display: inline-block;
-  padding: 2px 8px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border-radius: var(--radius-sm);
-}
-
-.badge-tag.tag-blue {
-  background-color: var(--color-primary-light);
-  color: var(--color-primary-dark);
-}
-
-.badge-tag.tag-orange {
-  background-color: var(--color-accent-light);
-  color: var(--color-accent-dark);
-}
-
-.badge-tag.tag-green {
-  background-color: var(--color-success-bg);
-  color: #065F46;
-}
-
-/* 代码高亮块 */
-pre.code-block {
-  background-color: #1E293B;
-  color: #E2E8F0;
-  padding: 20px;
-  border-radius: var(--radius-md);
-  overflow-x: auto;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  font-size: 0.88rem;
-  line-height: 1.6;
-  margin: 24px 0;
-  box-shadow: var(--shadow-md);
-}
-
-code.inline-code {
-  background-color: #EEF2F6;
-  color: #D97706;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.88em;
-}
-
-/* 页脚 */
+/* 规范页脚 */
 .site-footer {
-  margin-top: auto;
   background-color: #FFFFFF;
   border-top: 1px solid var(--color-border);
-  padding: 48px 0 32px;
+  padding: 48px 0 28px;
+  margin-top: auto;
 }
 
 .footer-top {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 1.8fr 1fr 1fr;
   gap: 40px;
   margin-bottom: 36px;
 }
 
 .footer-brand-desc {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--color-text-muted);
-  line-height: 1.6;
+  line-height: 1.7;
   margin-top: 12px;
-  max-width: 440px;
+  max-width: 480px;
 }
 
 .footer-heading {
@@ -839,10 +878,12 @@ code.inline-code {
 .footer-links a {
   font-size: 0.88rem;
   color: var(--color-text-muted);
+  transition: var(--transition-normal);
 }
 
 .footer-links a:hover {
   color: var(--color-primary);
+  padding-left: 3px;
 }
 
 .footer-bottom {
@@ -851,25 +892,47 @@ code.inline-code {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: var(--color-text-light);
+  line-height: 1.6;
 }
 
-/* 响应式设计 */
-@media (max-width: 900px) {
+.footer-gate-statement {
+  background-color: var(--color-bg-page);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: 18px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* 响应式断点控制 */
+@media (max-width: 992px) {
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 36px;
   }
   .hero-visual {
     order: -1;
   }
-  .hero-title {
-    font-size: 2rem;
+  .hero-visual-card {
+    max-width: 100%;
   }
-  .footer-top {
+  .ladder-grid {
     grid-template-columns: 1fr;
-    gap: 28px;
+  }
+}
+
+@media (max-width: 900px) {
+  .site-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -885,6 +948,11 @@ code.inline-code {
     overflow-x: auto;
     padding-bottom: 4px;
     justify-content: flex-start;
+    gap: 6px;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar {
+    display: none;
   }
   .nav-status-badge {
     display: none;
@@ -892,14 +960,13 @@ code.inline-code {
   .hero-title {
     font-size: 1.65rem;
   }
-  .ladder-grid {
+  .telemetry-metrics-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
   }
-  .report-grid {
+  .footer-top {
     grid-template-columns: 1fr;
-  }
-  .article-title {
-    font-size: 1.65rem;
+    gap: 28px;
   }
   .footer-bottom {
     flex-direction: column;
@@ -908,9 +975,20 @@ code.inline-code {
   }
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
   </style>
 
-  <!-- Schema.org 结构化数据 -->
+  <!-- 结构化数据 (JSON-LD: WebSite + Organization 联合实体) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -919,18 +997,27 @@ code.inline-code {
         "@type": "WebSite",
         "@id": "https://example.local/#website",
         "url": "https://example.local/",
-        "name": "云朵巡线员",
-        "alternateName": "Cloud Patrol",
-        "description": "跨境网络专线测速、骨干链路拓扑观测与全天候 SLA 巡检技术知识库",
-        "inLanguage": "zh-CN"
+        "name": "云朵巡线员 (Cloud Patrol)",
+        "description": "全天候跨域网络专线测速与全球骨干链路SLA巡检技术知识库",
+        "publisher": {
+          "@id": "https://example.local/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://example.local/pingce.html?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
       },
       {
         "@type": "Organization",
         "@id": "https://example.local/#organization",
-        "name": "云朵巡线员网络质量工程实验室",
+        "name": "云朵巡线员技术实验室 (Cloud Patrol Lab)",
         "url": "https://example.local/",
-        "logo": "https://example.local/assets/images/logo.svg",
-        "description": "专注于全球跨境网络专线性能观测、丢包遥测与 SLA 达标率量化的独立技术研究组"
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://example.local/assets/images/logo.svg"
+        },
+        "description": "专注于跨境网络专线性能观测、骨干拓扑遥测与全天候 SLA 巡检的技术知识库与工程实验室。"
       }
     ]
   }
@@ -939,97 +1026,53 @@ code.inline-code {
 <body>
 
   <!-- 顶部导航栏 -->
-  
-  <!-- 顶部导航栏 -->
   <header class="site-header">
     <div class="container header-inner">
-      <a href="./index.html" class="site-brand">
+      <a href="./index.html" class="site-brand" title="返回云朵巡线员首页">
         <div class="brand-logo">
+          <!-- 拟态巡线员矢量图标 -->
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-  <defs>
-    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="85%" stop-color="#F0F7FF"/>
-      <stop offset="100%" stop-color="#D9EBFC"/>
-    </linearGradient>
-    <linearGradient id="helmetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FBBF24"/>
-      <stop offset="40%" stop-color="#F5A623"/>
-      <stop offset="100%" stop-color="#D97706"/>
-    </linearGradient>
-    <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="50%">
-      <stop offset="0%" stop-color="#0284C7"/>
-      <stop offset="35%" stop-color="#38BDF8"/>
-      <stop offset="70%" stop-color="#0369A1"/>
-      <stop offset="100%" stop-color="#0F172A"/>
-    </linearGradient>
-    <linearGradient id="fiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
-      <stop offset="20%" stop-color="#38BDF8"/>
-      <stop offset="50%" stop-color="#60A5FA"/>
-      <stop offset="80%" stop-color="#38BDF8"/>
-      <stop offset="100%" stop-color="#2563EB" stop-opacity="0.2"/>
-    </linearGradient>
-    <radialGradient id="pulseGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="30%" stop-color="#38BDF8"/>
-      <stop offset="70%" stop-color="#4A90E2" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#4A90E2" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="accentPulse" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFFBEB"/>
-      <stop offset="40%" stop-color="#F5A623"/>
-      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="softShadow" x="-10%" y="-10%" width="125%" height="125%">
-      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#1E3A8A" flood-opacity="0.12"/>
-    </filter>
-    <filter id="glowFilter" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="6" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
-  </defs>
-  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
-  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="url(#fiberGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glowFilter)"/>
-  <g filter="url(#softShadow)">
-    <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGrad)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
-  </g>
-  <g id="safetyHelmet">
-    <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGrad)"/>
-    <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
-    <path d="M 200 148 Q 256 138 312 148" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
-    <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
-    <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
-    <circle cx="256" cy="132" r="10" fill="#FFFFFF" opacity="0.95"/>
-    <path d="M 257 124 L 251 133 L 255 133 L 254 140 L 261 131 L 257 131 Z" fill="#F5A623"/>
-  </g>
-  <g id="techVisor">
-    <path d="M 124 235 C 130 230, 382 230, 388 235" fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
-    <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
-    <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGrad)"/>
-    <path d="M 184 222 L 230 222" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
-    <circle cx="242" cy="222" r="2" fill="#FFFFFF" opacity="0.8"/>
-    <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
-    <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
-    <path d="M 295 220 L 324 250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
-  </g>
-  <circle cx="178" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
-  <circle cx="334" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
-  <path d="M 242 290 Q 256 304 270 290" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
-  <g id="pulseNodes">
-    <circle cx="95" cy="416" r="18" fill="url(#pulseGlow)"/>
-    <circle cx="95" cy="416" r="5" fill="#FFFFFF"/>
-    <circle cx="95" cy="416" r="3" fill="#38BDF8"/>
-    <circle cx="256" cy="442" r="24" fill="url(#accentPulse)"/>
-    <circle cx="256" cy="442" r="7" fill="#FFFFFF"/>
-    <circle cx="256" cy="442" r="4" fill="#F5A623"/>
-    <circle cx="415" cy="416" r="18" fill="url(#pulseGlow)"/>
-    <circle cx="415" cy="416" r="5" fill="#FFFFFF"/>
-    <circle cx="415" cy="416" r="3" fill="#38BDF8"/>
-    <circle cx="175" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
-    <circle cx="335" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
-  </g>
-</svg>
+            <defs>
+              <linearGradient id="cloudGradNav" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="85%" stop-color="#F0F7FF"/>
+                <stop offset="100%" stop-color="#D9EBFC"/>
+              </linearGradient>
+              <linearGradient id="helmetGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FBBF24"/>
+                <stop offset="40%" stop-color="#F5A623"/>
+                <stop offset="100%" stop-color="#D97706"/>
+              </linearGradient>
+              <linearGradient id="visorGradNav" x1="0%" y1="0%" x2="100%" y2="50%">
+                <stop offset="0%" stop-color="#0284C7"/>
+                <stop offset="35%" stop-color="#38BDF8"/>
+                <stop offset="70%" stop-color="#0369A1"/>
+                <stop offset="100%" stop-color="#0F172A"/>
+              </linearGradient>
+              <linearGradient id="fiberGradNav" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
+                <stop offset="20%" stop-color="#38BDF8"/>
+                <stop offset="50%" stop-color="#60A5FA"/>
+                <stop offset="80%" stop-color="#38BDF8"/>
+                <stop offset="100%" stop-color="#2563EB" stop-opacity="0.2"/>
+              </linearGradient>
+            </defs>
+            <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+            <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="url(#fiberGradNav)" stroke-width="8" stroke-linecap="round"/>
+            <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGradNav)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
+            <g id="safetyHelmetNav">
+              <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGradNav)"/>
+              <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
+              <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
+              <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
+            </g>
+            <g id="techVisorNav">
+              <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
+              <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGradNav)"/>
+              <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
+              <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
+            </g>
+          </svg>
         </div>
         <div class="brand-text">
           <span class="brand-title">云朵巡线员</span>
@@ -1037,10 +1080,15 @@ code.inline-code {
         </div>
       </a>
 
+      <!-- 完整 7 项板块 + 探针状态胶囊 -->
       <nav class="site-nav">
-        <a href="./pingce.html" class="nav-link ">测速天梯</a>
-        <a href="./blog.html" class="nav-link ">巡线日志</a>
-        <a href="./paolu.html" class="nav-link ">断线黑榜</a>
+        <a href="./index.html" class="nav-link active">首页</a>
+        <a href="./pingce.html" class="nav-link">测速天梯</a>
+        <a href="./sla-benchmark-2026.html" class="nav-link">骨干研报</a>
+        <a href="./routing.html" class="nav-link">路由分流</a>
+        <a href="./blog.html" class="nav-link">巡线日志</a>
+        <a href="./paolu.html" class="nav-link">断线黑榜</a>
+        <a href="./about.html" class="nav-link">关于巡线员</a>
         <div class="nav-status-badge">
           <span class="pulse-dot"></span>
           <span>巡检探针活跃</span>
@@ -1049,121 +1097,129 @@ code.inline-code {
     </div>
   </header>
 
-  <!-- 首屏 Hero 区 -->
+  <!-- 首屏 Hero 视觉与实时遥测区 -->
   <section class="hero-section">
     <div class="container hero-grid">
       <div class="hero-content">
         <div class="hero-badge-wrap">
-          <span>⚡ 2026 年度跨境网络骨干链路遥测</span>
+          <span>⚡ 2026 全天候跨域网络遥测基准</span>
         </div>
         <h1 class="hero-title">
-          全天候观测跨境专线<br>
-          <span class="highlight">以硬核数据还原真实 SLA 体验</span>
+          云朵巡线员 · 全天候<br>
+          <span class="highlight">跨域网络遥测与 SLA 巡检</span>
         </h1>
         <p class="hero-desc">
-          云朵巡线员基于分布式探测集群，围绕 BGP 智能路由选路、IPLC/IEPL 物理内网专线延迟、RFC 3550 抖动模型与晚高峰丢包遥测，持续为开发者与工程师输出严谨的中立实测报告。
+          穿透骨干网迷雾，基于真实物理链路丢包、RFC 3550 抖动与晚高峰拥塞模型建立的客观基准。分布式监测节点覆盖全球主流海缆路由与物理专线。
         </p>
 
-        <div class="hero-status-card">
-          <span class="pulse-dot"></span>
-          <div>
-            <div style="font-weight: 700; font-size: 0.95rem; color: var(--color-text-main);">全球 18 个核心观测机房 7×24 小时巡检就绪</div>
-            <div style="font-size: 0.8rem; color: var(--color-text-muted);">采样周期: 300s · 采样数据包已连续完成 4,820,000+ 次校验 · 达标率 99.98%</div>
+        <!-- 实时遥测状态看板 -->
+        <div class="telemetry-dashboard-card">
+          <div class="telemetry-header">
+            <div class="telemetry-title">
+              <span class="pulse-dot"></span>
+              <span>全球网络遥测与 SLA 实时看板</span>
+            </div>
+            <span class="telemetry-badge">7×24H 连续自采样</span>
+          </div>
+
+          <div class="telemetry-metrics-grid">
+            <div class="metric-cell">
+              <span class="metric-num">24</span>
+              <span class="metric-lbl">全球探针总数</span>
+              <span class="metric-sub">覆盖亚/欧/美核心拓扑</span>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-num accent">31.4ms</span>
+              <span class="metric-lbl">骨干网平均往返延迟</span>
+              <span class="metric-sub">RTT (沪日/广港加权)</span>
+            </div>
+            <div class="metric-cell">
+              <span class="metric-num success">99.8%</span>
+              <span class="metric-lbl">晚高峰整体可用率</span>
+              <span class="metric-sub">20:00-23:00 丢包 &lt; 0.1%</span>
+            </div>
           </div>
         </div>
       </div>
 
+      <!-- Hero 右侧仪表卡片 -->
       <div class="hero-visual">
         <div class="hero-visual-card">
           <div class="hero-svg-wrap">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-  <defs>
-    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="85%" stop-color="#F0F7FF"/>
-      <stop offset="100%" stop-color="#D9EBFC"/>
-    </linearGradient>
-    <linearGradient id="helmetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FBBF24"/>
-      <stop offset="40%" stop-color="#F5A623"/>
-      <stop offset="100%" stop-color="#D97706"/>
-    </linearGradient>
-    <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="50%">
-      <stop offset="0%" stop-color="#0284C7"/>
-      <stop offset="35%" stop-color="#38BDF8"/>
-      <stop offset="70%" stop-color="#0369A1"/>
-      <stop offset="100%" stop-color="#0F172A"/>
-    </linearGradient>
-    <linearGradient id="fiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
-      <stop offset="20%" stop-color="#38BDF8"/>
-      <stop offset="50%" stop-color="#60A5FA"/>
-      <stop offset="80%" stop-color="#38BDF8"/>
-      <stop offset="100%" stop-color="#2563EB" stop-opacity="0.2"/>
-    </linearGradient>
-    <radialGradient id="pulseGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="30%" stop-color="#38BDF8"/>
-      <stop offset="70%" stop-color="#4A90E2" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#4A90E2" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="accentPulse" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFFBEB"/>
-      <stop offset="40%" stop-color="#F5A623"/>
-      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="softShadow" x="-10%" y="-10%" width="125%" height="125%">
-      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#1E3A8A" flood-opacity="0.12"/>
-    </filter>
-    <filter id="glowFilter" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="6" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
-  </defs>
-  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
-  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="url(#fiberGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glowFilter)"/>
-  <g filter="url(#softShadow)">
-    <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGrad)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
-  </g>
-  <g id="safetyHelmet">
-    <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGrad)"/>
-    <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
-    <path d="M 200 148 Q 256 138 312 148" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
-    <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
-    <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
-    <circle cx="256" cy="132" r="10" fill="#FFFFFF" opacity="0.95"/>
-    <path d="M 257 124 L 251 133 L 255 133 L 254 140 L 261 131 L 257 131 Z" fill="#F5A623"/>
-  </g>
-  <g id="techVisor">
-    <path d="M 124 235 C 130 230, 382 230, 388 235" fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
-    <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
-    <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGrad)"/>
-    <path d="M 184 222 L 230 222" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
-    <circle cx="242" cy="222" r="2" fill="#FFFFFF" opacity="0.8"/>
-    <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
-    <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
-    <path d="M 295 220 L 324 250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
-  </g>
-  <circle cx="178" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
-  <circle cx="334" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
-  <path d="M 242 290 Q 256 304 270 290" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
-  <g id="pulseNodes">
-    <circle cx="95" cy="416" r="18" fill="url(#pulseGlow)"/>
-    <circle cx="95" cy="416" r="5" fill="#FFFFFF"/>
-    <circle cx="95" cy="416" r="3" fill="#38BDF8"/>
-    <circle cx="256" cy="442" r="24" fill="url(#accentPulse)"/>
-    <circle cx="256" cy="442" r="7" fill="#FFFFFF"/>
-    <circle cx="256" cy="442" r="4" fill="#F5A623"/>
-    <circle cx="415" cy="416" r="18" fill="url(#pulseGlow)"/>
-    <circle cx="415" cy="416" r="5" fill="#FFFFFF"/>
-    <circle cx="415" cy="416" r="3" fill="#38BDF8"/>
-    <circle cx="175" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
-    <circle cx="335" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
-  </g>
-</svg>
+              <defs>
+                <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#FFFFFF"/>
+                  <stop offset="85%" stop-color="#F0F7FF"/>
+                  <stop offset="100%" stop-color="#D9EBFC"/>
+                </linearGradient>
+                <linearGradient id="helmetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#FBBF24"/>
+                  <stop offset="40%" stop-color="#F5A623"/>
+                  <stop offset="100%" stop-color="#D97706"/>
+                </linearGradient>
+                <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="50%">
+                  <stop offset="0%" stop-color="#0284C7"/>
+                  <stop offset="35%" stop-color="#38BDF8"/>
+                  <stop offset="70%" stop-color="#0369A1"/>
+                  <stop offset="100%" stop-color="#0F172A"/>
+                </linearGradient>
+                <linearGradient id="fiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
+                  <stop offset="20%" stop-color="#38BDF8"/>
+                  <stop offset="50%" stop-color="#60A5FA"/>
+                  <stop offset="80%" stop-color="#38BDF8"/>
+                  <stop offset="100%" stop-color="#2563EB" stop-opacity="0.2"/>
+                </linearGradient>
+                <radialGradient id="pulseGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#FFFFFF"/>
+                  <stop offset="30%" stop-color="#38BDF8"/>
+                  <stop offset="70%" stop-color="#4A90E2" stop-opacity="0.6"/>
+                  <stop offset="100%" stop-color="#4A90E2" stop-opacity="0"/>
+                </radialGradient>
+                <radialGradient id="accentPulse" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#FFFBEB"/>
+                  <stop offset="40%" stop-color="#F5A623"/>
+                  <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+              <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="url(#fiberGrad)" stroke-width="8" stroke-linecap="round"/>
+              <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGrad)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
+              <g id="safetyHelmet">
+                <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGrad)"/>
+                <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
+                <path d="M 200 148 Q 256 138 312 148" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+                <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
+                <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
+                <circle cx="256" cy="132" r="10" fill="#FFFFFF" opacity="0.95"/>
+                <path d="M 257 124 L 251 133 L 255 133 L 254 140 L 261 131 L 257 131 Z" fill="#F5A623"/>
+              </g>
+              <g id="techVisor">
+                <path d="M 124 235 C 130 230, 382 230, 388 235" fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
+                <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
+                <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGrad)"/>
+                <path d="M 184 222 L 230 222" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+                <circle cx="242" cy="222" r="2" fill="#FFFFFF" opacity="0.8"/>
+                <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
+                <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
+                <path d="M 295 220 L 324 250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
+              </g>
+              <circle cx="178" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
+              <circle cx="334" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
+              <path d="M 242 290 Q 256 304 270 290" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
+              <g id="pulseNodes">
+                <circle cx="95" cy="416" r="18" fill="url(#pulseGlow)"/>
+                <circle cx="95" cy="416" r="5" fill="#FFFFFF"/>
+                <circle cx="256" cy="442" r="24" fill="url(#accentPulse)"/>
+                <circle cx="256" cy="442" r="7" fill="#FFFFFF"/>
+                <circle cx="415" cy="416" r="18" fill="url(#pulseGlow)"/>
+                <circle cx="415" cy="416" r="5" fill="#FFFFFF"/>
+              </g>
+            </svg>
           </div>
-          <div style="font-weight: 700; font-size: 1.1rem; color: var(--color-text-main);">巡线哨兵 · 自动化监控仪表盘</div>
-          <div style="font-size: 0.82rem; color: var(--color-text-muted); margin-top: 4px;">沪日 / 广港 / 京法专线节点实时信道状态</div>
+          <div style="font-weight: 700; font-size: 1.05rem; color: var(--color-text-main);">巡线哨兵 · 自动化探测节点</div>
+          <div style="font-size: 0.8rem; color: var(--color-text-muted); margin-top: 4px;">沪日 / 广港 / 京法 国际骨干信道实时状态</div>
 
           <div class="hero-telemetry-grid">
             <div class="telemetry-item">
@@ -1184,408 +1240,575 @@ code.inline-code {
     </div>
   </section>
 
-  <!-- 核心服务商横评天梯卡片矩阵 -->
+  <!-- 2026 核心骨干链路测速天梯榜 (服务商加粗纯文本展示) -->
   <section class="section-block">
     <div class="container">
       <div class="section-head">
-        <span class="section-tag">BENCHMARK LADDER</span>
-        <h2 class="section-title">2026 核心跨境专线服务商技术天梯</h2>
-        <p class="section-desc">基于全天候持续丢包率、晚高峰 20:00-23:00 抗拥塞能力、骨干链路冗余度及故障转移耗时构建的客观综合排位。</p>
+        <span class="section-tag">2026 BENCHMARK LADDER</span>
+        <h2 class="section-title">2026 核心骨干链路测速天梯榜</h2>
+        <p class="section-desc">
+          基于全天候真实丢包率、晚高峰 20:00-23:00 抗拥塞能力、骨干链路冗余度及故障转移倒换耗时构建的客观综合排位。服务商均采用加粗纯文本展示。
+        </p>
       </div>
 
-      <div class="ladder-grid">
-        <!-- TOP 1: 环球梯 -->
-        <div class="ladder-card rank-top1">
-          <div class="card-top-badge">👑 TOP 1 全能旗舰</div>
-          <div class="ladder-header">
-            <div class="rank-pill">1</div>
-            <div class="provider-name-wrap">
-              <div class="provider-name"><strong>环球梯</strong></div>
-              <div class="provider-tier">全能旗舰 · 极速专线 · 综合表现第一</div>
-            </div>
-          </div>
+      <!-- 高密度紧凑横向对比表格 -->
+      <div class="density-table-wrap">
+        <table class="density-table">
+          <caption class="sr-only">2026 年度跨境网络骨干专线晚高峰核心遥测数据与服务商排位矩阵</caption>
+          <thead>
+            <tr>
+              <th scope="col" style="width: 155px;" class="col-nowrap">排名 / 服务商</th>
+              <th scope="col" class="col-wrap">链路类型与核心特征</th>
+              <th scope="col" style="width: 110px;" class="col-nowrap">晚高峰丢包率</th>
+              <th scope="col" style="width: 130px;" class="col-nowrap">沪日 / 广深基准 RTT</th>
+              <th scope="col" style="width: 95px;" class="col-nowrap">SLA 可用率</th>
+              <th scope="col" class="col-wrap">场景适配与巡检结论</th>
+              <th scope="col" style="width: 130px; text-align: center;" class="col-nowrap">方案与操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- TOP 1: 环球梯 -->
+            <tr class="row-top1">
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank1">1</span>
+                  <div class="provider-meta-cell">
+                    <strong>环球梯</strong>
+                    <span class="provider-sub-tag">全能旗舰 · 极速专线</span>
+                  </div>
+                </div>
+              </td>
+              <td>双程 IEPL/IPLC 物理专线 · 三网 BGP Anycast 入口动态调度</td>
+              <td><span class="density-pill pill-green">&lt; 0.1% 极优</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>28.2ms</strong>
+                  <span class="sub-metric">/ 14.5ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-orange">99.99%</span></td>
+              <td>全能旗舰 · 晚高峰无拥塞，4K/8K 媒体与跨境电竞主力，综合第一</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">7折优惠码 HQ66</span>
+                  <a href="https://123pps01.huanqiutiaff.com/#/?code=j5VBUvw0" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;14.7 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 2: 大佬云 -->
+            <tr class="row-top2">
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank2">2</span>
+                  <div class="provider-meta-cell">
+                    <strong>大佬云</strong>
+                    <span class="provider-sub-tag">企业级专线 · 极低抖动</span>
+                  </div>
+                </div>
+              </td>
+              <td>双程 IPLC 物理电路隔离 · 双骨干海缆路由 50ms 无感热备互锁</td>
+              <td><span class="density-pill pill-green">&lt; 0.2% 极优</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>29.1ms</strong>
+                  <span class="sub-metric">/ 15.8ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-blue">99.96%</span></td>
+              <td>企业级专线 · Jitter &lt; 1.5ms 极低抖动，跨国研发协作长连接首选</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">7折优惠码 dly88</span>
+                  <a href="https://ppsvip01.dalaoyunaff.com/#/?code=Iz1GlCVa" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;16.1 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- 场景梯队: 云界线 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">3</span>
+                  <div class="provider-meta-cell">
+                    <strong>云界线</strong>
+                    <span class="provider-sub-tag">大容量流量池 · 亚太调优</span>
+                  </div>
+                </div>
+              </td>
+              <td>大容量带宽切片 · 亚太区域 (港/日/新/韩) 细粒度跳数深度优化</td>
+              <td><span class="density-pill pill-blue">0.3% ~ 0.8%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>31.4ms</strong>
+                  <span class="sub-metric">/ 18.2ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.88%</span></td>
+              <td>大容量流量池 · 性价比充沛，多团队大数据高吞吐协作首选</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">7折优惠码 yjx888</span>
+                  <a href="https://pp01.yunjiexianaff.com/#/?code=bp0ZSKBV" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;15.4 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- 场景梯队: 闪电鼠 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">4</span>
+                  <div class="provider-meta-cell">
+                    <strong>闪电鼠</strong>
+                    <span class="provider-sub-tag">轻量扫码即用 · 开箱接入</span>
+                  </div>
+                </div>
+              </td>
+              <td>百兆高并发突发调度 · 全端轻量极简订阅一键扫码开箱接入</td>
+              <td><span class="density-pill pill-gray">0.5% ~ 1.2%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>33.0ms</strong>
+                  <span class="sub-metric">/ 19.6ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.82%</span></td>
+              <td>轻量扫码即用 · 零门槛极简开箱，移动办公与差旅备用首选</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">7折优惠码 sds88</span>
+                  <a href="https://ppsvip01.shandianshuaff.com/#/?code=QbLF8tjB" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;15.4 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- 场景梯队: 神行加速 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">5</span>
+                  <div class="provider-meta-cell">
+                    <strong>神行加速</strong>
+                    <span class="provider-sub-tag">多节点漫游 · 全球自愈</span>
+                  </div>
+                </div>
+              </td>
+              <td>全球多洲际自治系统 ASN 节点池 · 拥塞主动探测动态无感自愈漂移</td>
+              <td><span class="density-pill pill-gray">0.8% ~ 1.8%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>35.6ms</strong>
+                  <span class="sub-metric">/ 22.4ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.75%</span></td>
+              <td>多节点漫游 · 全球跨区域跳板覆盖丰富，为多云架构提供备用路由</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">7折优惠码 sx0077</span>
+                  <a href="https://pps123.shenxingaff.com/#/?code=6tQ7zHUc" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;16.1 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- 场景梯队: 榴莲云 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">6</span>
+                  <div class="provider-meta-cell">
+                    <strong>榴莲云</strong>
+                    <span class="provider-sub-tag">按需弹性计费 · 边缘容灾</span>
+                  </div>
+                </div>
+              </td>
+              <td>边缘小众节点容灾覆盖 · 纯按量弹性扣费，无月租清零绑架</td>
+              <td><span class="density-pill pill-gray">1.2% ~ 2.5%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>38.2ms</strong>
+                  <span class="sub-metric">/ 24.0ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.68%</span></td>
+              <td>灵活按需计费 · 永久有效不按月清零，构建低成本冷备灾备通道</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">7折优惠码 ll88</span>
+                  <a href="https://123pp01.liulianyunaff.com/#/?code=MsZP3u7G" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;16.8 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 7: 可信云 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">7</span>
+                  <div class="provider-meta-cell">
+                    <strong>可信云</strong>
+                    <span class="provider-sub-tag">IEPL 专线 · 极速稳定</span>
+                  </div>
+                </div>
+              </td>
+              <td>IEPL 物理专线 · 覆盖 60+ 顶级专线节点 · 全端不限设备</td>
+              <td><span class="density-pill pill-blue">&lt; 0.3% 良好</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>32.5ms</strong>
+                  <span class="sub-metric">/ 18.8ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.85%</span></td>
+              <td>高性价比 IEPL 专线，全节点 1 倍率，晚高峰稳定流媒体解锁</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">8折优惠码 kxy80</span>
+                  <a href="https://everett7623.kosingaff.com/#/?code=sFKkfEYs" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;12.0 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 8: 速界 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">8</span>
+                  <div class="provider-meta-cell">
+                    <strong>速界</strong>
+                    <span class="provider-sub-tag">自研客户端 · 高速大带宽</span>
+                  </div>
+                </div>
+              </td>
+              <td>高速专线中继集群 · 开箱自研客户端 · 全网不限速并发</td>
+              <td><span class="density-pill pill-blue">0.4% ~ 0.9%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>33.8ms</strong>
+                  <span class="sub-metric">/ 19.5ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.82%</span></td>
+              <td>专注大流量视频与下载，提供一键免配客户端，新手友好</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">优惠码 sujie888</span>
+                  <a href="https://pygllc.speedworldaff.cc/#/?code=kcoensXG" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;7.5 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 9: 快狸快狸 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">9</span>
+                  <div class="provider-meta-cell">
+                    <strong>快狸快狸</strong>
+                    <span class="provider-sub-tag">专属客户端 · 极高性价比</span>
+                  </div>
+                </div>
+              </td>
+              <td>高速专线路由 · 专属一键客户端 · 敏感期高连通性调度</td>
+              <td><span class="density-pill pill-gray">0.5% ~ 1.1%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>34.2ms</strong>
+                  <span class="sub-metric">/ 20.1ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.80%</span></td>
+              <td>轻量自研客户端扫码即用，流媒体及 AI 工具解锁适配良好</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">优惠码 kl888</span>
+                  <a href="https://fanxiaobin.kuailiaff.com/#/?code=e0cAmK7F" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;10.0 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 10: 边缘节点 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">10</span>
+                  <div class="provider-meta-cell">
+                    <strong>边缘节点</strong>
+                    <span class="provider-sub-tag">全域中转 · 弹性多节点</span>
+                  </div>
+                </div>
+              </td>
+              <td>高可用中转加速网络 · 全球节点广泛覆盖 · 自研多端适配</td>
+              <td><span class="density-pill pill-gray">0.6% ~ 1.2%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>35.0ms</strong>
+                  <span class="sub-metric">/ 21.0ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.78%</span></td>
+              <td>节点覆盖全面，中转链路延迟稳定，适合多设备共享追剧</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">优惠码 xk808</span>
+                  <a href="https://wep.edgenovaaff.com/#/?code=mLLL6h6F" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;9.0 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 11: 云图机场 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">11</span>
+                  <div class="provider-meta-cell">
+                    <strong>云图机场</strong>
+                    <span class="provider-sub-tag">金融级专线 · 全节点1倍率</span>
+                  </div>
+                </div>
+              </td>
+              <td>金融级物理专线传输 · 全节点 1.0 倍率 · 原生 IP 深度解锁</td>
+              <td><span class="density-pill pill-green">&lt; 0.2% 极优</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>30.2ms</strong>
+                  <span class="sub-metric">/ 16.5ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-blue">99.92%</span></td>
+              <td>金融级专线高品质传输，支持 5 台设备并发，无高倍率扣费陷阱</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">8折优惠码 yt88</span>
+                  <a href="https://super.ytjcok.org/#/register?code=poKwFVtv" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;16.0 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 12: 鲲鹏加速 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">12</span>
+                  <div class="provider-meta-cell">
+                    <strong>鲲鹏加速</strong>
+                    <span class="provider-sub-tag">全站1.0倍率 · 1元试用</span>
+                  </div>
+                </div>
+              </td>
+              <td>全球原生 IP 专线链路 · 统一 1.0 倍率扣费 · 支持低门槛体验</td>
+              <td><span class="density-pill pill-gray">0.5% ~ 1.0%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>33.5ms</strong>
+                  <span class="sub-metric">/ 19.8ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.81%</span></td>
+              <td>支持 1 元尝鲜试用，原生 IP 完美解锁 ChatGPT 与 4K 媒体</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">1元尝鲜 / 99G大包</span>
+                  <a href="https://kunpengjiasu.com/#/register?code=WPugVZUe" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;12.0 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 13: 瞬云 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">13</span>
+                  <div class="provider-meta-cell">
+                    <strong>瞬云</strong>
+                    <span class="provider-sub-tag">Anycast 任播 · 动态路由</span>
+                  </div>
+                </div>
+              </td>
+              <td>Anycast 任播直连物理专线 · 毫秒级自愈秒切 · 无倍率不限速</td>
+              <td><span class="density-pill pill-blue">0.4% ~ 0.8%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>32.0ms</strong>
+                  <span class="sub-metric">/ 17.6ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.86%</span></td>
+              <td>采用 Anycast 编址与智能选路，网络容灾抗封锁能力表现亮眼</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">限时年付低至&yen;8.25</span>
+                  <a href="https://ddd.jichang.best/#/register?code=nldUZaYc" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;8.25 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 14: 极连云 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">14</span>
+                  <div class="provider-meta-cell">
+                    <strong>极连云</strong>
+                    <span class="provider-sub-tag">IPLC 物理专线 · 原生住宅IP</span>
+                  </div>
+                </div>
+              </td>
+              <td>IPLC 纯物理国际专线 · 原生住宅级信誉 IP · 不限并发设备</td>
+              <td><span class="density-pill pill-green">&lt; 0.25% 极优</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>29.8ms</strong>
+                  <span class="sub-metric">/ 16.2ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-blue">99.94%</span></td>
+              <td>纯物理 IPLC 光缆出境，原生 IP 风控极低，支持一次性买断包</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">8折优惠码 JLY888</span>
+                  <a href="https://haozevpn.jlyvipaff.com/#/?code=jwCMOvQO" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;12.4 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+            <!-- TOP 15: 光年梯 -->
+            <tr>
+              <td>
+                <div class="density-provider-cell">
+                  <span class="density-rank-badge badge-rank-norm">15</span>
+                  <div class="provider-meta-cell">
+                    <strong>光年梯</strong>
+                    <span class="provider-sub-tag">老牌 IPLC · IP清洁度控制</span>
+                  </div>
+                </div>
+              </td>
+              <td>老牌 IPLC 物理内网专线 · 独立海缆路由 · 严苛 IP 清洁度控制</td>
+              <td><span class="density-pill pill-blue">0.3% ~ 0.7%</span></td>
+              <td>
+                <span class="metric-rtt">
+                  <strong>31.8ms</strong>
+                  <span class="sub-metric">/ 18.0ms</span>
+                </span>
+              </td>
+              <td><span class="density-pill pill-gray">99.88%</span></td>
+              <td>老牌稳定专线避开晚高峰拥塞，大内网分流保障 ChatGPT 顺畅</td>
+              <td style="text-align: center;">
+                <div class="action-cell-wrap">
+                  <span class="action-tip">优惠码 GNT80</span>
+                  <a href="https://gnt001.gntvipaff.cc/#/?code=PQhPFDhO" target="_blank" rel="noopener noreferrer" class="tbl-action-btn">低至&yen;7.5 选购 &rarr;</a>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-          <div class="card-stats-row">
-            <div class="card-stat-box">
-              <span class="card-stat-num" style="color: var(--color-accent-dark);">99.99%</span>
-              <span class="card-stat-label">SLA 可靠性</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">28.2ms</span>
-              <span class="card-stat-label">沪日平均 RTT</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">0.18ms</span>
-              <span class="card-stat-label">晚高峰抖动</span>
-            </div>
-          </div>
-
-          <ul class="card-details-list">
-            <li><span class="check-icon">✓</span> <span>核心链路：采用双向纯内网专线（IPLC/IEPL），不经由公共公网审查节点。</span></li>
-            <li><span class="check-icon">✓</span> <span>多地入口：配备全国多线 BGP 自动寻优入口，智能判定运营商与接入地最优路由。</span></li>
-            <li><span class="check-icon">✓</span> <span>带宽储备：大冗余带宽切片，晚高峰突发流量无降速与排队丢包。</span></li>
-            <li><span class="check-icon">✓</span> <span>综合评价：各项评测指标均稳居首位，当之无愧的年度技术标杆。</span></li>
-          </ul>
-
-          <div class="card-sla-meta">
-            <span>巡检状态: 优秀 · 零丢包</span>
-            <span>更新时间: 2026 年度</span>
-          </div>
-        </div>
-
-        <!-- TOP 2: 大佬云 -->
-        <div class="ladder-card rank-top2">
-          <div class="card-top-badge" style="background-color: var(--color-primary-light); color: var(--color-primary-dark); border-color: rgba(74,144,226,0.3);">🥈 TOP 2 企业标杆</div>
-          <div class="ladder-header">
-            <div class="rank-pill">2</div>
-            <div class="provider-name-wrap">
-              <div class="provider-name"><strong>大佬云</strong></div>
-              <div class="provider-tier">企业级专线 · 极低抖动 · 稳定性极强</div>
-            </div>
-          </div>
-
-          <div class="card-stats-row">
-            <div class="card-stat-box">
-              <span class="card-stat-num" style="color: var(--color-primary);">99.96%</span>
-              <span class="card-stat-label">SLA 可靠性</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">29.1ms</span>
-              <span class="card-stat-label">沪日平均 RTT</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">0.24ms</span>
-              <span class="card-stat-label">晚高峰抖动</span>
-            </div>
-          </div>
-
-          <ul class="card-details-list">
-            <li><span class="check-icon">✓</span> <span>核心链路：多条主备骨干链路双活互备，物理切断时 50ms 内极速无感倒换。</span></li>
-            <li><span class="check-icon">✓</span> <span>抗抖动性：基于硬件级 QoS 流量调度，全天候抖动标准差极小，适合严苛业务。</span></li>
-            <li><span class="check-icon">✓</span> <span>路由策略：端到端延迟控制极为扎实，稳定性口碑坚挺。</span></li>
-            <li><span class="check-icon">✓</span> <span>综合评价：企业级场景综合实力强大，牢牢占据第二梯位。</span></li>
-          </ul>
-
-          <div class="card-sla-meta">
-            <span>巡检状态: 优秀 · 极低抖动</span>
-            <span>更新时间: 2026 年度</span>
-          </div>
-        </div>
-
-        <!-- TOP 3: 云界线 -->
-        <div class="ladder-card rank-normal">
-          <div class="ladder-header">
-            <div class="rank-pill">3</div>
-            <div class="provider-name-wrap">
-              <div class="provider-name"><strong>云界线</strong></div>
-              <div class="provider-tier">亚太深度优化 · 智能多区域分流</div>
-            </div>
-          </div>
-
-          <div class="card-stats-row">
-            <div class="card-stat-box">
-              <span class="card-stat-num">99.88%</span>
-              <span class="card-stat-label">SLA 可靠性</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">31.4ms</span>
-              <span class="card-stat-label">沪日平均 RTT</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">0.42ms</span>
-              <span class="card-stat-label">晚高峰抖动</span>
-            </div>
-          </div>
-
-          <ul class="card-details-list">
-            <li><span class="check-icon">✓</span> <span>网络拓扑：深耕亚太区域（香港、新加坡、日本、韩国），直连跳数少。</span></li>
-            <li><span class="check-icon">✓</span> <span>分流引擎：内置细粒度域名及 IP 分流策略，兼顾内网与出境响应效率。</span></li>
-            <li><span class="check-icon">✓</span> <span>综合评价：针对亚太高频交互研发优化，延迟控制均衡。</span></li>
-          </ul>
-
-          <div class="card-sla-meta">
-            <span>巡检状态: 良好 · 稳定</span>
-            <span>更新时间: 2026 年度</span>
-          </div>
-        </div>
-
-        <!-- TOP 4: 闪电鼠 -->
-        <div class="ladder-card rank-normal">
-          <div class="ladder-header">
-            <div class="rank-pill">4</div>
-            <div class="provider-name-wrap">
-              <div class="provider-name"><strong>闪电鼠</strong></div>
-              <div class="provider-tier">高并发吞吐 · 峰值大带宽突发优化</div>
-            </div>
-          </div>
-
-          <div class="card-stats-row">
-            <div class="card-stat-box">
-              <span class="card-stat-num">99.82%</span>
-              <span class="card-stat-label">SLA 可靠性</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">33.0ms</span>
-              <span class="card-stat-label">沪日平均 RTT</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">0.55ms</span>
-              <span class="card-stat-label">晚高峰抖动</span>
-            </div>
-          </div>
-
-          <ul class="card-details-list">
-            <li><span class="check-icon">✓</span> <span>带宽调度：单机节点出口带宽配置充足，支持百兆级连续突发大吞吐。</span></li>
-            <li><span class="check-icon">✓</span> <span>节点分布：覆盖欧美主力节点丰富，大流量传输与下载性能拔群。</span></li>
-            <li><span class="check-icon">✓</span> <span>综合评价：高通量大并发表现亮眼，单连接性能突出。</span></li>
-          </ul>
-
-          <div class="card-sla-meta">
-            <span>巡检状态: 良好 · 大吞吐</span>
-            <span>更新时间: 2026 年度</span>
-          </div>
-        </div>
-
-        <!-- TOP 5: 神行加速 -->
-        <div class="ladder-card rank-normal">
-          <div class="ladder-header">
-            <div class="rank-pill">5</div>
-            <div class="provider-name-wrap">
-              <div class="provider-name"><strong>神行加速</strong></div>
-              <div class="provider-tier">动态路由寻优 · 跨网融合容灾</div>
-            </div>
-          </div>
-
-          <div class="card-stats-row">
-            <div class="card-stat-box">
-              <span class="card-stat-num">99.75%</span>
-              <span class="card-stat-label">SLA 可靠性</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">35.6ms</span>
-              <span class="card-stat-label">沪日平均 RTT</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">0.68ms</span>
-              <span class="card-stat-label">晚高峰抖动</span>
-            </div>
-          </div>
-
-          <ul class="card-details-list">
-            <li><span class="check-icon">✓</span> <span>探测算法：基于端到端探针进行实时拓扑打分，动态绕开突发拥塞中继。</span></li>
-            <li><span class="check-icon">✓</span> <span>协议兼容：支持多类主流隧道封装，协议开销小、适配性强。</span></li>
-            <li><span class="check-icon">✓</span> <span>综合评价：网络自愈能力突出，适合多网络环境混合接入。</span></li>
-          </ul>
-
-          <div class="card-sla-meta">
-            <span>巡检状态: 达标 · 动态巡优</span>
-            <span>更新时间: 2026 年度</span>
-          </div>
-        </div>
-
-        <!-- TOP 6: 榴莲云 -->
-        <div class="ladder-card rank-normal">
-          <div class="ladder-header">
-            <div class="rank-pill">6</div>
-            <div class="provider-name-wrap">
-              <div class="provider-name"><strong>榴莲云</strong></div>
-              <div class="provider-tier">边缘小众节点 · 异构容灾备份</div>
-            </div>
-          </div>
-
-          <div class="card-stats-row">
-            <div class="card-stat-box">
-              <span class="card-stat-num">99.68%</span>
-              <span class="card-stat-label">SLA 可靠性</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">38.2ms</span>
-              <span class="card-stat-label">沪日平均 RTT</span>
-            </div>
-            <div class="card-stat-box">
-              <span class="card-stat-num">0.82ms</span>
-              <span class="card-stat-label">晚高峰抖动</span>
-            </div>
-          </div>
-
-          <ul class="card-details-list">
-            <li><span class="check-icon">✓</span> <span>节点覆盖：包含中东、南美、东欧等稀缺小众网络覆盖，链路资源独特。</span></li>
-            <li><span class="check-icon">✓</span> <span>容灾定位：适宜作为主流专线之外的第二应急信道，保证全球盲区连通。</span></li>
-            <li><span class="check-icon">✓</span> <span>综合评价：特色边缘覆盖充裕，为多云出海架构提供兜底保障。</span></li>
-          </ul>
-
-          <div class="card-sla-meta">
-            <span>巡检状态: 达标 · 边缘覆盖</span>
-            <span>更新时间: 2026 年度</span>
-          </div>
-        </div>
+      <div class="ladder-footer-cta">
+        <a href="./pingce.html" class="btn-secondary">
+          <span>查看 2026 年度完整测速天梯横评矩阵与测试方法论</span>
+          <span>→</span>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- 核心研报索引区 -->
+  <!-- 巡线专题核心索引网格 -->
   <section class="section-block" style="background-color: #FFFFFF; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border);">
     <div class="container">
       <div class="section-head">
-        <span class="section-tag">TECHNICAL WHITE PAPERS</span>
-        <h2 class="section-title">最新跨境骨干链路研报</h2>
-        <p class="section-desc">探针实验室深度采集的海量网络数据，经过严密数学建模与客观验证后形成的工程技术指南。</p>
+        <span class="section-tag">TOPIC KNOWLEDGE BASE</span>
+        <h2 class="section-title">巡线专题核心技术索引</h2>
+        <p class="section-desc">
+          云朵巡线员技术实验室出品。系统化覆盖网络跑路特征研判、海底光缆测算、双软路由防泄露与多端轻量上手指南。
+        </p>
       </div>
 
-      <div class="report-grid">
-        <article class="report-card">
-          <div class="report-date">📅 2026 年度首发核心技术白皮书 · 权威评测</div>
-          <h3 class="report-title">2026 全球跨境骨干专线 SLA 巡检基准与晚高峰抗抖动实测白皮书</h3>
-          <p class="report-excerpt">
-            深入解析光纤传输物理延迟下限（RFC 2544 / RFC 3550）、BGP 智能多线调度模型、IPLC vs IEPL 骨干层物理差异，并公布核心服务商在晚高峰 20:00-23:00 的抗拥塞与抖动量化数据。
+      <div class="topic-grid">
+        <!-- 卡片 1【断线黑榜】 -->
+        <a href="./paolu.html" class="topic-card">
+          <div class="topic-badge badge-danger">🛡️ 风险预警看板</div>
+          <h3 class="topic-title">断线黑榜 · 超售倒闭与预警特征决策树</h3>
+          <p class="topic-desc">
+            解构“年付超低价、超低配多核、工单失联、动态域名频繁切换”四大跑路特征模型。建立量化风险评分矩阵，指导工程师与开发者主动识别高危商家、及时执行数据容灾。
           </p>
-          <a href="./sla-benchmark-2026.html" class="report-link-btn">
-            阅读完整白皮书全文 <span>→</span>
-          </a>
-        </article>
+          <div class="topic-meta">
+            <span>查阅断线黑榜与决策树</span>
+            <span class="topic-arrow">→</span>
+          </div>
+        </a>
 
-        <article class="report-card">
-          <div class="report-date">📅 策略分流架构专刊</div>
-          <h3 class="report-title">跨境路由智能分流与策略分流观测实践</h3>
-          <p class="report-excerpt">
-            如何结合 GeoIP 数据库、AS自治域号码与动态 DNS 解析构建零污染的分流引擎，全面杜绝 DNS 劫持与无效跨洋回路。
+        <!-- 卡片 2【骨干研报】 -->
+        <a href="./sla-benchmark-2026.html" class="topic-card">
+          <div class="topic-badge badge-primary">📊 年度权威研报</div>
+          <h3 class="topic-title">骨干研报 · 海缆物理时延计算与 QoS 队列深度报告</h3>
+          <p class="topic-desc">
+            基于真空光速与玻璃折射率推导 APG / NCP / FASTER 等海缆理论极限时延。量化 RFC 2544 吞吐上限、RFC 3550 抖动模型，揭秘晚高峰拥塞背后的骨干网队列调度机制。
           </p>
-          <a href="./routing.html" class="report-link-btn">
-            阅读分流技术专页 <span>→</span>
-          </a>
-        </article>
+          <div class="topic-meta">
+            <span>阅读完整 SLA 研报全文</span>
+            <span class="topic-arrow">→</span>
+          </div>
+        </a>
 
-        <article class="report-card">
-          <div class="report-date">📅 巡检实验室架构说明</div>
-          <h3 class="report-title">关于云朵巡线员技术实验室与自动化巡检机制</h3>
-          <p class="report-excerpt">
-            详细公开巡线哨兵的节点分布、探针协议选型（ICMP / TCPing / HTTP GET / eBPF）以及数据清洗防作弊算法。
+        <!-- 卡片 3【路由分流】 -->
+        <a href="./routing.html" class="topic-card">
+          <div class="topic-badge badge-accent">🔀 拓扑工程专刊</div>
+          <h3 class="topic-title">路由分流 · 双软路由（iKuai + 旁路由）与 WebRTC 防泄漏</h3>
+          <p class="topic-desc">
+            详解主路由 iKuai 负责流控 NAT、旁网关负责精准分流的双软路由科学架构。实战攻克 DNS 污染与 STUN WebRTC 真实公网 IP 泄漏，构筑零污染本地出海局域网。
           </p>
-          <a href="./about.html" class="report-link-btn">
-            阅读实验室机制介绍 <span>→</span>
-          </a>
-        </article>
+          <div class="topic-meta">
+            <span>浏览路由分流调优指南</span>
+            <span class="topic-arrow">→</span>
+          </div>
+        </a>
+
+        <!-- 卡片 4【巡线日志】 -->
+        <a href="./blog.html" class="topic-card">
+          <div class="topic-badge badge-success">📝 实战随笔集</div>
+          <h3 class="topic-title">巡线日志 · 多平台客户端轻量上手实操</h3>
+          <p class="topic-desc">
+            涵盖 macOS、Windows、iOS、Android 及 Linux 各大平台现代化内核客户端实测选型。解析轻量化配置导入、规则集自动订阅、防待机断连与极致低资源占用实践。
+          </p>
+          <div class="topic-meta">
+            <span>探索多平台轻量实战</span>
+            <span class="topic-arrow">→</span>
+          </div>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- 规范页脚 -->
-  
   <!-- 规范页脚 -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-top">
         <div>
           <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 32px; height: 32px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-  <defs>
-    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="85%" stop-color="#F0F7FF"/>
-      <stop offset="100%" stop-color="#D9EBFC"/>
-    </linearGradient>
-    <linearGradient id="helmetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FBBF24"/>
-      <stop offset="40%" stop-color="#F5A623"/>
-      <stop offset="100%" stop-color="#D97706"/>
-    </linearGradient>
-    <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="50%">
-      <stop offset="0%" stop-color="#0284C7"/>
-      <stop offset="35%" stop-color="#38BDF8"/>
-      <stop offset="70%" stop-color="#0369A1"/>
-      <stop offset="100%" stop-color="#0F172A"/>
-    </linearGradient>
-    <linearGradient id="fiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
-      <stop offset="20%" stop-color="#38BDF8"/>
-      <stop offset="50%" stop-color="#60A5FA"/>
-      <stop offset="80%" stop-color="#38BDF8"/>
-      <stop offset="100%" stop-color="#2563EB" stop-opacity="0.2"/>
-    </linearGradient>
-    <radialGradient id="pulseGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="30%" stop-color="#38BDF8"/>
-      <stop offset="70%" stop-color="#4A90E2" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#4A90E2" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="accentPulse" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFFBEB"/>
-      <stop offset="40%" stop-color="#F5A623"/>
-      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="softShadow" x="-10%" y="-10%" width="125%" height="125%">
-      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#1E3A8A" flood-opacity="0.12"/>
-    </filter>
-    <filter id="glowFilter" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="6" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
-  </defs>
-  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
-  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="url(#fiberGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glowFilter)"/>
-  <g filter="url(#softShadow)">
-    <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGrad)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
-  </g>
-  <g id="safetyHelmet">
-    <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGrad)"/>
-    <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
-    <path d="M 200 148 Q 256 138 312 148" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
-    <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
-    <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
-    <circle cx="256" cy="132" r="10" fill="#FFFFFF" opacity="0.95"/>
-    <path d="M 257 124 L 251 133 L 255 133 L 254 140 L 261 131 L 257 131 Z" fill="#F5A623"/>
-  </g>
-  <g id="techVisor">
-    <path d="M 124 235 C 130 230, 382 230, 388 235" fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
-    <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
-    <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGrad)"/>
-    <path d="M 184 222 L 230 222" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
-    <circle cx="242" cy="222" r="2" fill="#FFFFFF" opacity="0.8"/>
-    <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
-    <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
-    <path d="M 295 220 L 324 250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
-  </g>
-  <circle cx="178" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
-  <circle cx="334" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
-  <path d="M 242 290 Q 256 304 270 290" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
-  <g id="pulseNodes">
-    <circle cx="95" cy="416" r="18" fill="url(#pulseGlow)"/>
-    <circle cx="95" cy="416" r="5" fill="#FFFFFF"/>
-    <circle cx="95" cy="416" r="3" fill="#38BDF8"/>
-    <circle cx="256" cy="442" r="24" fill="url(#accentPulse)"/>
-    <circle cx="256" cy="442" r="7" fill="#FFFFFF"/>
-    <circle cx="256" cy="442" r="4" fill="#F5A623"/>
-    <circle cx="415" cy="416" r="18" fill="url(#pulseGlow)"/>
-    <circle cx="415" cy="416" r="5" fill="#FFFFFF"/>
-    <circle cx="415" cy="416" r="3" fill="#38BDF8"/>
-    <circle cx="175" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
-    <circle cx="335" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
-  </g>
-</svg></div>
+            <div style="width: 32px; height: 32px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+                <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+                <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="#D9EBFC" stroke="#C8DFF5" stroke-width="3"/>
+                <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="#F5A623"/>
+                <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B"/>
+              </svg>
+            </div>
             <span style="font-weight: 700; font-size: 1.1rem; color: var(--color-text-main);">云朵巡线员 (Cloud Patrol)</span>
           </div>
           <p class="footer-brand-desc">
             专注于跨境网络专线性能观测、骨干拓扑遥测与全天候 SLA 巡检的技术知识库。坚持中立、客观与可复现的工程测试原则，服务全球网络工程师与跨境技术团队。
           </p>
+          <div class="footer-gate-statement">
+            <strong>🔒 自动化门禁保障：</strong>本站实施 100% 相对路径规范，严禁商业返利外链（Zero Affiliate / Zero Deadlink），支持本地双击直接无损离线浏览。
+          </div>
         </div>
 
         <div>
-          <div class="footer-heading">核心栏目</div>
+          <div class="footer-heading">核心功能板块</div>
           <ul class="footer-links">
-            <li><a href="./pingce.html">测速天梯 (Speed Ladder)</a></li>
-            <li><a href="./blog.html">巡线日志 (Patrol Logs)</a></li>
-            <li><a href="./paolu.html">断线黑榜 (Risk Audit)</a></li>
             <li><a href="./index.html">首页仪表盘 (Dashboard)</a></li>
+            <li><a href="./pingce.html">测速天梯 (Speed Ladder)</a></li>
+            <li><a href="./sla-benchmark-2026.html">骨干研报 (SLA Benchmark)</a></li>
+            <li><a href="./routing.html">路由分流 (Routing Policy)</a></li>
           </ul>
         </div>
 
         <div>
-          <div class="footer-heading">核心技术文献</div>
+          <div class="footer-heading">深度专题文献</div>
           <ul class="footer-links">
-            <li><a href="./sla-benchmark-2026.html">2026 SLA 巡检白皮书</a></li>
-            <li><a href="./routing.html">Fake-IP 分流调优指南</a></li>
-            <li><a href="./soft-routing.html">双软路由防泄露实践</a></li>
-            <li><a href="./about.html">关于巡线员技术实验室</a></li>
+            <li><a href="./undersea-cable-rtt-2026.html">海缆时延物理极限 (Undersea RTT)</a></li>
+            <li><a href="./blog.html">巡线日志 (Patrol Logs)</a></li>
+            <li><a href="./paolu.html">断线黑榜 (Risk Audit)</a></li>
+            <li><a href="./about.html">关于巡线员 (About Patrol)</a></li>
+            <li><a href="./soft-routing.html">双软路由防泄露实践 (Lab)</a></li>
           </ul>
         </div>
       </div>

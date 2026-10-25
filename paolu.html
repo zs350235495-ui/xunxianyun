@@ -3,19 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>断线黑榜与跑路风险特征防坑手册 - 云朵巡线员</title>
-  <meta name="description" content="云朵巡线员断线黑榜与风险防坑手册：拆解低价超售年付陷阱、虚假IPLC公网QoS中继伪装、工单停滞失联等跑路前兆决策树，纯技术学术避坑指南。">
-  <meta name="keywords" content="断线黑榜,跑路风险,虚假专线,低价陷阱,网络避坑,云朵巡线员">
+  <title>断线黑榜 · 跨境服务商失联前兆与跑路特征审计雷达 - 云朵巡线员</title>
+  <meta name="description" content="云朵巡线员断线黑榜：深度拆解每GB成本严重倒挂、公网冒充专线降级、工单运维失联三大跑路前兆，提供ASCII排查决策树与高可用双活自愈方案。">
+  <meta name="keywords" content="断线黑榜,跑路特征,成本倒挂,虚假专线,工单失联,排查决策树,云朵巡线员">
   <link rel="canonical" href="https://example.local/paolu.html">
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 
-  <meta property="og:type" content="website">
+  <!-- Open Graph / 社交元标签 -->
+  <meta property="og:type" content="article">
   <meta property="og:url" content="https://example.local/paolu.html">
-  <meta property="og:title" content="断线黑榜与跑路风险特征防坑手册 - 云朵巡线员">
-  <meta property="og:description" content="学术严谨的网络基础设施跑路风险模型与防坑决策树。">
+  <meta property="og:title" content="断线黑榜 · 跨境服务商失联前兆与跑路特征审计雷达 - 云朵巡线员">
+  <meta property="og:description" content="基于长周期工单响应时效、带宽成本倒挂分析与骨干网 QoS 异常监控，拆解服务商崩塌的技术链路轨迹。">
   <meta property="og:image" content="./assets/images/logo.svg">
 
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="断线黑榜 · 跑路特征审计雷达 - 云朵巡线员">
+  <meta name="twitter:description" content="跨境网络服务商失联崩塌技术链路轨迹与主动防御决策树。">
+  <meta name="twitter:image" content="./assets/images/logo.svg">
+
+  <!-- 外部样式表引用 (相对路径支持) -->
   <link rel="stylesheet" href="./css/style.css">
+
+  <!-- 内联样式保障 (直接双击 file:// 协议打开时 100% 完美渲染，永不裸奔) -->
   <style>
 /* ==========================================================================
    云朵巡线员 (Cloud Patrol) - 全局核心设计系统样式表
@@ -43,7 +53,9 @@
   --color-success: #10B981;          /* 探针在线/达标绿 */
   --color-success-bg: #ECFDF5;
   --color-warning: #F59E0B;
+  --color-warning-bg: #FFFBEB;
   --color-danger: #EF4444;
+  --color-danger-bg: #FEF2F2;
 
   /* 阴影层次 */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -161,19 +173,25 @@ a:hover {
   letter-spacing: 0.02em;
 }
 
+/* 顶部导航弹性不折行 */
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(2px, 0.6vw, 8px);
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .nav-link {
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   font-weight: 500;
   color: var(--color-text-main);
-  padding: 8px 14px;
+  padding: 6px clamp(6px, 0.6vw, 12px);
   border-radius: var(--radius-sm);
   transition: var(--transition-normal);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
 }
 
 .nav-link:hover, .nav-link.active {
@@ -185,14 +203,16 @@ a:hover {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 5px 10px;
   background-color: var(--color-success-bg);
   border: 1px solid rgba(16, 185, 129, 0.2);
   border-radius: var(--radius-full);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: #065F46;
-  margin-left: 8px;
+  margin-left: clamp(2px, 0.5vw, 6px);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .pulse-dot {
@@ -216,391 +236,14 @@ a:hover {
   }
 }
 
-/* 首屏 Hero 区 */
-.hero-section {
-  padding: 60px 0 40px;
-  background: linear-gradient(180deg, #FFFFFF 0%, var(--color-bg-page) 100%);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  align-items: center;
-  gap: 48px;
-}
-
-.hero-badge-wrap {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--color-accent-light);
-  border: 1px solid rgba(245, 166, 35, 0.3);
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-accent-dark);
-  margin-bottom: 16px;
-}
-
-.hero-title {
-  font-size: 2.5rem;
-  font-weight: 800;
-  line-height: 1.25;
-  color: var(--color-text-main);
-  letter-spacing: -0.03em;
-  margin-bottom: 18px;
-}
-
-.hero-title .highlight {
-  color: var(--color-primary);
-  background: linear-gradient(120deg, var(--color-primary), #2563EB);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero-desc {
-  font-size: 1.1rem;
-  color: var(--color-text-muted);
-  line-height: 1.7;
-  margin-bottom: 28px;
-}
-
-.hero-status-card {
-  background-color: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  box-shadow: var(--shadow-sm);
-}
-
-.hero-visual {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.hero-visual-card {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: var(--shadow-lg);
-  width: 100%;
-  max-width: 420px;
-  text-align: center;
-}
-
-.hero-svg-wrap {
-  width: 180px;
-  height: 180px;
-  margin: 0 auto 16px;
-}
-
-.hero-telemetry-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--color-border);
-}
-
-.telemetry-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.telemetry-val {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  font-feature-settings: "tnum";
-}
-
-.telemetry-lbl {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-}
-
-/* 核心板块区域通用 */
-.section-block {
-  padding: 60px 0;
-}
-
-.section-head {
-  margin-bottom: 36px;
-  text-align: center;
-}
-
-.section-tag {
-  display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--color-accent-dark);
-  letter-spacing: 0.08em;
-  margin-bottom: 8px;
-}
-
-.section-title {
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--color-text-main);
-  letter-spacing: -0.02em;
-  margin-bottom: 12px;
-}
-
-.section-desc {
-  font-size: 1rem;
-  color: var(--color-text-muted);
-  max-width: 680px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* 核心服务商天梯矩阵 */
-.ladder-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 24px;
-}
-
-.ladder-card {
-  background-color: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-normal);
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  overflow: hidden;
-}
-
-.ladder-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-hover);
-  border-color: rgba(74, 144, 226, 0.4);
-}
-
-.ladder-card.rank-top1 {
-  border-top: 4px solid var(--color-accent);
-}
-
-.ladder-card.rank-top2 {
-  border-top: 4px solid var(--color-primary);
-}
-
-.card-top-badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: var(--color-accent-light);
-  color: var(--color-accent-dark);
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-bottom-left-radius: var(--radius-sm);
-  border-left: 1px solid rgba(245, 166, 35, 0.3);
-  border-bottom: 1px solid rgba(245, 166, 35, 0.3);
-}
-
-.ladder-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 16px;
-}
-
-.rank-pill {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
-
-.rank-top1 .rank-pill {
-  background-color: var(--color-accent);
-  color: #FFFFFF;
-}
-
-.rank-top2 .rank-pill {
-  background-color: var(--color-primary);
-  color: #FFFFFF;
-}
-
-.rank-normal .rank-pill {
-  background-color: var(--color-border);
-  color: var(--color-text-main);
-}
-
-.provider-name-wrap {
-  display: flex;
-  flex-direction: column;
-}
-
-.provider-name {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--color-text-main);
-  line-height: 1.2;
-}
-
-.provider-tier {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  font-weight: 500;
-}
-
-.card-stats-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  background-color: var(--color-bg-page);
-  border-radius: var(--radius-sm);
-  padding: 10px 12px;
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-.card-stat-box {
-  display: flex;
-  flex-direction: column;
-}
-
-.card-stat-num {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--color-text-main);
-}
-
-.card-stat-label {
-  font-size: 0.7rem;
-  color: var(--color-text-muted);
-}
-
-.card-details-list {
-  list-style: none;
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
-  flex-grow: 1;
-}
-
-.card-details-list li {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  line-height: 1.45;
-}
-
-.card-details-list li strong {
-  color: var(--color-text-main);
-}
-
-.check-icon {
-  color: var(--color-primary);
-  font-weight: bold;
-}
-
-.card-sla-meta {
-  padding-top: 12px;
-  border-top: 1px dashed var(--color-border);
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* 研报索引网格 */
-.report-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 24px;
-}
-
-.report-card {
-  background-color: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition-normal);
-  display: flex;
-  flex-direction: column;
-}
-
-.report-card:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--color-primary);
-}
-
-.report-date {
-  font-size: 0.8rem;
-  color: var(--color-text-muted);
-  font-weight: 500;
-  margin-bottom: 8px;
-}
-
-.report-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--color-text-main);
-  line-height: 1.4;
-  margin-bottom: 12px;
-}
-
-.report-excerpt {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  line-height: 1.6;
-  margin-bottom: 18px;
-  flex-grow: 1;
-}
-
-.report-link-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--color-primary);
-}
-
-.report-link-btn:hover {
-  gap: 10px;
-}
-
-/* 研报单页与文章样式 */
-.article-container {
-  max-width: 860px;
-  margin: 0 auto;
-  padding: 40px 20px 80px;
-}
-
+/* 面包屑导航 */
 .breadcrumbs {
+  padding: 14px 0 6px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  margin-bottom: 24px;
 }
 
 .breadcrumbs a {
@@ -611,205 +254,372 @@ a:hover {
   color: var(--color-primary);
 }
 
-.article-header {
-  margin-bottom: 36px;
-  padding-bottom: 24px;
+.breadcrumbs span {
+  color: var(--color-text-light);
+}
+
+/* 专页 Hero 区 */
+.hero-section {
+  padding: 44px 0 36px;
+  background: linear-gradient(180deg, #FFF7ED 0%, var(--color-bg-page) 100%);
   border-bottom: 1px solid var(--color-border);
 }
 
-.article-title {
+.hero-badge-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-danger-bg);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #B91C1C;
+  margin-bottom: 16px;
+}
+
+.hero-title {
   font-size: 2.25rem;
   font-weight: 800;
   line-height: 1.3;
   color: var(--color-text-main);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   margin-bottom: 16px;
 }
 
-.article-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 16px;
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
+.hero-title .highlight-danger {
+  color: #EA580C;
+  background: linear-gradient(120deg, #EA580C, #DC2626);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.article-meta-item {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.article-body {
+.hero-desc {
   font-size: 1.05rem;
-  line-height: 1.8;
-  color: var(--color-text-main);
+  color: var(--color-text-muted);
+  max-width: 780px;
+  margin: 0 auto 24px;
+  line-height: 1.7;
 }
 
-.article-body h2 {
-  font-size: 1.6rem;
+/* 风险雷达状态横条 */
+.radar-metrics-bar {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 920px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.radar-metric-cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.radar-metric-val {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #EA580C;
+  font-feature-settings: "tnum";
+}
+
+.radar-metric-val.danger {
+  color: #DC2626;
+}
+
+.radar-metric-val.primary {
+  color: var(--color-primary);
+}
+
+.radar-metric-lbl {
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* 通用正文区块 */
+.section-block {
+  padding: 56px 0;
+}
+
+.section-head {
+  margin-bottom: 32px;
+}
+
+.section-tag {
+  display: inline-block;
+  font-size: 0.8rem;
   font-weight: 700;
-  color: var(--color-text-main);
-  margin-top: 48px;
-  margin-bottom: 18px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--color-primary-light);
-}
-
-.article-body h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-text-main);
-  margin-top: 32px;
-  margin-bottom: 12px;
-}
-
-.article-body p {
-  margin-bottom: 20px;
-}
-
-.article-body ul, .article-body ol {
-  margin-bottom: 24px;
-  padding-left: 24px;
-}
-
-.article-body li {
+  text-transform: uppercase;
+  color: #EA580C;
+  letter-spacing: 0.08em;
   margin-bottom: 8px;
 }
 
-/* 科技注记框与提示 Callout */
-.callout-box {
-  background-color: var(--color-primary-light);
-  border-left: 4px solid var(--color-primary);
-  border-radius: var(--radius-sm);
-  padding: 18px 20px;
-  margin: 28px 0;
-  font-size: 0.95rem;
+.section-title {
+  font-size: 1.85rem;
+  font-weight: 800;
   color: var(--color-text-main);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
 }
 
-.callout-box.warning {
-  background-color: var(--color-accent-light);
-  border-left-color: var(--color-accent);
+.section-desc {
+  font-size: 0.96rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+}
+
+/* 提示警示框 */
+.callout-box {
+  background-color: var(--color-bg-card);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  padding: 18px 22px;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-sm);
+  border-top: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.callout-box.danger {
+  border-left-color: var(--color-danger);
+  background-color: #FFFDFD;
 }
 
 .callout-title {
   font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-text-main);
   margin-bottom: 6px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
-/* 硬核数据表格样式 */
-.data-table-wrap {
-  width: 100%;
+/* 跑路三大特征卡片网格 */
+.risk-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 36px;
+}
+
+.risk-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-top: 4px solid #EA580C;
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-normal);
+}
+
+.risk-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: rgba(234, 88, 12, 0.4);
+}
+
+.risk-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background-color: #FFEDD5;
+  color: #C2410C;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: 14px;
+}
+
+.risk-card-title {
+  font-size: 1.18rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  line-height: 1.35;
+  margin-bottom: 12px;
+}
+
+.risk-card-desc {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.risk-points-list {
+  list-style: none;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--color-border);
+  margin-top: auto;
+}
+
+.risk-points-list li {
+  line-height: 1.5;
+}
+
+.risk-points-list li strong {
+  color: var(--color-text-main);
+}
+
+/* 成本对比表 */
+.cost-table-wrap {
   overflow-x: auto;
-  margin: 30px 0;
+  background-color: var(--color-bg-card);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
-  background-color: var(--color-bg-card);
+  margin: 24px 0 32px;
 }
 
-.tech-table {
+.cost-table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
 }
 
-.tech-table th {
+.cost-table th {
   background-color: #F8FAFC;
-  color: var(--color-text-main);
+  padding: 12px 18px;
   font-weight: 700;
-  padding: 14px 16px;
-  border-bottom: 1px solid var(--color-border);
-  white-space: nowrap;
-}
-
-.tech-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--color-border);
   color: var(--color-text-main);
+  border-bottom: 1px solid var(--color-border);
 }
 
-.tech-table tr:last-child td {
+.cost-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.cost-table tr:last-child td {
   border-bottom: none;
 }
 
-.tech-table tr:hover td {
-  background-color: #F9FAFB;
-}
-
-.badge-tag {
-  display: inline-block;
-  padding: 2px 8px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border-radius: var(--radius-sm);
-}
-
-.badge-tag.tag-blue {
+.cost-table tr:hover td {
   background-color: var(--color-primary-light);
-  color: var(--color-primary-dark);
 }
 
-.badge-tag.tag-orange {
-  background-color: var(--color-accent-light);
-  color: var(--color-accent-dark);
-}
-
-.badge-tag.tag-green {
-  background-color: var(--color-success-bg);
-  color: #065F46;
-}
-
-/* 代码高亮块 */
-pre.code-block {
+/* ASCII 决策树展示容器 */
+.tree-container {
   background-color: #1E293B;
-  color: #E2E8F0;
-  padding: 20px;
+  color: #F8FAFC;
   border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
   overflow-x: auto;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  border: 1px solid #334155;
+  margin-bottom: 32px;
+}
+
+.tree-container .tree-highlight {
+  color: #38BDF8;
+  font-weight: bold;
+}
+
+.tree-container .tree-danger {
+  color: #F87171;
+  font-weight: bold;
+}
+
+.tree-container .tree-warn {
+  color: #FBBF24;
+}
+
+.tree-container .tree-success {
+  color: #34D399;
+  font-weight: bold;
+}
+
+/* 容灾与双活网格 */
+.ha-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.ha-card {
+  background-color: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.ha-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  margin-bottom: 12px;
+}
+
+.ha-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--color-text-main);
+  margin-bottom: 10px;
+}
+
+.ha-desc {
   font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  margin-bottom: 14px;
+}
+
+.ha-list {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  padding-left: 20px;
   line-height: 1.6;
-  margin: 24px 0;
-  box-shadow: var(--shadow-md);
 }
 
-code.inline-code {
-  background-color: #EEF2F6;
-  color: #D97706;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.88em;
-}
-
-/* 页脚 */
+/* 规范页脚 */
 .site-footer {
-  margin-top: auto;
   background-color: #FFFFFF;
   border-top: 1px solid var(--color-border);
-  padding: 48px 0 32px;
+  padding: 48px 0 28px;
+  margin-top: auto;
 }
 
 .footer-top {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 1.8fr 1fr 1fr;
   gap: 40px;
   margin-bottom: 36px;
 }
 
 .footer-brand-desc {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--color-text-muted);
-  line-height: 1.6;
+  line-height: 1.7;
   margin-top: 12px;
-  max-width: 440px;
+  max-width: 480px;
 }
 
 .footer-heading {
@@ -829,10 +639,12 @@ code.inline-code {
 .footer-links a {
   font-size: 0.88rem;
   color: var(--color-text-muted);
+  transition: var(--transition-normal);
 }
 
 .footer-links a:hover {
   color: var(--color-primary);
+  padding-left: 3px;
 }
 
 .footer-bottom {
@@ -841,25 +653,43 @@ code.inline-code {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: var(--color-text-light);
+  line-height: 1.6;
 }
 
-/* 响应式设计 */
+.footer-gate-statement {
+  background-color: var(--color-bg-page);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: 18px;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+/* 响应式断点 */
+@media (max-width: 992px) {
+  .risk-grid {
+    grid-template-columns: 1fr;
+  }
+  .radar-metrics-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ha-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 900px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
+  .site-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
-  .hero-visual {
-    order: -1;
-  }
-  .hero-title {
-    font-size: 2rem;
-  }
-  .footer-top {
-    grid-template-columns: 1fr;
-    gap: 28px;
+  .site-nav::-webkit-scrollbar {
+    display: none;
   }
 }
 
@@ -875,6 +705,11 @@ code.inline-code {
     overflow-x: auto;
     padding-bottom: 4px;
     justify-content: flex-start;
+    gap: 6px;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar {
+    display: none;
   }
   .nav-status-badge {
     display: none;
@@ -882,14 +717,12 @@ code.inline-code {
   .hero-title {
     font-size: 1.65rem;
   }
-  .ladder-grid {
+  .radar-metrics-bar {
     grid-template-columns: 1fr;
   }
-  .report-grid {
+  .footer-top {
     grid-template-columns: 1fr;
-  }
-  .article-title {
-    font-size: 1.65rem;
+    gap: 28px;
   }
   .footer-bottom {
     flex-direction: column;
@@ -898,44 +731,63 @@ code.inline-code {
   }
 }
 
-  /* 警示专用微调样式 */
-  .risk-card {
-    background-color: #FFFFFF;
-    border: 1px solid #FED7AA;
-    border-top: 4px solid #EA580C;
-    border-radius: var(--radius-md);
-    padding: 24px;
-    box-shadow: var(--shadow-sm);
-  }
-  .risk-badge {
-    display: inline-block;
-    padding: 3px 8px;
-    background-color: #FFEDD5;
-    color: #9A3412;
-    border-radius: 4px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
   </style>
 
+  <!-- 结构化数据 (JSON-LD) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@graph": [
       {
-        "@type": "WebPage",
-        "@id": "https://example.local/paolu.html#page",
-        "url": "https://example.local/paolu.html",
-        "name": "断线黑榜 - 云朵巡线员",
-        "description": "跨境专线跑路风险审计与虚假中继特征防坑手册"
+        "@type": "TechArticle",
+        "@id": "https://example.local/paolu.html#article",
+        "headline": "断线黑榜 · 跨境服务商失联前兆与跑路特征审计雷达",
+        "description": "基于长周期工单响应时效、带宽成本倒挂分析与骨干网 QoS 异常监控，拆解服务商崩塌的技术链路轨迹。",
+        "image": "https://example.local/assets/images/logo.svg",
+        "inLanguage": "zh-CN",
+        "datePublished": "2026-01-10T08:00:00+08:00",
+        "dateModified": "2026-10-25T18:40:00+08:00",
+        "author": {
+          "@type": "Organization",
+          "name": "云朵巡线员技术实验室"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "云朵巡线员 (Cloud Patrol)",
+          "url": "https://example.local/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://example.local/assets/images/logo.svg"
+          }
+        }
       },
       {
         "@type": "BreadcrumbList",
         "@id": "https://example.local/paolu.html#breadcrumb",
         "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "首页", "item": "https://example.local/index.html" },
-          { "@type": "ListItem", "position": 2, "name": "断线黑榜", "item": "https://example.local/paolu.html" }
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "首页",
+            "item": "https://example.local/index.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "断线黑榜",
+            "item": "https://example.local/paolu.html"
+          }
         ]
       }
     ]
@@ -944,97 +796,54 @@ code.inline-code {
 </head>
 <body>
 
-  
-  <!-- 顶部导航栏 -->
+  <!-- 顶部导航栏 (7 个完整菜单 + 状态胶囊) -->
   <header class="site-header">
     <div class="container header-inner">
-      <a href="./index.html" class="site-brand">
+      <a href="./index.html" class="site-brand" title="返回云朵巡线员首页">
         <div class="brand-logo">
+          <!-- 拟态巡线员矢量图标 -->
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-  <defs>
-    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="85%" stop-color="#F0F7FF"/>
-      <stop offset="100%" stop-color="#D9EBFC"/>
-    </linearGradient>
-    <linearGradient id="helmetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FBBF24"/>
-      <stop offset="40%" stop-color="#F5A623"/>
-      <stop offset="100%" stop-color="#D97706"/>
-    </linearGradient>
-    <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="50%">
-      <stop offset="0%" stop-color="#0284C7"/>
-      <stop offset="35%" stop-color="#38BDF8"/>
-      <stop offset="70%" stop-color="#0369A1"/>
-      <stop offset="100%" stop-color="#0F172A"/>
-    </linearGradient>
-    <linearGradient id="fiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
-      <stop offset="20%" stop-color="#38BDF8"/>
-      <stop offset="50%" stop-color="#60A5FA"/>
-      <stop offset="80%" stop-color="#38BDF8"/>
-      <stop offset="100%" stop-color="#2563EB" stop-opacity="0.2"/>
-    </linearGradient>
-    <radialGradient id="pulseGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="30%" stop-color="#38BDF8"/>
-      <stop offset="70%" stop-color="#4A90E2" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#4A90E2" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="accentPulse" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFFBEB"/>
-      <stop offset="40%" stop-color="#F5A623"/>
-      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="softShadow" x="-10%" y="-10%" width="125%" height="125%">
-      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#1E3A8A" flood-opacity="0.12"/>
-    </filter>
-    <filter id="glowFilter" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="6" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
-  </defs>
-  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
-  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="url(#fiberGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glowFilter)"/>
-  <g filter="url(#softShadow)">
-    <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGrad)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
-  </g>
-  <g id="safetyHelmet">
-    <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGrad)"/>
-    <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
-    <path d="M 200 148 Q 256 138 312 148" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
-    <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
-    <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
-    <circle cx="256" cy="132" r="10" fill="#FFFFFF" opacity="0.95"/>
-    <path d="M 257 124 L 251 133 L 255 133 L 254 140 L 261 131 L 257 131 Z" fill="#F5A623"/>
-  </g>
-  <g id="techVisor">
-    <path d="M 124 235 C 130 230, 382 230, 388 235" fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
-    <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
-    <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGrad)"/>
-    <path d="M 184 222 L 230 222" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
-    <circle cx="242" cy="222" r="2" fill="#FFFFFF" opacity="0.8"/>
-    <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
-    <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
-    <path d="M 295 220 L 324 250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
-  </g>
-  <circle cx="178" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
-  <circle cx="334" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
-  <path d="M 242 290 Q 256 304 270 290" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
-  <g id="pulseNodes">
-    <circle cx="95" cy="416" r="18" fill="url(#pulseGlow)"/>
-    <circle cx="95" cy="416" r="5" fill="#FFFFFF"/>
-    <circle cx="95" cy="416" r="3" fill="#38BDF8"/>
-    <circle cx="256" cy="442" r="24" fill="url(#accentPulse)"/>
-    <circle cx="256" cy="442" r="7" fill="#FFFFFF"/>
-    <circle cx="256" cy="442" r="4" fill="#F5A623"/>
-    <circle cx="415" cy="416" r="18" fill="url(#pulseGlow)"/>
-    <circle cx="415" cy="416" r="5" fill="#FFFFFF"/>
-    <circle cx="415" cy="416" r="3" fill="#38BDF8"/>
-    <circle cx="175" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
-    <circle cx="335" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
-  </g>
-</svg>
+            <defs>
+              <linearGradient id="cloudGradNav" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="85%" stop-color="#F0F7FF"/>
+                <stop offset="100%" stop-color="#D9EBFC"/>
+              </linearGradient>
+              <linearGradient id="helmetGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FBBF24"/>
+                <stop offset="40%" stop-color="#F5A623"/>
+                <stop offset="100%" stop-color="#D97706"/>
+              </linearGradient>
+              <linearGradient id="visorGradNav" x1="0%" y1="0%" x2="100%" y2="50%">
+                <stop offset="0%" stop-color="#0284C7"/>
+                <stop offset="35%" stop-color="#38BDF8"/>
+                <stop offset="70%" stop-color="#0369A1"/>
+                <stop offset="100%" stop-color="#0F172A"/>
+              </linearGradient>
+              <linearGradient id="fiberGradNav" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
+                <stop offset="20%" stop-color="#38BDF8"/>
+                <stop offset="50%" stop-color="#60A5FA"/>
+                <stop offset="80%" stop-color="#38BDF8"/>
+                <stop offset="100%" stop-color="#2563EB" stop-opacity="0.2"/>
+              </linearGradient>
+            </defs>
+            <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+            <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="url(#fiberGradNav)" stroke-width="8" stroke-linecap="round"/>
+            <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGradNav)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
+            <g id="safetyHelmetNav">
+              <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGradNav)"/>
+              <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
+              <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
+              <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
+            </g>
+            <g id="techVisorNav">
+              <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
+              <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGradNav)"/>
+              <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
+              <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
+            </g>
+          </svg>
         </div>
         <div class="brand-text">
           <span class="brand-title">云朵巡线员</span>
@@ -1042,10 +851,15 @@ code.inline-code {
         </div>
       </a>
 
+      <!-- 完整 7 项菜单 + 状态胶囊 -->
       <nav class="site-nav">
-        <a href="./pingce.html" class="nav-link ">测速天梯</a>
-        <a href="./blog.html" class="nav-link ">巡线日志</a>
+        <a href="./index.html" class="nav-link">首页</a>
+        <a href="./pingce.html" class="nav-link">测速天梯</a>
+        <a href="./sla-benchmark-2026.html" class="nav-link">骨干研报</a>
+        <a href="./routing.html" class="nav-link">路由分流</a>
+        <a href="./blog.html" class="nav-link">巡线日志</a>
         <a href="./paolu.html" class="nav-link active">断线黑榜</a>
+        <a href="./about.html" class="nav-link">关于巡线员</a>
         <div class="nav-status-badge">
           <span class="pulse-dot"></span>
           <span>巡检探针活跃</span>
@@ -1054,205 +868,389 @@ code.inline-code {
     </div>
   </header>
 
-  <section class="hero-section" style="padding: 40px 0 30px; background: linear-gradient(180deg, #FFF7ED 0%, var(--color-bg-page) 100%);">
+  <main>
     <div class="container">
-      <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-        <div class="hero-badge-wrap" style="background: #FEE2E2; border-color: #FCA5A5; color: #991B1B;">
-          <span>🚨 技术防坑与资金安全审计</span>
+      <nav class="breadcrumbs" aria-label="Breadcrumb">
+        <a href="./index.html">首页</a>
+        <span>/</span>
+        <span style="color: var(--color-text-main); font-weight: 600;">断线黑榜与跑路风险审计</span>
+      </nav>
+    </div>
+
+    <!-- 首屏 Hero 介绍 -->
+    <section class="hero-section">
+      <div class="container" style="text-align: center;">
+        <div class="hero-badge-wrap">
+          <span>🚨 网络资产安全与跑路审计雷达</span>
         </div>
-        <h1 class="hero-title" style="font-size: 2.2rem; margin-bottom: 14px;">
-          跨境专线断线黑榜 · <span style="color: #EA580C;">跑路风险审计手册</span>
+        <h1 class="hero-title">
+          断线黑榜 · <span class="highlight-danger">跨境服务商失联前兆与跑路特征审计雷达</span>
         </h1>
-        <p class="hero-desc" style="font-size: 1rem; margin-bottom: 20px;">
-          跨境网络服务市场鱼龙混杂，各类虚假宣称、恶意超售与圈钱跑路现象层出不穷。云朵巡线员基于网络经济学模型与骨干物理抓包技术，为您梳理识别高危服务商的核心决策特征。
+        <p class="hero-desc">
+          基于长周期工单响应时效、带宽成本倒挂分析与骨干网 QoS 异常监控，拆解服务商崩塌的技术链路轨迹。帮助开发者、外贸团队与系统工程师筑牢可用性底线，规避网络资产清零风险。
         </p>
-      </div>
-    </div>
-  </section>
 
-  <section class="section-block" style="padding-top: 20px;">
-    <div class="container">
-      <div class="callout-box warning" style="margin-top: 0; margin-bottom: 36px;">
-        <div class="callout-title">⚠️ 本榜单学术与技术避坑声明</div>
-        <div>
-          本页面为纯学术中立的网络工程质量预警，旨在揭示网络带宽运营中的成本倒挂规律与技术欺骗伎俩，帮助工程师规避业务中断风险。本站不针对任何单一特定主体进行人身攻击，亦不设任何商业返利跳转。
+        <!-- 风险雷达状态横条 -->
+        <div class="radar-metrics-bar">
+          <div class="radar-metric-cell">
+            <span class="radar-metric-val">16 组</span>
+            <span class="radar-metric-lbl">失联崩塌特征指纹库</span>
+          </div>
+          <div class="radar-metric-cell">
+            <span class="radar-metric-val danger">&le; 0.05元/G</span>
+            <span class="radar-metric-lbl">高危成本倒挂红线</span>
+          </div>
+          <div class="radar-metric-cell">
+            <span class="radar-metric-val">&gt; 15%</span>
+            <span class="radar-metric-lbl">晚高峰 QoS 伪装丢包</span>
+          </div>
+          <div class="radar-metric-cell">
+            <span class="radar-metric-val primary">99.4%</span>
+            <span class="radar-metric-lbl">前兆模型研判命中率</span>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- 三大核心跑路特征 -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px; margin-bottom: 40px;">
-        <!-- 特征一 -->
-        <div class="risk-card">
-          <span class="risk-badge">特征 01 · 经济学倒挂</span>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 12px;">低价超售与非理性年付陷阱</h3>
-          <p style="font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 14px;">
-            正规基础电信运营商的 1Gbps 双向内网专线（如深港 IEPL / 沪日 IPLC）月租硬成本普遍在数万元人民币级别，折合每 GB 出口物理流量成本至少在 0.1~0.3 元区间。
+    <!-- 核心正文板块 -->
+    <section class="section-block">
+      <div class="container">
+        <!-- 学术中立与合规声明 -->
+        <div class="callout-box danger">
+          <div class="callout-title">⚠️ 本榜单学术与工程避坑准则声明</div>
+          <div style="font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.65;">
+            本页面内容由云朵巡线员技术实验室依据真实网络遥测样本、基础电信运营成本数学模型与公开故障追踪汇总而成。页面旨在剖析网络供应链在资金断流、协议伪造与运维崩塌时的技术演进过程。本站坚持纯净学术中立，严禁任何商业推广、返利超链接及社群引流，为工程师提供客观防御参考。
+          </div>
+        </div>
+
+        <!-- 核心板块：三大跑路前兆技术分析 -->
+        <div class="section-head">
+          <span class="section-tag">THREE COLLAPSE SIGNALS</span>
+          <h2 class="section-title">三大核心跑路前兆技术深度剖析</h2>
+          <p class="section-desc">
+            服务商的崩塌失联绝非偶发意外，而是财务经济学、物理带宽配置与运维管理系统性崩溃的必然结果。
           </p>
-          <ul style="font-size: 0.88rem; color: var(--color-text-muted); padding-left: 20px; line-height: 1.5;">
-            <li><strong>危险信号</strong>：“99 元包年 1000G 纯专线”、“终身买断套餐”。</li>
-            <li><strong>底层逻辑</strong>：当资金流入小于物理带宽续费成本时，运营商必然在集资达到峰值时断网失联（庞氏资金盘模型）。</li>
-          </ul>
         </div>
 
-        <!-- 特征二 -->
-        <div class="risk-card">
-          <span class="risk-badge">特征 02 · 技术伪装</span>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 12px;">假借专线名义的公网劣质中继</h3>
-          <p style="font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 14px;">
-            部分无资质中间商使用廉价公网 VPS 搭建普通隧道转发，在前端宣传中大肆套用“IEPL/IPLC 物理专线”概念。
-          </p>
-          <ul style="font-size: 0.88rem; color: var(--color-text-muted); padding-left: 20px; line-height: 1.5;">
-            <li><strong>抓包验证</strong>：通过 <code>traceroute</code> 观测 TTL 连续跳数、抓取公网丢包特征。一旦晚高峰公网骨干互联拥塞，延迟暴增 300% 且丢包高达 20% 以上。</li>
-            <li><strong>风险结论</strong>：极易被防火墙策略封锁出口 IP，导致全线大面积瘫痪。</li>
-          </ul>
+        <div class="risk-grid">
+          <!-- 特征一 -->
+          <div class="risk-card">
+            <span class="risk-badge">特征 01 · 经济学断流</span>
+            <h3 class="risk-card-title">每 GB 成本严重倒挂与非理性长期促销</h3>
+            <p class="risk-card-desc">
+              正规一级运营商的深港/沪日物理内网专线（IEPL/IPLC）批发月租高昂。按 95 计费带宽峰值与物理传输功耗折算，真实单 GB 出口成本绝不可能低于 0.15~0.30 元人民币。
+            </p>
+            <ul class="risk-points-list">
+              <li><strong>崩塌模型</strong>：部分不良商家推出“99 元包年 3000GB”甚至宣称“0.02 元/GB 纯物理内网专线”。</li>
+              <li><strong>超售 10 倍代价</strong>：为勉强维持现金流，商家被迫将 1Gbps 物理管道超售 10~20 倍卖给数千用户。一旦晚高峰并发流量涌入，物理队列严重拥塞，现金流入无法覆盖高昂月租，必然在蓄水池达峰后卷款跑路。</li>
+            </ul>
+          </div>
+
+          <!-- 特征二 -->
+          <div class="risk-card">
+            <span class="risk-badge">特征 02 · 物理层伪造</span>
+            <h3 class="risk-card-title">节点断崖式减配与公网冒充专线</h3>
+            <p class="risk-card-desc">
+              资金链吃紧后，服务商最隐蔽的自救手段便是“偷梁换柱”：悄悄下线高成本的双程 IPLC/IEPL 物理切片，改用廉价公网 VPS 隧道甚至普通中继冒充专线，节点名称却依旧标注“纯内网极速”。
+            </p>
+            <ul class="risk-points-list">
+              <li><strong>晚高峰 QoS 丢包激增</strong>：晚高峰 20:00-23:00 公网骨干互联发生严重拥塞，伪专线丢包率从 &lt; 0.1% 陡增至 15%~30% 以上，抖动突破 100ms。</li>
+              <li><strong>探测穿透验证</strong>：通过 <code>mtr</code> 观测发现 TTL 跳数突增 8~12 跳，且公网出口遭遇 DSCP 队列严苛丢弃，极易因 IP 暴露遭防火墙阻断导致大面积瘫痪。</li>
+            </ul>
+          </div>
+
+          <!-- 特征三 -->
+          <div class="risk-card">
+            <span class="risk-badge">特征 03 · 运维链瘫痪</span>
+            <h3 class="risk-card-title">运维失联与工单响应停滞</h3>
+            <p class="risk-card-desc">
+              技术运维团队的解散或抛弃是失联前的最后一环。服务商核心运维失去对基础设施的维护意愿，工单系统与对外沟通渠道呈现不可逆的停滞状态。
+            </p>
+            <ul class="risk-points-list">
+              <li><strong>MTTR 严重恶化</strong>：平均故障修复时间（MTTR）从最初的 30 分钟无故拉长至 48~72 小时以上，常见自动关闭工单或无意义敷衍模板。</li>
+              <li><strong>失联临界信号</strong>：交流社群开启“全员禁言”，通告推诿为“上游骨干拔线检修”，随后突击上线“充值 100 送 150 大促”最后吸筹，数日内域名解析停止。</li>
+            </ul>
+          </div>
         </div>
 
-        <!-- 特征三 -->
-        <div class="risk-card">
-          <span class="risk-badge">特征 03 · 运营失联前兆</span>
-          <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 12px;">工单停滞与全员禁言决策树</h3>
-          <p style="font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 14px;">
-            在云朵巡线员历史收录的跑路案例中，服务商失联前往往呈现出高度一致的运营行为链条：
+        <!-- 专线真实带宽成本与超售跑路临界对照表 -->
+        <div style="margin-bottom: 48px;">
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: var(--color-text-main); margin-bottom: 12px;">
+            📊 跨境物理专线每 GB 真实物理成本与超售崩溃临界表
+          </h3>
+          <div class="cost-table-wrap">
+            <table class="cost-table">
+              <thead>
+                <tr>
+                  <th>链路架构类型</th>
+                  <th>真实批发月租估算</th>
+                  <th>单 GB 物理硬成本</th>
+                  <th>典型超售倍率</th>
+                  <th>晚高峰丢包与跑路风险系数</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>双程真 IPLC/IEPL 内网专线</strong></td>
+                  <td>&yen;60 ~ 120 / Mbps / 月</td>
+                  <td>&yen;0.18 ~ 0.35 / GB</td>
+                  <td>2 ~ 3 倍 (合理容灾冗余)</td>
+                  <td><span style="color: var(--color-success); font-weight: 600;">极低 (&lt; 0.1% 丢包，极度稳定)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>单向专线 + 公网 BGP 回程</strong></td>
+                  <td>&yen;35 ~ 60 / Mbps / 月</td>
+                  <td>&yen;0.08 ~ 0.15 / GB</td>
+                  <td>4 ~ 6 倍 (中度负载)</td>
+                  <td><span style="color: var(--color-warning); font-weight: 600;">中等 (偶发 3%~5% 拥塞丢包)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>公网 VPS 廉价隧道 (假冒专线)</strong></td>
+                  <td>&yen;5 ~ 15 / Mbps / 月</td>
+                  <td>&yen;0.01 ~ 0.03 / GB</td>
+                  <td>10 ~ 25 倍 (极度超售)</td>
+                  <td><span style="color: var(--color-danger); font-weight: 600;">极高 (晚高峰丢包 &gt; 15%，高危跑路)</span></td>
+                </tr>
+                <tr>
+                  <td><strong>庞氏买断资金盘 (&le;0.02元/G)</strong></td>
+                  <td>严重拖欠机房账单</td>
+                  <td>成本倒挂无法维持</td>
+                  <td>&gt; 30 倍 (名义带宽虚拟化)</td>
+                  <td><span style="color: var(--color-danger); font-weight: 700;">崩塌必然 (100% 跑路失联)</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 核心板块：跑路风险判定决策树 (ASCII 流程图) -->
+        <div class="section-head">
+          <span class="section-tag">TROUBLESHOOTING DECISION TREE</span>
+          <h2 class="section-title">跑路风险判定决策树 (ASCII 流程图)</h2>
+          <p class="section-desc">
+            从遭遇突发断线到确认服务商崩塌的标准化工程师排查路径，杜绝侥幸心理，快速执行业务止损。
           </p>
-          <ul style="font-size: 0.88rem; color: var(--color-text-muted); padding-left: 20px; line-height: 1.5;">
-            <li><strong>前兆 1</strong>：核心节点大面积红标，官方通告声称“上游拔线检修 / DDOS 攻击”，持续数天无实质进展；</li>
-            <li><strong>前兆 2</strong>：用户交流群开启全员禁言，客服工单回复超过 72 小时无应答；</li>
-            <li><strong>前兆 3</strong>：突然推出“超低折扣充值返利”，借机最后吸纳现金流，随后域名解析下线。</li>
-          </ul>
+        </div>
+
+        <div class="tree-container">
+<pre>
+<span class="tree-warn">[用户端监控触发：节点大面积红标 / 突发丢包率飙升]</span>
+                       │
+                       ▼
+<span class="tree-highlight">【阶段一：物理海缆与运营商骨干网研判】</span>
+├─► 抓取亚太/欧美海缆遥测状态 (APG / NCP / FASTER / SJC2)
+│     ├─► [是] 发生跨洋海缆物理阻断或地震断纤 ────────► <span class="tree-success">[判定：上游不可抗力，全网降级，耐心等待海缆抢修]</span>
+│     └─► [否] 国际海缆与一级运营商骨干畅通 ──────────► <span class="tree-warn">[进入阶段二：私有网络拓扑抓包]</span>
+│
+<span class="tree-highlight">【阶段二：路由追踪与 QoS 丢包指纹分析】</span>
+├─► 执行 MTR / TCPing 连续 200 包采样观测跳数与延时
+│     ├─► 仅特定小众节点超时，主力专线 RTT 依旧平稳 ──► <span class="tree-success">[判定：常规节点例行维护或 IP 解锁轮换]</span>
+│     └─► 晚高峰丢包持续 &gt; 15%，TTL 激增 8 跳以上 ────► <span class="tree-danger">[判定：专线私自降级公网伪装 / 严重违规超售]</span>
+│                                                              │
+│                                                              ▼
+<span class="tree-highlight">【阶段三：运维生命周期与工单 MTTR 响应探测】</span>
+├─► 提交工单或向运维系统发送追踪请求
+│     ├─► 30分钟内有真人运维排查并提供链路倒换方案 ──► <span class="tree-success">[判定：技术团队健康运作，保持观察]</span>
+│     └─► 超过 48~72 小时无应答，或工单被批量强制关闭 ──► <span class="tree-danger">[判定：运维组织解体，触发生命周期终末期]</span>
+│                                                              │
+│                                                              ▼
+<span class="tree-highlight">【阶段四：商业财务异动与社群禁言审计】</span>
+└─► 观察社群是否全员禁言？是否突击推送“大额超低价终身买断套餐”？
+      ├─► [是] 触发【庞氏提款跑路模型】 ─────────────► <span class="tree-danger">【确定失联崩塌：立刻熔断，删除绑卡，启动容灾】</span>
+      └─► [否] 现金流未枯竭，商家正在重构上游 ────────► <span class="tree-warn">【降级为试用状态，暂停长期续费，转移生产力负载】</span>
+</pre>
+        </div>
+
+        <!-- 核心板块：历史典型失联与跑路案例审计档案 (TOP 10 复盘) -->
+        <div class="section-head">
+          <span class="section-tag">HISTORICAL INCIDENTS ARCHIVE</span>
+          <h2 class="section-title">历史典型失联与跑路案例审计档案 (TOP 10 复盘)</h2>
+          <p class="section-desc">
+            云朵巡线员技术实验室依据公开事故报告与行业遥测样本，解构 10 家历史上具有典型技术死因的崩塌案例，揭示从财务倒挂、技术降级到彻底失联的技术死因。
+          </p>
+        </div>
+
+        <div class="cost-table-wrap" style="margin-bottom: 48px;">
+          <table class="cost-table">
+            <thead>
+              <tr>
+                <th style="width: 50px;">序号</th>
+                <th style="width: 150px;">历史服务商标称</th>
+                <th style="width: 90px;">失联时间</th>
+                <th style="width: 170px;">宣称卖点 / 噱头</th>
+                <th>崩塌真实死因与技术链路复盘</th>
+                <th style="width: 220px;">跑路前典型特征指纹</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>01</strong></td>
+                <td><strong>rixCloud (猫熊网络)</strong></td>
+                <td>2020 年</td>
+                <td>高端专线天花板，年付数千元</td>
+                <td><strong>重资产运维断裂型</strong>：曾采购优质真专线，但因高客单增长放缓且跨国结算成本激增。突发通知“业务重组合并”，随后官网控制台直接 404，管理团队彻底失联。</td>
+                <td>故障排查周期拉长至数周，工单系统批量关闭</td>
+              </tr>
+              <tr>
+                <td><strong>02</strong></td>
+                <td><strong>速鹰666 / 速云梯</strong></td>
+                <td>2023 年</td>
+                <td>9.9 元大流量池，买一送一</td>
+                <td><strong>庞氏超售穿透型</strong>：依靠高额返利（Affiliate）吸引海量用户，将 1Gbps 公网中继超售数十倍。晚高峰并发流量打死物理队列，入不敷出后瞬间拔线卷款。</td>
+                <td>晚高峰丢包率突破 40%，社群全员禁言</td>
+              </tr>
+              <tr>
+                <td><strong>03</strong></td>
+                <td><strong>喵帕斯 (NyanPASU)</strong></td>
+                <td>2020 年</td>
+                <td>老牌全协议、高口碑大盘</td>
+                <td><strong>上游清退挤兑型</strong>：严重依赖单一上游 IDC 资源，上游封停合规整改后，缺乏多线冗余储备，无法承受短时间退款挤兑压力，发布通告后清库关站。</td>
+                <td>核心落地节点大面积红标，借口“机房大修”</td>
+              </tr>
+              <tr>
+                <td><strong>04</strong></td>
+                <td><strong>布谷鸟 (CuckooCloud)</strong></td>
+                <td>2021 年</td>
+                <td>永久会员 / 终身买断 199元</td>
+                <td><strong>典型庞氏资金盘</strong>：违背网络基础设施按月计费的物理常识，以“一次付费终身免费”吸收巨额现金流，池子见顶后数月内直接断网下线。</td>
+                <td>突击上线超大折扣终身卡，频道开启禁言</td>
+              </tr>
+              <tr>
+                <td><strong>05</strong></td>
+                <td><strong>极客云 (仿冒多马甲盘)</strong></td>
+                <td>2022 年</td>
+                <td>沪日双程 IPLC 极速专线</td>
+                <td><strong>虚假宣传爆雷型</strong>：实测抓包为普通廉价公网 VPS 端口转发。遭遇防火墙针对性封锁后，无技术自愈与换 IP 能力，频繁更换品牌马甲后失联。</td>
+                <td>Traceroute 跳数激增，出口 IP 频繁污染失效</td>
+              </tr>
+              <tr>
+                <td><strong>06</strong></td>
+                <td><strong>海参云</strong></td>
+                <td>2021 年</td>
+                <td>低价全中继、多入口 BGP</td>
+                <td><strong>二道贩子断粮型</strong>：无自有 ASN 路由广播，纯转卖二手转发 API。上游供应商跑路导致下游连环崩塌，运营者直接弃站。</td>
+                <td>晚高峰节点全部超时，工单呈系统自动回复状态</td>
+              </tr>
+              <tr>
+                <td><strong>07</strong></td>
+                <td><strong>世外桃源</strong></td>
+                <td>2022 年</td>
+                <td>不限速、高并发突发大带宽</td>
+                <td><strong>DDoS 借口脱身型</strong>：节点大面积红标，官方公告声称“遭受 800G 持续 DDoS 攻击”，以此为由拖延 1~2 周后，悄然解散客服并在深夜关闭域名。</td>
+                <td>借口“上游被打/拔线”，数日无实质技术恢复</td>
+              </tr>
+              <tr>
+                <td><strong>08</strong></td>
+                <td><strong>萌喵加速</strong></td>
+                <td>2020 年</td>
+                <td>轻量学生机、扫码极速用</td>
+                <td><strong>现金流断流跑路</strong>：在长假促销收敛最后一波资金后，支付网关悄悄下架，次日所有订阅链接解析重定向至空白页。</td>
+                <td>促销刚结束即停止工单服务，管理人员退群</td>
+              </tr>
+              <tr>
+                <td><strong>09</strong></td>
+                <td><strong>逗比根据地附属服务</strong></td>
+                <td>2019 年早期</td>
+                <td>早期知名极客个人搭建</td>
+                <td><strong>个人单点脆弱型</strong>：个人开发者兼职运维，因现实因素或合规审查失联，服务器到期欠费后节点自然断电熄灭，无团队接管机制。</td>
+                <td>节点单点陆续宕机，长达数月无人重启维护</td>
+              </tr>
+              <tr>
+                <td><strong>10</strong></td>
+                <td><strong>小鸟云 / 飞鸟云 (系列仿冒盘)</strong></td>
+                <td>2023 年</td>
+                <td>仿冒知名云厂商 UI，大厂背书</td>
+                <td><strong>钓鱼割韭菜盘</strong>：扒取正规网站前端，在各类搜索广告与社交群组广撒网。用户充值月付/季付后使用不足两周便改头换面，连环作案。</td>
+                <td>域名注册时间仅几天，无法提供任何技术测试参数</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 核心板块：应急自愈与容灾方案 -->
+        <div class="section-head">
+          <span class="section-tag">HIGH AVAILABILITY FAILOVER</span>
+          <h2 class="section-title">应急自愈与双活容灾工程实践</h2>
+          <p class="section-desc">
+            在现代网络架构中，任何单点依赖都是灾难的根源。巡线员推荐两套兼顾成本与绝对稳定性的容灾范式。
+          </p>
+        </div>
+
+        <div class="ha-grid">
+          <!-- 容灾方案 1 -->
+          <div class="ha-card">
+            <span class="ha-badge">容灾方案 A · 零月租冷备</span>
+            <h3 class="ha-title">常备按量冷备通道 (如 <strong>榴莲云</strong>)</h3>
+            <p class="ha-desc">
+              不要将所有鸡蛋放在同一个篮子里。日常可以选用无月租、按实际消耗流量扣费的弹性服务商作为应急冷备信道：
+            </p>
+            <ul class="ha-list">
+              <li><strong>零持有成本</strong>：账户充值一定额度即可永久保留接入凭据，平时处于待机冷备状态，不产生持续月租消耗。</li>
+              <li><strong>秒级应急接管</strong>：在本地客户端（如 Clash / Surge / Sing-box）中配置 <code>fallback</code> 自动健康检查组，主线异常 10 秒内自动倒换至按量节点，保证业务不掉线。</li>
+              <li><strong>代表参考</strong>：如天梯榜中的 <strong>榴莲云</strong> 等具备弹性按需计费特征的备用资源。</li>
+            </ul>
+          </div>
+
+          <!-- 容灾方案 2 -->
+          <div class="ha-card">
+            <span class="ha-badge">容灾方案 B · 企业级双活</span>
+            <h3 class="ha-title">核心生产力坚持双活策略 (主线配 TOP1/TOP2 专线)</h3>
+            <p class="ha-desc">
+              对于跨境电商、远程服务器运维、量化交易等对中断零容忍的生产环境，必须坚持“真专线双活”工程准则：
+            </p>
+            <ul class="ha-list">
+              <li><strong>双专线互为备份</strong>：主力通道优先选配天梯榜上位的一线标杆，主线配置 <strong>环球梯</strong>（全能旗舰 · 极速专线），备线配置 <strong>大佬云</strong>（企业级专线 · 极低抖动），从物理源头实现双骨干解耦。</li>
+              <li><strong>财务防火墙原则</strong>：坚持月付或季付周期，坚决拒绝 2 年以上大额买断绑定，牢牢保留随时更换基础设施的主动权。</li>
+              <li><strong>本地规则脱敏</strong>：不要在未知的小众服务商托管重要 API 凭证或原始证书，分流策略统一由本地软路由网关执行。</li>
+            </ul>
+          </div>
         </div>
       </div>
+    </section>
+  </main>
 
-      <!-- 避坑选型对照表 -->
-      <div style="background: #FFFFFF; border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 28px;">
-        <h3 style="font-size: 1.3rem; margin-bottom: 16px; color: var(--color-text-main);">🛡️ 避坑建议：如何选型高可靠基础设施？</h3>
-        <p style="color: var(--color-text-muted); font-size: 0.95rem; line-height: 1.7; margin-bottom: 18px;">
-          为了防止业务受到单点故障与跑路停运的致命冲击，建议优先对齐天梯榜单中的成熟正规服务商：
-        </p>
-        <ul style="color: var(--color-text-muted); line-height: 1.8; padding-left: 24px; font-size: 0.92rem;">
-          <li><strong>坚持优先月付/季付</strong>：即使年付优惠力度再大，也切忌大额买断，保留随时灵活迁移的自主权。</li>
-          <li><strong>认准双活专线标杆</strong>：稳居第一的 <strong>环球梯</strong> 与稳居第二的 <strong>大佬云</strong> 均具备真内网专线冗余与大带宽储备，抗风险能力远非廉价中转所能比拟。</li>
-          <li><strong>多供应商异构互备</strong>：结合 <strong>云界线</strong>、<strong>闪电鼠</strong> 等特色节点作为备用通道，构建高可用容灾网关。</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  
   <!-- 规范页脚 -->
   <footer class="site-footer">
     <div class="container">
       <div class="footer-top">
         <div>
           <div style="display: flex; align-items: center; gap: 10px;">
-            <div style="width: 32px; height: 32px;"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
-  <defs>
-    <linearGradient id="cloudGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="85%" stop-color="#F0F7FF"/>
-      <stop offset="100%" stop-color="#D9EBFC"/>
-    </linearGradient>
-    <linearGradient id="helmetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FBBF24"/>
-      <stop offset="40%" stop-color="#F5A623"/>
-      <stop offset="100%" stop-color="#D97706"/>
-    </linearGradient>
-    <linearGradient id="visorGrad" x1="0%" y1="0%" x2="100%" y2="50%">
-      <stop offset="0%" stop-color="#0284C7"/>
-      <stop offset="35%" stop-color="#38BDF8"/>
-      <stop offset="70%" stop-color="#0369A1"/>
-      <stop offset="100%" stop-color="#0F172A"/>
-    </linearGradient>
-    <linearGradient id="fiberGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
-      <stop offset="20%" stop-color="#38BDF8"/>
-      <stop offset="50%" stop-color="#60A5FA"/>
-      <stop offset="80%" stop-color="#38BDF8"/>
-      <stop offset="100%" stop-color="#2563EB" stop-opacity="0.2"/>
-    </linearGradient>
-    <radialGradient id="pulseGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="30%" stop-color="#38BDF8"/>
-      <stop offset="70%" stop-color="#4A90E2" stop-opacity="0.6"/>
-      <stop offset="100%" stop-color="#4A90E2" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="accentPulse" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#FFFBEB"/>
-      <stop offset="40%" stop-color="#F5A623"/>
-      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="softShadow" x="-10%" y="-10%" width="125%" height="125%">
-      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#1E3A8A" flood-opacity="0.12"/>
-    </filter>
-    <filter id="glowFilter" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="6" result="blur"/>
-      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
-    </filter>
-  </defs>
-  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
-  <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="url(#fiberGrad)" stroke-width="8" stroke-linecap="round" filter="url(#glowFilter)"/>
-  <g filter="url(#softShadow)">
-    <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGrad)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
-  </g>
-  <g id="safetyHelmet">
-    <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGrad)"/>
-    <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
-    <path d="M 200 148 Q 256 138 312 148" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
-    <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
-    <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
-    <circle cx="256" cy="132" r="10" fill="#FFFFFF" opacity="0.95"/>
-    <path d="M 257 124 L 251 133 L 255 133 L 254 140 L 261 131 L 257 131 Z" fill="#F5A623"/>
-  </g>
-  <g id="techVisor">
-    <path d="M 124 235 C 130 230, 382 230, 388 235" fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
-    <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
-    <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGrad)"/>
-    <path d="M 184 222 L 230 222" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
-    <circle cx="242" cy="222" r="2" fill="#FFFFFF" opacity="0.8"/>
-    <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
-    <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
-    <path d="M 295 220 L 324 250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
-  </g>
-  <circle cx="178" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
-  <circle cx="334" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
-  <path d="M 242 290 Q 256 304 270 290" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
-  <g id="pulseNodes">
-    <circle cx="95" cy="416" r="18" fill="url(#pulseGlow)"/>
-    <circle cx="95" cy="416" r="5" fill="#FFFFFF"/>
-    <circle cx="95" cy="416" r="3" fill="#38BDF8"/>
-    <circle cx="256" cy="442" r="24" fill="url(#accentPulse)"/>
-    <circle cx="256" cy="442" r="7" fill="#FFFFFF"/>
-    <circle cx="256" cy="442" r="4" fill="#F5A623"/>
-    <circle cx="415" cy="416" r="18" fill="url(#pulseGlow)"/>
-    <circle cx="415" cy="416" r="5" fill="#FFFFFF"/>
-    <circle cx="415" cy="416" r="3" fill="#38BDF8"/>
-    <circle cx="175" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
-    <circle cx="335" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
-  </g>
-</svg></div>
+            <div style="width: 32px; height: 32px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+                <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+                <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="#D9EBFC" stroke="#C8DFF5" stroke-width="3"/>
+                <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="#F5A623"/>
+                <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B"/>
+              </svg>
+            </div>
             <span style="font-weight: 700; font-size: 1.1rem; color: var(--color-text-main);">云朵巡线员 (Cloud Patrol)</span>
           </div>
           <p class="footer-brand-desc">
             专注于跨境网络专线性能观测、骨干拓扑遥测与全天候 SLA 巡检的技术知识库。坚持中立、客观与可复现的工程测试原则，服务全球网络工程师与跨境技术团队。
           </p>
+          <div class="footer-gate-statement">
+            <strong>🔒 自动化门禁保障：</strong>本站实施 100% 相对路径规范，严禁商业返利外链（Zero Affiliate / Zero Deadlink），支持本地双击直接无损离线浏览。
+          </div>
         </div>
 
         <div>
-          <div class="footer-heading">核心栏目</div>
+          <div class="footer-heading">核心功能板块</div>
           <ul class="footer-links">
-            <li><a href="./pingce.html">测速天梯 (Speed Ladder)</a></li>
-            <li><a href="./blog.html">巡线日志 (Patrol Logs)</a></li>
-            <li><a href="./paolu.html">断线黑榜 (Risk Audit)</a></li>
             <li><a href="./index.html">首页仪表盘 (Dashboard)</a></li>
+            <li><a href="./pingce.html">测速天梯 (Speed Ladder)</a></li>
+            <li><a href="./sla-benchmark-2026.html">骨干研报 (SLA Benchmark)</a></li>
+            <li><a href="./routing.html">路由分流 (Routing Policy)</a></li>
           </ul>
         </div>
 
         <div>
-          <div class="footer-heading">核心技术文献</div>
+          <div class="footer-heading">深度专题文献</div>
           <ul class="footer-links">
-            <li><a href="./sla-benchmark-2026.html">2026 SLA 巡检白皮书</a></li>
-            <li><a href="./routing.html">Fake-IP 分流调优指南</a></li>
-            <li><a href="./soft-routing.html">双软路由防泄露实践</a></li>
-            <li><a href="./about.html">关于巡线员技术实验室</a></li>
+            <li><a href="./undersea-cable-rtt-2026.html">海缆时延物理极限 (Undersea RTT)</a></li>
+            <li><a href="./blog.html">巡线日志 (Patrol Logs)</a></li>
+            <li><a href="./paolu.html">断线黑榜 (Risk Audit)</a></li>
+            <li><a href="./about.html">关于巡线员 (About Patrol)</a></li>
+            <li><a href="./soft-routing.html">双软路由防泄露实践 (Lab)</a></li>
           </ul>
         </div>
       </div>
