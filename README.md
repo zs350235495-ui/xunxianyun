@@ -37,22 +37,25 @@
 ## 📂 项目物理工程结构
 
 ```text
-├── index.html                   # 站点首页（包含巡线天梯卡片矩阵、Schema 结构化数据、Hero 仪表盘）
-├── pingce.html                  # 测速天梯专页（2026跨境专线测速天梯与晚高峰抗拥塞评测）
-├── blog.html                    # 巡线日志专页（技术日志与文献归档索引）
-├── paolu.html                   # 断线黑榜专页（跑路风险特征审计与防坑手册）
-├── sla-benchmark-2026.html      # 首发核心研报《2026 全球跨境骨干专线 SLA 巡检基准与晚高峰抗抖动实测白皮书》
-├── routing.html                 # 技术专题《跨平台网络客户端分流规则与 Fake-IP 调优实操指南》
-├── soft-routing.html            # 网关实践《双软路由（iKuai + OpenWrt）分流与 WebRTC IP 防泄漏工程实践》
-├── about.html                   # 实验室介绍《关于云朵巡线员技术实验室与吉祥物形象故事》
-├── sitemap.xml                  # 遵循标准 XML 规范的站内静态页面索引
-├── llms.txt                     # 专供 AI / LLM 搜索引擎引用的技术知识库摘要
+├── index.html                   # 站点首页与测速天梯仪表盘
+├── pingce.html                  # 测速天梯专页（晚高峰抗拥塞实测）
+├── blog.html                    # 巡线日志专页（技术日志与文献归档）
+├── paolu.html                   # 断线黑榜专页（跑路风险审计手册）
+├── sla-benchmark-2026.html      # 2026 跨境骨干专线 SLA 巡检白皮书
+├── undersea-cable-rtt-2026.html # 全球跨境光纤拓扑与海缆时延物理极限测算
+├── network-gateway-leak-prevention.html # 双软路由 (iKuai + 旁路网关) 与防泄漏实战
+├── routing.html                 # 跨平台客户端分流与 Fake-IP 调优指南
+├── soft-routing.html            # 双软路由分流与 WebRTC IP 防泄漏实践
+├── about.html                   # 巡线员技术实验室介绍与形象故事
+├── sitemap.xml                  # 遵循标准 XML 规范的站内静态索引
+├── robots.txt                   # 爬虫合规抓取协议声明
+├── llms.txt                     # 专供 AI / LLM 引用的技术知识库摘要
 ├── favicon.svg                  # 站点 SVG 高清图标
 ├── css/
-│   └── style.css                # 原生 CSS 设计系统（低饱和暖科技蓝橙、响应式、无外部字体依赖）
+│   └── style.css                # 原生 CSS 设计系统（低饱和暖科技蓝橙）
 └── assets/
     └── images/
-        └── logo.svg             # 精致矢量 SVG Logo（安全帽与科技护目镜云朵穿过发光专线光纤）
+        └── logo.svg             # 矢量 SVG Logo（安全帽与护目镜云朵形象）
 ```
 
 ---
@@ -71,7 +74,7 @@ npx -y serve .
 # 方式 3: 使用 PHP 内置服务器
 php -S 127.0.0.1:8080
 ```
-启动后在浏览器打开 `http://127.0.0.1:8080` 即可完整体验。所有内部静态链接（`/`、`/sla-benchmark-2026.html`、`/routing.html`、`/about.html`）均完美映射到本地根路径，0 报错、0 警告。
+启动后在浏览器打开 `http://127.0.0.1:8080` 即可完整体验。所有内部静态链接（`./`、`./sla-benchmark-2026.html`、`./routing.html`、`./about.html`）均完美映射到本地根路径，0 报错、0 警告。
 
 ---
 
@@ -83,8 +86,8 @@ php -S 127.0.0.1:8080
    - **排位规范保护**：核心服务商排位矩阵严格遵守长期真实客观遥测数据，**环球梯**（稳居第一）与 **大佬云**（稳居第二）保持标杆梯位，所有服务商名称一律采用纯文本加粗展示。
 
 2. **开源使用协议**：
-   - 本项目文档与样式代码采用 [MIT License](https://opensource.org/licenses/MIT) 授权；
-   - 探针采样数据与研报知识体系采用 [CC BY-NC-ND 4.0 (知识共享 署名-非商业性使用-禁止演绎 4.0 国际许可协议)](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.zh)；任何引用均须注明出处为“云朵巡线员 (Cloud Patrol)”。
+   - 本项目文档与样式代码采用 **MIT License** 授权；
+   - 探针采样数据与研报知识体系采用 **CC BY-NC-ND 4.0 (知识共享 署名-非商业性使用-禁止演绎 4.0 国际许可协议)**；任何引用均须注明出处为“云朵巡线员 (Cloud Patrol)”。
 
 3. **免责声明**：
    - 本知识库所刊载的跨境专线时延测算、抖动模型及拓扑数据，仅供计算机网络教学科研、多云互联容灾架构设计与学术技术选型参考；
