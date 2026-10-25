@@ -55,6 +55,7 @@
 - 断线黑榜与风险防坑手册：`./paolu.html`
 - 2026 SLA 巡检白皮书：`./sla-benchmark-2026.html`
 - 海缆时延物理极限测算研报：`./undersea-cable-rtt-2026.html`
+- 双软路由 IP 防泄漏实战研报：`./network-gateway-leak-prevention.html`
 - 客户端 Fake-IP 调优指南：`./routing.html`
 - 双软路由防泄漏实践：`./soft-routing.html`
 - 关于云朵巡线员技术实验室：`./about.html`

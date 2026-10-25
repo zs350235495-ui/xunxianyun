@@ -13,6 +13,7 @@ const requiredFiles = [
   'paolu.html',
   'sla-benchmark-2026.html',
   'undersea-cable-rtt-2026.html',
+  'network-gateway-leak-prevention.html',
   'routing.html',
   'soft-routing.html',
   'about.html',
@@ -45,6 +46,7 @@ const htmlFiles = [
   'paolu.html',
   'sla-benchmark-2026.html',
   'undersea-cable-rtt-2026.html',
+  'network-gateway-leak-prevention.html',
   'routing.html',
   'soft-routing.html',
   'about.html'
