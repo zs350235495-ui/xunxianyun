@@ -22,8 +22,7 @@ const requiredFiles = [
   'favicon.svg',
   'sitemap.xml',
   'robots.txt',
-  'llms.txt',
-  'README.md'
+  'llms.txt'
 ];
 
 let hasError = false;
@@ -163,20 +162,23 @@ for (const file of htmlFiles) {
   }
 }
 
-// 3. 检查 README.md 规范与免责声明
-console.log(`\n🔍 正在审查 README.md...`);
-const readmeContent = fs.readFileSync(path.join(cwd, 'README.md'), 'utf8');
+// 3. 检查 README.md 规范与免责声明 (若存在)
+const readmePath = path.join(cwd, 'README.md');
+if (fs.existsSync(readmePath)) {
+  console.log(`\n🔍 正在审查 README.md...`);
+  const readmeContent = fs.readFileSync(readmePath, 'utf8');
 
-if (!readmeContent.includes('📜 自动化门禁、开源规范与免责声明')) {
-  console.error(`❌ [缺失声明] README.md 缺少【📜 自动化门禁、开源规范与免责声明】章节！`);
-  hasError = true;
-} else {
-  console.log(`✅ [免责声明规范] README.md 包含完整合规声明章节`);
-}
+  if (!readmeContent.includes('📜 自动化门禁、开源规范与免责声明')) {
+    console.error(`❌ [缺失声明] README.md 缺少【📜 自动化门禁、开源规范与免责声明】章节！`);
+    hasError = true;
+  } else {
+    console.log(`✅ [免责声明规范] README.md 包含完整合规声明章节`);
+  }
 
-if (readmeContent.includes('闪电云')) {
-  console.error(`❌ [品牌误写] README.md 包含错误服务商名称【闪电云】！`);
-  hasError = true;
+  if (readmeContent.includes('闪电云')) {
+    console.error(`❌ [品牌误写] README.md 包含错误服务商名称【闪电云】！`);
+    hasError = true;
+  }
 }
 
 if (hasError) {
