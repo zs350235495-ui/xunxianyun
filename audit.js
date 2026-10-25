@@ -53,7 +53,7 @@ const htmlFiles = [
 ];
 const forbiddenPatterns = [/\?aff=/i, /\?ref=/i, /href="#"/, /href=""/];
 const allowedExternalPrefixes = [
-  'https://example.local',
+  'https://xunxianyuan.org',
   'https://schema.org',
   'https://123pps01.huanqiutiaff.com',
   'https://pps123.shenxingaff.com',
@@ -86,21 +86,21 @@ for (const file of htmlFiles) {
 
   // 检查非官方授权的违规参数 (排除官方白名单链接)
   const contentWithoutWhitelist = content
-    .replace(/https:\/\/123pps01\.huanqiutiaff\.com[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/pps123\.shenxingaff\.com[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/123pp01\.liulianyunaff\.com[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/pp01\.yunjiexianaff\.com[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/ppsvip01\.shandianshuaff\.com[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/ppsvip01\.dalaoyunaff\.com[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/everett7623\.kosingaff\.com[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/pygllc\.speedworldaff\.cc[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/fanxiaobin\.kuailiaff\.com[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/wep\.edgenovaaff\.com[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/super\.ytjcok\.org[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/kunpengjiasu\.com[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/ddd\.jichang\.best[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/haozevpn\.jlyvipaff\.com[^\s"'>]*/g, 'https://example.local/partner')
-    .replace(/https:\/\/gnt001\.gntvipaff\.cc[^\s"'>]*/g, 'https://example.local/partner');
+    .replace(/https:\/\/123pps01\.huanqiutiaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/pps123\.shenxingaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/123pp01\.liulianyunaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/pp01\.yunjiexianaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/ppsvip01\.shandianshuaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/ppsvip01\.dalaoyunaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/everett7623\.kosingaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/pygllc\.speedworldaff\.cc[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/fanxiaobin\.kuailiaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/wep\.edgenovaaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/super\.ytjcok\.org[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/kunpengjiasu\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/ddd\.jichang\.best[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/haozevpn\.jlyvipaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
+    .replace(/https:\/\/gnt001\.gntvipaff\.cc[^\s"'>]*/g, 'https://xunxianyuan.org/partner');
   for (const pattern of forbiddenPatterns) {
     if (pattern.test(contentWithoutWhitelist)) {
       console.error(`❌ [违规模式] ${file} 匹配到禁止的模式: ${pattern}`);

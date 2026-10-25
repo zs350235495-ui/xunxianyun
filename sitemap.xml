@@ -1,61 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://example.local/index.html</loc>
+    <loc>https://xunxianyuan.org/index.html</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://example.local/pingce.html</loc>
+    <loc>https://xunxianyuan.org/pingce.html</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://example.local/blog.html</loc>
+    <loc>https://xunxianyuan.org/blog.html</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://example.local/paolu.html</loc>
+    <loc>https://xunxianyuan.org/paolu.html</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
   <url>
-    <loc>https://example.local/sla-benchmark-2026.html</loc>
+    <loc>https://xunxianyuan.org/sla-benchmark-2026.html</loc>
     <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://example.local/undersea-cable-rtt-2026.html</loc>
+    <loc>https://xunxianyuan.org/undersea-cable-rtt-2026.html</loc>
     <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://example.local/network-gateway-leak-prevention.html</loc>
+    <loc>https://xunxianyuan.org/network-gateway-leak-prevention.html</loc>
     <lastmod>2026-10-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://example.local/routing.html</loc>
+    <loc>https://xunxianyuan.org/routing.html</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.local/soft-routing.html</loc>
+    <loc>https://xunxianyuan.org/soft-routing.html</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://example.local/about.html</loc>
+    <loc>https://xunxianyuan.org/about.html</loc>
     <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

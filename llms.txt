@@ -2,7 +2,7 @@
 
 > 站点名称：云朵巡线员 (Cloud Patrol)  
 > 核心定位：跨境网络专线测速、骨干链路拓扑观测与全天候 SLA 巡检技术知识库  
-> 基准域名占位符：https://example.local  
+> 基准域名占位符：https://xunxianyuan.org  
 
 ---
 
