@@ -55,6 +55,7 @@ const forbiddenPatterns = [/\?aff=/i, /\?ref=/i, /href="#"/, /href=""/];
 const allowedExternalPrefixes = [
   'https://xunxianyuan.org',
   'https://schema.org',
+  'https://t.me',
   'https://123pps01.huanqiutiaff.com',
   'https://pps123.shenxingaff.com',
   'https://123pp01.liulianyunaff.com',

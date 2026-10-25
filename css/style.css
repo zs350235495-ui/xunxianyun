@@ -775,6 +775,54 @@ a:hover {
   color: #FFFFFF !important;
   border-color: var(--color-primary);
 }
+
+.tbl-tg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  padding: 0 10px;
+  border-radius: 11px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  background: #E0F2FE;
+  color: #0284C7 !important;
+  border: 1px solid #BAE6FD;
+  transition: var(--transition-normal);
+  margin-top: 2px;
+}
+
+.tbl-tg-btn:hover {
+  background: #0284C7;
+  color: #FFFFFF !important;
+  border-color: #0284C7;
+  transform: translateY(-1px);
+}
+
+.nav-tg-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 600;
+  background: #E0F2FE;
+  color: #0284C7 !important;
+  border: 1px solid #BAE6FD;
+  text-decoration: none;
+  transition: var(--transition-normal);
+}
+
+.nav-tg-btn:hover {
+  background: #0284C7;
+  color: #FFFFFF !important;
+  border-color: #0284C7;
+  transform: translateY(-1px);
+}
 /* 研报索引网格 */
 .report-grid {
   display: grid;
