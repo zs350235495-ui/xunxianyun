@@ -17,6 +17,9 @@ const requiredFiles = [
   'routing.html',
   'soft-routing.html',
   'about.html',
+  'go.html',
+  '_redirects',
+  'nginx-redirects.conf',
   'css/style.css',
   'assets/images/logo.svg',
   'favicon.svg',
@@ -37,7 +40,28 @@ for (const relPath of requiredFiles) {
   }
 }
 
-// 2. 检查 HTML 文件的链接有效性与合规红线
+// 2. 检查 301 隔离合规系统专属规范 (go.html 与 robots.txt)
+console.log('\n🔒 正在审计 301 隔离与搜索引擎策略...');
+
+// 2.1 robots.txt 严禁设置 Disallow /go (避免 Bing Webmaster Tools 报 Blocked 错误)
+const robotsTxt = fs.readFileSync(path.join(cwd, 'robots.txt'), 'utf8');
+if (/disallow:\s*\/go/i.test(robotsTxt)) {
+  console.error(`❌ [robots.txt 违规] 严禁在 robots.txt 中 Disallow /go 或 /go.html，会导致 Bing 搜索引擎严重报错！`);
+  hasError = true;
+} else {
+  console.log(`✅ [robots.txt 合规] 未对 /go 或 /go.html 进行 Disallow 拦截，符合合规静默收录规范`);
+}
+
+// 2.2 go.html 头部必须严格包含 noindex, nofollow 元标签
+const goHtml = fs.readFileSync(path.join(cwd, 'go.html'), 'utf8');
+if (!goHtml.includes('name="robots"') || !goHtml.includes('noindex') || !goHtml.includes('nofollow')) {
+  console.error(`❌ [go.html 违规] go.html 头部缺少 <meta name="robots" content="noindex, nofollow">！`);
+  hasError = true;
+} else {
+  console.log(`✅ [go.html 合规] 严格包含 noindex, nofollow 元标签，防止爬虫建索`);
+}
+
+// 3. 检查 HTML 文件的链接有效性与合规红线
 const htmlFiles = [
   'index.html',
   'pingce.html',
@@ -48,28 +72,14 @@ const htmlFiles = [
   'network-gateway-leak-prevention.html',
   'routing.html',
   'soft-routing.html',
-  'about.html'
+  'about.html',
+  'go.html'
 ];
 const forbiddenPatterns = [/\?aff=/i, /\?ref=/i, /href="#"/, /href=""/];
 const allowedExternalPrefixes = [
   'https://xunxianyuan.org',
   'https://schema.org',
-  'https://t.me',
-  'https://123pps01.huanqiutiaff.com',
-  'https://pps123.shenxingaff.com',
-  'https://123pp01.liulianyunaff.com',
-  'https://pp01.yunjiexianaff.com',
-  'https://ppsvip01.shandianshuaff.com',
-  'https://ppsvip01.dalaoyunaff.com',
-  'https://everett7623.kosingaff.com',
-  'https://pygllc.speedworldaff.cc',
-  'https://fanxiaobin.kuailiaff.com',
-  'https://wep.edgenovaaff.com',
-  'https://super.ytjcok.org',
-  'https://kunpengjiasu.com',
-  'https://ddd.jichang.best',
-  'https://haozevpn.jlyvipaff.com',
-  'https://gnt001.gntvipaff.cc'
+  'https://t.me'
 ];
 
 for (const file of htmlFiles) {
@@ -84,27 +94,29 @@ for (const file of htmlFiles) {
     console.log(`  [OK] 内联 CSS 完备，file:// 双击直接渲染保障有效`);
   }
 
-  // 检查非官方授权的违规参数 (排除官方白名单链接)
-  const contentWithoutWhitelist = content
-    .replace(/https:\/\/123pps01\.huanqiutiaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/pps123\.shenxingaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/123pp01\.liulianyunaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/pp01\.yunjiexianaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/ppsvip01\.shandianshuaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/ppsvip01\.dalaoyunaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/everett7623\.kosingaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/pygllc\.speedworldaff\.cc[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/fanxiaobin\.kuailiaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/wep\.edgenovaaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/super\.ytjcok\.org[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/kunpengjiasu\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/ddd\.jichang\.best[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/haozevpn\.jlyvipaff\.com[^\s"'>]*/g, 'https://xunxianyuan.org/partner')
-    .replace(/https:\/\/gnt001\.gntvipaff\.cc[^\s"'>]*/g, 'https://xunxianyuan.org/partner');
-  for (const pattern of forbiddenPatterns) {
-    if (pattern.test(contentWithoutWhitelist)) {
-      console.error(`❌ [违规模式] ${file} 匹配到禁止的模式: ${pattern}`);
-      hasError = true;
+  // 检查禁止的模式 (针对除 go.html 之外的正文文章严格排查 aff/ref 及空锚点)
+  if (file !== 'go.html') {
+    for (const pattern of forbiddenPatterns) {
+      if (pattern.test(content)) {
+        console.error(`❌ [违规模式] ${file} 匹配到禁止的模式: ${pattern}`);
+        hasError = true;
+      }
+    }
+
+    // 检查所有 /go.html?id= 跳转链接是否严格附加 rel="nofollow sponsored noopener noreferrer"
+    const goLinkRegex = /<a\s+[^>]*href="[^"]*go\.html\?id=[^"]*"[^>]*>/g;
+    let goMatch;
+    let goCount = 0;
+    while ((goMatch = goLinkRegex.exec(content)) !== null) {
+      goCount++;
+      const tag = goMatch[0];
+      if (!tag.includes('rel="nofollow sponsored noopener noreferrer"')) {
+        console.error(`❌ [缺少合规 rel] ${file} 中的 301 隔离链接缺少 rel="nofollow sponsored noopener noreferrer": ${tag}`);
+        hasError = true;
+      }
+    }
+    if (goCount > 0) {
+      console.log(`  [OK] 检测到 ${goCount} 处安全 301 隔离链接，全部严格附加 rel="nofollow sponsored noopener noreferrer"`);
     }
   }
 

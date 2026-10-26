@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 严格禁止搜索引擎索引与追踪 (RFC 规范与 SEO 隔离要求) -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="referrer" content="no-referrer">
+  <title>安全专线转跳中 · 云朵巡线员 (Cloud Patrol)</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    :root {
+      --color-primary: #4A90E2;
+      --color-primary-dark: #357ABD;
+      --color-primary-light: #EBF4FC;
+      --color-accent: #F5A623;
+      --color-bg-page: #FAFAF8;
+      --color-bg-card: #FFFFFF;
+      --color-border: #EAECEF;
+      --color-text-main: #2C3E50;
+      --color-text-muted: #606F7B;
+      --color-success: #10B981;
+      --color-success-bg: #ECFDF5;
+      --color-danger: #EF4444;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: var(--color-bg-page);
+      color: var(--color-text-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.6;
+    }
+
+    .redirect-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      max-width: 500px;
+      width: 100%;
+      padding: 36px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-top-stripe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+    }
+
+    .radar-pulse-wrap {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radar-circle {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid var(--color-primary);
+      opacity: 0.3;
+      animation: pulse 1.8s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+    }
+
+    .radar-circle.delay {
+      animation-delay: 0.6s;
+    }
+
+    .radar-icon-core {
+      width: 48px;
+      height: 48px;
+      background: var(--color-primary-light);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-primary);
+      font-size: 24px;
+      z-index: 2;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(0.6);
+        opacity: 0.8;
+      }
+      100% {
+        transform: scale(1.4);
+        opacity: 0;
+      }
+    }
+
+    h1 {
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: var(--color-text-main);
+    }
+
+    .status-text {
+      color: var(--color-text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+
+    .tunnel-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--color-success-bg);
+      color: var(--color-success);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 9999px;
+      margin-bottom: 24px;
+      border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+
+    .dest-box {
+      background: #F8FAFC;
+      border: 1px dashed var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 24px;
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      word-break: break-all;
+    }
+
+    .dest-target-name {
+      font-weight: 700;
+      color: var(--color-primary-dark);
+      font-size: 1.05rem;
+      margin-bottom: 4px;
+    }
+
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: none;
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      background: var(--color-primary);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background: var(--color-primary-dark);
+      box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+    }
+
+    .btn-secondary {
+      background: #F1F5F9;
+      color: var(--color-text-muted);
+      margin-top: 10px;
+    }
+
+    .btn-secondary:hover {
+      background: #E2E8F0;
+      color: var(--color-text-main);
+    }
+
+    .footer-note {
+      margin-top: 24px;
+      font-size: 0.78rem;
+      color: #94A3B8;
+      border-top: 1px solid var(--color-border);
+      padding-top: 16px;
+    }
+
+    .error-wrap {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="redirect-card">
+    <div class="card-top-stripe"></div>
+
+    <!-- 正常跳转视图 -->
+    <div id="normal-view">
+      <div class="radar-pulse-wrap">
+        <div class="radar-circle"></div>
+        <div class="radar-circle delay"></div>
+        <div class="radar-icon-core">⚡</div>
+      </div>
+      
+      <h1>专线安全隧道重定向</h1>
+      <div class="tunnel-badge">
+        <span>●</span> SLA 官方专属通道验证完毕
+      </div>
+
+      <div class="dest-box">
+        <div class="dest-target-name" id="provider-name">正在解析目标服务商...</div>
+        <div id="countdown-text" style="font-size: 0.85rem; color: var(--color-text-muted);">正在建立直达连接，预计 1 秒内完成跳转...</div>
+      </div>
+
+      <a id="direct-jump-btn" href="javascript:void(0)" class="btn-action btn-primary" rel="nofollow sponsored noopener noreferrer">立即直达官方节点 &rarr;</a>
+      <a href="/" class="btn-action btn-secondary">返回云朵巡线员首页</a>
+    </div>
+
+    <!-- 错误异常视图 -->
+    <div id="error-view" class="error-wrap">
+      <div class="radar-pulse-wrap" style="color: var(--color-danger);">
+        <div class="radar-icon-core" style="background: #FEE2E2; color: var(--color-danger);">⚠️</div>
+      </div>
+      <h1>未找到指定路由节点</h1>
+      <p class="status-text" id="error-msg">未识别到合规的专线接入代号，或该直达航路已下线。</p>
+      <a href="/" class="btn-action btn-primary">返回云朵巡线员首页</a>
+    </div>
+
+    <div class="footer-note">
+      云朵巡线员 · 独立第三方跨境专线 SLA 质量监测平台<br>
+      严格遵守合规协议与隔离准则 (rel="nofollow sponsored")
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // 官方签约服务商与直达路由映射表
+      var REDIRECT_MAP = {
+        'huanqiuti': {
+          name: '环球梯 (全能旗舰 · 极速专线)',
+          url: 'https://123pps01.huanqiutiaff.com/#/?code=j5VBUvw0'
+        },
+        'dalaoyun': {
+          name: '大佬云 (企业级专线 · 极低抖动)',
+          url: 'https://ppsvip01.dalaoyunaff.com/#/?code=Iz1GlCVa'
+        },
+        'yunjiexian': {
+          name: '云界线 (大容量流量池 · 亚太调优)',
+          url: 'https://pp01.yunjiexianaff.com/#/?code=bp0ZSKBV'
+        },
+        'shandianshu': {
+          name: '闪电鼠 (轻量扫码即用 · 开箱接入)',
+          url: 'https://ppsvip01.shandianshuaff.com/#/?code=QbLF8tjB'
+        },
+        'shenxing': {
+          name: '神行加速 (多节点漫游 · 全球自愈)',
+          url: 'https://pps123.shenxingaff.com/#/?code=6tQ7zHUc'
+        },
+        'liulianyun': {
+          name: '榴莲云 (按需弹性计费 · 边缘容灾)',
+          url: 'https://123pp01.liulianyunaff.com/#/?code=MsZP3u7G'
+        },
+        'kexinyun': {
+          name: '可信云 (IEPL 专线 · 极速稳定)',
+          url: 'https://everett7623.kosingaff.com/#/?code=sFKkfEYs'
+        },
+        'kosing': {
+          name: '可信云 (IEPL 专线 · 极速稳定)',
+          url: 'https://everett7623.kosingaff.com/#/?code=sFKkfEYs'
+        },
+        'sujie': {
+          name: '速界 (自研客户端 · 高速大带宽)',
+          url: 'https://pygllc.speedworldaff.cc/#/?code=kcoensXG'
+        },
+        'speedworld': {
+          name: '速界 (自研客户端 · 高速大带宽)',
+          url: 'https://pygllc.speedworldaff.cc/#/?code=kcoensXG'
+        },
+        'kuaili': {
+          name: '快狸快狸 (专属客户端 · 极高性价比)',
+          url: 'https://fanxiaobin.kuailiaff.com/#/?code=e0cAmK7F'
+        },
+        'bianyuan': {
+          name: '边缘节点 (全域中转 · 弹性多节点)',
+          url: 'https://wep.edgenovaaff.com/#/?code=mLLL6h6F'
+        },
+        'edgenova': {
+          name: '边缘节点 (全域中转 · 弹性多节点)',
+          url: 'https://wep.edgenovaaff.com/#/?code=mLLL6h6F'
+        },
+        'yuntu': {
+          name: '云图机场 (金融级专线 · 全节点1倍率)',
+          url: 'https://super.ytjcok.org/#/register?code=poKwFVtv'
+        },
+        'ytjc': {
+          name: '云图机场 (金融级专线 · 全节点1倍率)',
+          url: 'https://super.ytjcok.org/#/register?code=poKwFVtv'
+        },
+        'kunpeng': {
+          name: '鲲鹏加速 (全站1.0倍率 · 1元试用)',
+          url: 'https://kunpengjiasu.com/#/register?code=WPugVZUe'
+        },
+        'shunyun': {
+          name: '瞬云 (Anycast 任播 · 动态路由)',
+          url: 'https://ddd.jichang.best/#/register?code=nldUZaYc'
+        },
+        'jilianyun': {
+          name: '极连云 (IPLC 物理专线 · 原生住宅IP)',
+          url: 'https://haozevpn.jlyvipaff.com/#/?code=jwCMOvQO'
+        },
+        'jly': {
+          name: '极连云 (IPLC 物理专线 · 原生住宅IP)',
+          url: 'https://haozevpn.jlyvipaff.com/#/?code=jwCMOvQO'
+        },
+        'guangnianti': {
+          name: '光年梯 (老牌 IPLC · IP清洁度控制)',
+          url: 'https://gnt001.gntvipaff.cc/#/?code=PQhPFDhO'
+        },
+        'gnt': {
+          name: '光年梯 (老牌 IPLC · IP清洁度控制)',
+          url: 'https://gnt001.gntvipaff.cc/#/?code=PQhPFDhO'
+        }
+      };
+
+      // 解析 URL 中的 id 参数或路径
+      var params = new URLSearchParams(window.location.search);
+      var id = params.get('id');
+
+      if (!id) {
+        // 尝试从 pathname 中提取如 /go/huanqiuti
+        var pathParts = window.location.pathname.split('/');
+        var lastPart = pathParts[pathParts.length - 1];
+        if (lastPart && lastPart !== 'go.html' && lastPart !== 'go') {
+          id = lastPart;
+        }
+      }
+
+      if (id) {
+        id = id.toLowerCase().trim();
+      }
+
+      var target = id ? REDIRECT_MAP[id] : null;
+
+      var normalView = document.getElementById('normal-view');
+      var errorView = document.getElementById('error-view');
+      var nameEl = document.getElementById('provider-name');
+      var countdownEl = document.getElementById('countdown-text');
+      var directBtn = document.getElementById('direct-jump-btn');
+
+      if (target) {
+        nameEl.textContent = target.name;
+        directBtn.href = target.url;
+
+        // 毫秒级防白屏平滑直达
+        setTimeout(function () {
+          window.location.replace(target.url);
+        }, 300);
+      } else {
+        normalView.style.display = 'none';
+        errorView.style.display = 'block';
+        if (id) {
+          document.getElementById('error-msg').textContent = '未找到专线服务商代号 [' + id + ']，请核对链接有效性。';
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
