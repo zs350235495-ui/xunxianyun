@@ -27,7 +27,7 @@
 /go/guangnianti   https://gnt001.gntvipaff.cc/#/?code=PQhPFDhO        301
 /go/gnt           https://gnt001.gntvipaff.cc/#/?code=PQhPFDhO        301
 
-# 2. 查询参数风格 /go.html?id=xxx 301 重定向 (Netlify / Cloudflare Pages)
+# 2. 查询参数风格 /go.html?id=xxx 与 /go?id=xxx 301 重定向 (Netlify)
 /go.html id=huanqiuti     https://123pps01.huanqiutiaff.com/#/?code=j5VBUvw0  301
 /go.html id=dalaoyun      https://ppsvip01.dalaoyunaff.com/#/?code=Iz1GlCVa   301
 /go.html id=yunjiexian    https://pp01.yunjiexianaff.com/#/?code=bp0ZSKBV     301
@@ -49,6 +49,28 @@
 /go.html id=jly           https://haozevpn.jlyvipaff.com/#/?code=jwCMOvQO     301
 /go.html id=guangnianti   https://gnt001.gntvipaff.cc/#/?code=PQhPFDhO        301
 /go.html id=gnt           https://gnt001.gntvipaff.cc/#/?code=PQhPFDhO        301
+
+/go id=huanqiuti          https://123pps01.huanqiutiaff.com/#/?code=j5VBUvw0  301
+/go id=dalaoyun           https://ppsvip01.dalaoyunaff.com/#/?code=Iz1GlCVa   301
+/go id=yunjiexian         https://pp01.yunjiexianaff.com/#/?code=bp0ZSKBV     301
+/go id=shandianshu        https://ppsvip01.shandianshuaff.com/#/?code=QbLF8tjB 301
+/go id=shenxing           https://pps123.shenxingaff.com/#/?code=6tQ7zHUc     301
+/go id=liulianyun         https://123pp01.liulianyunaff.com/#/?code=MsZP3u7G  301
+/go id=kexinyun           https://everett7623.kosingaff.com/#/?code=sFKkfEYs  301
+/go id=kosing             https://everett7623.kosingaff.com/#/?code=sFKkfEYs  301
+/go id=sujie              https://pygllc.speedworldaff.cc/#/?code=kcoensXG    301
+/go id=speedworld         https://pygllc.speedworldaff.cc/#/?code=kcoensXG    301
+/go id=kuaili             https://fanxiaobin.kuailiaff.com/#/?code=e0cAmK7F   301
+/go id=bianyuan           https://wep.edgenovaaff.com/#/?code=mLLL6h6F        301
+/go id=edgenova           https://wep.edgenovaaff.com/#/?code=mLLL6h6F        301
+/go id=yuntu              https://super.ytjcok.org/#/register?code=poKwFVtv   301
+/go id=ytjc               https://super.ytjcok.org/#/register?code=poKwFVtv   301
+/go id=kunpeng            https://kunpengjiasu.com/#/register?code=WPugVZUe   301
+/go id=shunyun            https://ddd.jichang.best/#/register?code=nldUZaYc   301
+/go id=jilianyun          https://haozevpn.jlyvipaff.com/#/?code=jwCMOvQO     301
+/go id=jly                https://haozevpn.jlyvipaff.com/#/?code=jwCMOvQO     301
+/go id=guangnianti        https://gnt001.gntvipaff.cc/#/?code=PQhPFDhO        301
+/go id=gnt                https://gnt001.gntvipaff.cc/#/?code=PQhPFDhO        301
 
 # 3. 兜底回落规则 (未匹配到的 /go/* 请求无缝由 /go.html 处理)
 /go/*             /go.html                                            200
