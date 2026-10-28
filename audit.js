@@ -14,6 +14,7 @@ const requiredFiles = [
   'sla-benchmark-2026.html',
   'undersea-cable-rtt-2026.html',
   'network-gateway-leak-prevention.html',
+  'ech-sni-client-hello.html',
   'routing.html',
   'soft-routing.html',
   'about.html',
