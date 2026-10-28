@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "跨境网络专线测速、骨干链路拓扑观测与全天候 SLA 巡检技术知识库",
   "scripts": {
-    "test": "node audit.js"
+    "test": "node audit.js",
+    "indexnow": "node submit-indexnow.js"
   },
   "keywords": [
     "network-telemetry",
