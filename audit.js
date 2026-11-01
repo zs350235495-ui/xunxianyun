@@ -26,7 +26,8 @@ const requiredFiles = [
   'favicon.svg',
   'sitemap.xml',
   'robots.txt',
-  'llms.txt'
+  'llms.txt',
+  'articles/nic-hardware-offloading-tso-gro-optimization-2026.html'
 ];
 
 let hasError = false;
@@ -74,7 +75,8 @@ const htmlFiles = [
   'routing.html',
   'soft-routing.html',
   'about.html',
-  'go.html'
+  'go.html',
+  'articles/nic-hardware-offloading-tso-gro-optimization-2026.html'
 ];
 const forbiddenPatterns = [/\?aff=/i, /\?ref=/i, /href="#"/, /href=""/];
 const allowedExternalPrefixes = [
@@ -145,14 +147,17 @@ for (const file of htmlFiles) {
         console.error(`❌ [非法外部商业外链] ${file} 包含未授权外部链接: ${url}`);
         hasError = true;
       }
-    } else if (url.startsWith('./') || url.startsWith('/')) {
+    } else if (url.startsWith('./') || url.startsWith('/') || url.startsWith('../')) {
       // 站内相对或绝对路径检查
-      let localTarget = url.replace(/^\.?\//, '');
-      if (localTarget === '') {
-        localTarget = 'index.html';
+      let targetPath;
+      const cleanUrl = url.split('?')[0].split('#')[0];
+      if (url.startsWith('/')) {
+        let localTarget = cleanUrl.replace(/^\//, '');
+        if (localTarget === '') localTarget = 'index.html';
+        targetPath = path.join(cwd, localTarget);
+      } else {
+        targetPath = path.resolve(path.dirname(path.join(cwd, file)), cleanUrl);
       }
-      const cleanTarget = localTarget.split('?')[0].split('#')[0];
-      const targetPath = path.join(cwd, cleanTarget);
       if (!fs.existsSync(targetPath)) {
         console.error(`❌ [死链 404] ${file} -> ${url} 对应文件不存在: ${targetPath}`);
         hasError = true;
@@ -164,13 +169,16 @@ for (const file of htmlFiles) {
   const srcRegex = /src="([^"]+)"/g;
   while ((match = srcRegex.exec(content)) !== null) {
     const src = match[1];
-    if (src.startsWith('./') || src.startsWith('/')) {
-      const cleanSrc = src.replace(/^\.?\//, '').split('?')[0];
-      const srcPath = path.join(cwd, cleanSrc);
-      if (!fs.existsSync(srcPath)) {
-        console.error(`❌ [静态资源 404] ${file} -> src: ${src} 对应文件不存在: ${srcPath}`);
-        hasError = true;
-      }
+    let srcPath;
+    const cleanSrc = src.split('?')[0].split('#')[0];
+    if (src.startsWith('/')) {
+      srcPath = path.join(cwd, cleanSrc.replace(/^\//, ''));
+    } else if (src.startsWith('./') || src.startsWith('../')) {
+      srcPath = path.resolve(path.dirname(path.join(cwd, file)), cleanSrc);
+    }
+    if (srcPath && !fs.existsSync(srcPath)) {
+      console.error(`❌ [静态资源 404] ${file} -> src: ${src} 对应文件不存在: ${srcPath}`);
+      hasError = true;
     }
   }
 }
