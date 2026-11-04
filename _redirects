@@ -71,6 +71,8 @@
 /go id=jly                https://haozevpn.jlyvipaff.com/#/?code=jwCMOvQO     301
 /go id=guangnianti        https://gnt001.gntvipaff.cc/#/?code=PQhPFDhO        301
 /go id=gnt                https://gnt001.gntvipaff.cc/#/?code=PQhPFDhO        301
+/go id=pinghaolian        https://pinghaolian.cc/a/6urgqa32                   301
+/go id=phl                https://pinghaolian.cc/a/6urgqa32                   301
 
 # 3. 兜底回落规则 (未匹配到的 /go/* 请求无缝由 /go.html 处理)
 /go/*             /go.html                                            200
