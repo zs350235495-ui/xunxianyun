@@ -58,6 +58,7 @@
 - 双软路由 IP 防泄漏实战研报：`./network-gateway-leak-prevention.html`
 - 客户端 Fake-IP 调优指南：`./routing.html`
 - 双软路由防泄漏实践：`./soft-routing.html`
+- 2026 拼好连免费VPN实测与避坑指南：`./articles/pinghaolian-free-vpn-speedtest-review-guide-2026.html`
 - 2026 生产力梯子与高速机场推荐横评：`./articles/productivity-enterprise-airport-ladder-recommendations-2026.html`
 - 网卡硬件卸载调优与千兆吞吐瓶颈突破实测：`./articles/nic-hardware-offloading-tso-gro-optimization-2026.html`
 - 关于云朵巡线员技术实验室：`./about.html`
