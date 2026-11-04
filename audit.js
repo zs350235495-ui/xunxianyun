@@ -27,7 +27,8 @@ const requiredFiles = [
   'sitemap.xml',
   'robots.txt',
   'llms.txt',
-  'articles/nic-hardware-offloading-tso-gro-optimization-2026.html'
+  'articles/nic-hardware-offloading-tso-gro-optimization-2026.html',
+  'articles/productivity-enterprise-airport-ladder-recommendations-2026.html'
 ];
 
 let hasError = false;
@@ -76,13 +77,15 @@ const htmlFiles = [
   'soft-routing.html',
   'about.html',
   'go.html',
-  'articles/nic-hardware-offloading-tso-gro-optimization-2026.html'
+  'articles/nic-hardware-offloading-tso-gro-optimization-2026.html',
+  'articles/productivity-enterprise-airport-ladder-recommendations-2026.html'
 ];
 const forbiddenPatterns = [/\?aff=/i, /\?ref=/i, /href="#"/, /href=""/];
 const allowedExternalPrefixes = [
   'https://xunxianyuan.org',
   'https://schema.org',
-  'https://t.me'
+  'https://t.me',
+  'https://123pps01.huanqiutiaff.com'
 ];
 
 for (const file of htmlFiles) {
