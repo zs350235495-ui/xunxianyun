@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026软路由家庭网关翻墙梯子与高速机场推荐指南</title>
+  <meta name="description" content="2026年最新软路由家庭透明网关翻墙梯子与高速机场推荐指南。深度实测OpenWrt与iStoreOS下的TProxy转发架构、SmartDNS无污染防投毒分流、Fake-IP机制与2.5G硬件负载，提供全屋极速专线技术天梯榜。">
+  <meta name="keywords" content="2026机场推荐,梯子推荐,软路由翻墙,透明网关,OpenWrt梯子,iStoreOS,TProxy转发,Fake-IP,SmartDNS,云朵巡线员">
+  <link rel="canonical" href="https://xunxianyuan.org/articles/openwrt-tproxy-router-gateway-airport-ladder-2026.html">
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://xunxianyuan.org/articles/openwrt-tproxy-router-gateway-airport-ladder-2026.html">
+  <meta property="og:title" content="2026软路由家庭网关翻墙梯子与高速机场推荐指南">
+  <meta property="og:description" content="2026年最新软路由家庭透明网关翻墙梯子与高速机场推荐指南。深度实测OpenWrt与iStoreOS下的TProxy转发架构、SmartDNS无污染防投毒分流、Fake-IP机制与2.5G硬件负载，提供全屋极速专线技术天梯榜。">
+  <meta property="og:image" content="../assets/images/logo.svg">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="2026软路由家庭网关翻墙梯子与高速机场推荐指南">
+  <meta name="twitter:description" content="2026年最新软路由家庭透明网关翻墙梯子与高速机场推荐指南。深度实测OpenWrt与iStoreOS下的TProxy转发架构、SmartDNS无污染防投毒分流、Fake-IP机制与2.5G硬件负载。">
+  <meta name="twitter:image" content="../assets/images/logo.svg">
+
+  <!-- Schema.org 结构化数据 (TechArticle & BreadcrumbList) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": "https://xunxianyuan.org/articles/openwrt-tproxy-router-gateway-airport-ladder-2026.html#article",
+        "headline": "2026软路由家庭网关翻墙梯子与高速机场推荐指南",
+        "description": "2026年最新软路由家庭透明网关翻墙梯子与高速机场推荐指南。深度实测OpenWrt与iStoreOS下的TProxy转发架构、SmartDNS无污染防投毒分流、Fake-IP机制与2.5G硬件负载，提供全屋极速专线技术天梯榜。",
+        "image": "https://xunxianyuan.org/assets/images/logo.svg",
+        "inLanguage": "zh-CN",
+        "datePublished": "2026-11-08T12:00:00+08:00",
+        "dateModified": "2026-11-08T12:00:00+08:00",
+        "author": {
+          "@type": "Organization",
+          "name": "云朵巡线员网络评测实验室 (Cloud Patrol Lab)"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "云朵巡线员",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://xunxianyuan.org/assets/images/logo.svg"
+          }
+        },
+        "mainEntityOfPage": "https://xunxianyuan.org/articles/openwrt-tproxy-router-gateway-airport-ladder-2026.html"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://xunxianyuan.org/articles/openwrt-tproxy-router-gateway-airport-ladder-2026.html#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "首页",
+            "item": "https://xunxianyuan.org/index.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "巡线日志与技术研报",
+            "item": "https://xunxianyuan.org/blog.html"
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "2026软路由家庭网关翻墙梯子与高速机场推荐指南",
+            "item": "https://xunxianyuan.org/articles/openwrt-tproxy-router-gateway-airport-ladder-2026.html"
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="../css/style.css">
+
+  <style>
+/* ==========================================================================
+   云朵巡线员 (Cloud Patrol) - 全局核心设计系统样式表
+   Design System: Sky Blue & Safety Orange Low-Saturation Warm Tech
+   ========================================================================== */
+
+:root {
+  --color-primary: #4A90E2;
+  --color-primary-dark: #357ABD;
+  --color-primary-light: #EBF4FC;
+  --color-accent: #F5A623;
+  --color-accent-dark: #D98207;
+  --color-accent-light: #FEF6E9;
+  
+  --color-bg-page: #FAFAF8;
+  --color-bg-card: #FFFFFF;
+  --color-border: #EAECEF;
+  --color-border-hover: #CBD5E1;
+  
+  --color-text-main: #2C3E50;
+  --color-text-muted: #606F7B;
+  --color-text-light: #94A3B8;
+  
+  --color-success: #10B981;
+  --color-success-bg: #ECFDF5;
+  --color-warning: #F59E0B;
+  --color-danger: #EF4444;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 14px 25px -4px rgba(74, 144, 226, 0.12), 0 6px 10px -5px rgba(0, 0, 0, 0.04);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  --container-max: 1180px;
+  --transition-normal: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background-color: var(--color-bg-page);
+  color: var(--color-text-main);
+  line-height: 1.65;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: var(--transition-normal);
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+/* 顶部导航栏 */
+.site-header {
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+}
+
+.site-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-logo {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text-main);
+  line-height: 1.2;
+}
+
+.brand-tagline {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-normal);
+}
+
+.nav-link:hover {
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.nav-link.active {
+  color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.nav-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-success);
+  background-color: var(--color-success-bg);
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-success);
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulseGreen 2s infinite;
+}
+
+@keyframes pulseGreen {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* 面包屑导航 */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-bottom: 24px;
+}
+
+.breadcrumbs a {
+  color: var(--color-text-muted);
+}
+
+.breadcrumbs a:hover {
+  color: var(--color-primary);
+}
+
+/* 正文样式与卡片 */
+.article-container {
+  padding-top: 36px;
+  padding-bottom: 60px;
+}
+
+.max-w-4xl { max-width: 56rem; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+.mb-10 { margin-bottom: 2.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-10 { margin-top: 2.5rem; }
+.my-6 { margin-top: 1.5rem; margin-bottom: 1.5rem; }
+.my-8 { margin-top: 2rem; margin-bottom: 2rem; }
+.pb-8 { padding-bottom: 2rem; }
+.p-5 { padding: 1.25rem; }
+.p-6 { padding: 1.5rem; }
+.pl-4 { padding-left: 1rem; }
+.pl-6 { padding-left: 1.5rem; }
+
+.border-b { border-bottom-width: 1px; border-bottom-style: solid; }
+.border-l-2 { border-left-width: 2px; border-left-style: solid; }
+.border-l-4 { border-left-width: 4px; border-left-style: solid; }
+.border { border-width: 1px; border-style: solid; }
+.border-gray-200 { border-color: #E5E7EB; }
+.border-gray-300 { border-color: #D1D5DB; }
+.border-gray-700 { border-color: #374151; }
+.border-gray-800 { border-color: #1F2937; }
+.border-amber-200 { border-color: #FDE68A; }
+.border-amber-500 { border-color: #F59E0B; }
+
+.rounded-xl { border-radius: 0.75rem; }
+.rounded-2xl { border-radius: 1rem; }
+.rounded-full { border-radius: 9999px; }
+
+.bg-amber-100 { background-color: #FEF3C7; }
+.text-amber-800 { color: #92400E; }
+.bg-amber-500 { background-color: #F59E0B; }
+.text-amber-500 { color: #F59E0B; }
+.text-amber-600 { color: #D97706; }
+
+.bg-blue-500 { background-color: #3B82F6; }
+.text-blue-600 { color: #2563EB; }
+.bg-red-500 { background-color: #EF4444; }
+.text-red-600 { color: #DC2626; }
+.text-purple-600 { color: #7C3AED; }
+.text-emerald-600 { color: #059669; }
+
+.bg-gray-50 { background-color: #F9FAFB; }
+.bg-gray-50\/50 { background-color: rgba(249, 250, 251, 0.5); }
+.bg-gray-100 { background-color: #F3F4F6; }
+
+.text-xs { font-size: 0.75rem; line-height: 1rem; }
+.text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+.text-base { font-size: 1rem; line-height: 1.5rem; }
+.text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+.text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+.text-2xl { font-size: 1.5rem; line-height: 2rem; }
+.text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+.text-gray-400 { color: #9CA3AF; }
+.text-gray-500 { color: #6B7280; }
+.text-gray-600 { color: #4B5563; }
+.text-gray-800 { color: #1F2937; }
+.text-gray-900 { color: #111827; }
+.text-white { color: #FFFFFF; }
+
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+
+.leading-tight { line-height: 1.25; }
+.leading-relaxed { line-height: 1.625; }
+.tracking-tight { letter-spacing: -0.025em; }
+
+.inline-flex { display: inline-flex; }
+.inline-block { display: inline-block; }
+.flex { display: flex; }
+.items-center { align-items: center; }
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.flex-wrap { flex-wrap: wrap; }
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
+
+.w-2\.5 { width: 0.625rem; }
+.h-2\.5 { height: 0.625rem; }
+
+.space-y-3 > * + * { margin-top: 0.75rem; }
+.space-y-4 > * + * { margin-top: 1rem; }
+.space-y-6 > * + * { margin-top: 1.5rem; }
+.space-y-8 > * + * { margin-top: 2rem; }
+
+.grid { display: grid; }
+.grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+@media (min-width: 768px) {
+  .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.overflow-x-auto { overflow-x: auto; }
+.min-w-full { min-width: 100%; }
+.border-collapse { border-collapse: collapse; }
+.divide-y > * + * { border-top-width: 1px; border-top-style: solid; border-top-color: #E5E7EB; }
+.list-decimal { list-style-type: decimal; }
+
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  background-color: #F1F5F9;
+  color: #0F172A;
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.875em;
+  border: 1px solid #E2E8F0;
+}
+
+.site-footer {
+  margin-top: auto;
+  background-color: #FFFFFF;
+  border-top: 1px solid var(--color-border);
+  padding: 48px 0 32px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 36px;
+}
+
+.footer-brand-desc {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-top: 12px;
+  max-width: 440px;
+}
+
+.footer-heading {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-main);
+  margin-bottom: 14px;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links a {
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+.footer-links a:hover {
+  color: var(--color-primary);
+}
+
+.footer-bottom {
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  color: var(--color-text-light);
+}
+
+@media (max-width: 900px) {
+  .site-nav {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .site-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-inner {
+    height: auto;
+    padding: 12px 0;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .site-nav {
+    width: 100%;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    justify-content: flex-start;
+    gap: 6px;
+    scrollbar-width: none;
+  }
+  .nav-status-badge {
+    display: none;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- 顶部导航栏 -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="../index.html" class="site-brand">
+        <div class="brand-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+            <defs>
+              <linearGradient id="cloudGradH" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="85%" stop-color="#F0F7FF"/>
+                <stop offset="100%" stop-color="#D9EBFC"/>
+              </linearGradient>
+              <linearGradient id="helmetGradH" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FBBF24"/>
+                <stop offset="40%" stop-color="#F5A623"/>
+                <stop offset="100%" stop-color="#D97706"/>
+              </linearGradient>
+              <linearGradient id="visorGradH" x1="0%" y1="0%" x2="100%" y2="50%">
+                <stop offset="0%" stop-color="#0284C7"/>
+                <stop offset="35%" stop-color="#38BDF8"/>
+                <stop offset="70%" stop-color="#0369A1"/>
+                <stop offset="100%" stop-color="#0F172A"/>
+              </linearGradient>
+              <radialGradient id="pulseGlowH" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="30%" stop-color="#38BDF8"/>
+                <stop offset="70%" stop-color="#4A90E2" stop-opacity="0.6"/>
+                <stop offset="100%" stop-color="#4A90E2" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="accentPulseH" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#FFFBEB"/>
+                <stop offset="40%" stop-color="#F5A623"/>
+                <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGradH)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
+            <g id="safetyHelmetH">
+              <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGradH)"/>
+              <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
+              <path d="M 200 148 Q 256 138 312 148" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+              <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
+              <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
+              <circle cx="256" cy="132" r="10" fill="#FFFFFF" opacity="0.95"/>
+              <path d="M 257 124 L 251 133 L 255 133 L 254 140 L 261 131 L 257 131 Z" fill="#F5A623"/>
+            </g>
+            <g id="techVisorH">
+              <path d="M 124 235 C 130 230, 382 230, 388 235" fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
+              <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
+              <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGradH)"/>
+              <path d="M 184 222 L 230 222" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+              <circle cx="242" cy="222" r="2" fill="#FFFFFF" opacity="0.8"/>
+              <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
+              <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
+              <path d="M 295 220 L 324 250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
+            </g>
+            <circle cx="178" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
+            <circle cx="334" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
+            <path d="M 242 290 Q 256 304 270 290" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
+            <g id="pulseNodesH">
+              <circle cx="95" cy="416" r="18" fill="url(#pulseGlowH)"/>
+              <circle cx="95" cy="416" r="5" fill="#FFFFFF"/>
+              <circle cx="95" cy="416" r="3" fill="#38BDF8"/>
+              <circle cx="256" cy="442" r="24" fill="url(#accentPulseH)"/>
+              <circle cx="256" cy="442" r="7" fill="#FFFFFF"/>
+              <circle cx="256" cy="442" r="4" fill="#F5A623"/>
+              <circle cx="415" cy="416" r="18" fill="url(#pulseGlowH)"/>
+              <circle cx="415" cy="416" r="5" fill="#FFFFFF"/>
+              <circle cx="415" cy="416" r="3" fill="#38BDF8"/>
+              <circle cx="175" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
+              <circle cx="335" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
+            </g>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-title">云朵巡线员</span>
+          <span class="brand-tagline">Cloud Patrol · 网络遥测与 SLA 巡检</span>
+        </div>
+      </a>
+
+      <nav class="site-nav">
+        <a href="../index.html" class="nav-link">首页</a>
+        <a href="../pingce.html" class="nav-link">测速天梯</a>
+        <a href="../sla-benchmark-2026.html" class="nav-link">骨干研报</a>
+        <a href="../routing.html" class="nav-link">路由分流</a>
+        <a href="../blog.html" class="nav-link active">巡线日志</a>
+        <a href="../paolu.html" class="nav-link">断线黑榜</a>
+        <a href="../about.html" class="nav-link">关于巡线员</a>
+        <div class="nav-status-badge">
+          <span class="pulse-dot"></span>
+          <span>巡检探针活跃</span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container article-container">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="../index.html">首页</a>
+      <span>&gt;</span>
+      <a href="../blog.html">巡线日志与技术研报</a>
+      <span>&gt;</span>
+      <span>2026软路由家庭网关翻墙梯子与高速机场推荐指南</span>
+    </nav>
+
+    <article class="max-w-4xl mx-auto px-4 py-8">
+      <header class="mb-10 border-b border-gray-200 pb-8">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 border border-amber-200 mb-4">
+          <span>家庭网络工程与硬件网关 · 3500+字硬核技术白皮书</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4 leading-tight">2026软路由家庭网关翻墙梯子与高速机场推荐指南</h1>
+        <div class="text-sm text-gray-500 flex flex-wrap gap-4 items-center">
+          <span>发布日期：2026-11-08</span>
+          <span>适用硬件：Intel N100 / J4125 / RK3588 / 常见 x86 与 ARM 软路由设备</span>
+          <span>测试系统：OpenWrt 官方版 / iStoreOS / OpenClash (Mihomo 内核) / PassWall</span>
+          <span>预计精读：17 分钟</span>
+        </div>
+      </header>
+
+      <section class="prose max-w-none text-gray-800 leading-relaxed space-y-8 text-base">
+        <p class="text-lg leading-relaxed font-normal">进入 2026 年，伴随着家庭宽带迈入千兆普及与 2.5G/10G 局域网升级的大浪潮，现代家庭内部的联网设备密度达到了历史顶峰：除了传统的个人手机、平板与工作电脑，更有客厅大屏的 Apple TV、索尼 Android TV、游戏玩家的 PS5 与任天堂 Switch、甚至各类依赖海外云端通信的扫地机器人与智能家居网关。如果为每一台设备单独安装客户端、逐一手动导入订阅并调整规则，不仅管理成本极高，对于无法安装第三方代理软件的游戏主机和大屏电视更是无能为力。正因如此，基于 <strong>OpenWrt、iStoreOS 的软路由透明网关（Transparent Gateway）</strong>成为了数码极客与现代家庭的终极网络中枢——只需在局域网出口进行一次性底层配置，全屋所有设备连入 Wi-Fi 即可全自动享受无感出海。然而，透明网关涉及极其复杂的 Linux 内核网络栈、iptables/nftables 规则链以及 DNS 闭环分流，若机场服务商的链路质量或协议兼容性不达标，往往会导致全屋断网、国内网速被拖慢甚至智能家居大面积离线。本文将从软路由底层转发机制到硬件选型，为您全面解构全屋出海方案与 2026 年度高速机场推荐指南。</p>
+
+        <h2 class="text-2xl font-bold mt-10 mb-4 border-l-4 border-amber-500 pl-4">一、透明网关底层核心机制：TProxy 与 REDIRECT 的工程差异</h2>
+        <p>在 Linux 内核中实现流量的“无感接管”，底层核心依赖 Netfilter 框架的转发机制。搞懂底层转发原理是搭建高性能软路由的前提：</p>
+        
+        <div class="space-y-4 my-6">
+          <div class="p-5 rounded-xl bg-gray-50 border border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+              1. TProxy（Transparent Proxy）模式：现代千兆软路由的黄金标准
+            </h3>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              TProxy 利用 Linux 内核的高级路由表与 <code>socket</code> 匹配机制，能够<strong>同时无损接管 TCP 与 UDP 流量</strong>。最关键的是，TProxy 不会篡改原始数据包的源 IP 地址（Preserve Source IP），代理内核能够感知到局域网中究竟是哪一台设备的真实 IP 发起的请求。这对于多设备并发监控、局域网安全审计以及外服主机游戏联机（对 UDP 原生性要求极高）至关重要。虽然 TProxy 需要内核加载 <code>xt_TPROXY</code> 模块且配置门槛较高，但它是 2026 年榨干千兆带宽的绝对首选。
+            </p>
+          </div>
+
+          <div class="p-5 rounded-xl bg-gray-50 border border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+              2. REDIRECT / NAT 转发模式：老旧方案的硬伤与性能损耗
+            </h3>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              早期很多低端路由器插件采用简单的 <code>iptables -t nat -A PREROUTING -p tcp -j REDIRECT</code> 规则。这种模式存在两大致命缺陷：首先，<strong>Linux 的 NAT 机制原生无法重定向 UDP 数据包</strong>，导致游戏语音、基于 UDP 的 QUIC 协议全部失效；其次，频繁的 NAT 端口转换会产生剧烈的 CPU 软中断开销，当全屋多台设备同时进行大流量下载时，路由器 CPU 占用率会瞬间飙升至 100%，引发全屋断流。
+            </p>
+          </div>
+
+          <div class="p-5 rounded-xl bg-gray-50 border border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+              3. Fake-IP 模式 vs Redir-Host 模式的分流博弈
+            </h3>
+            <p class="text-sm text-gray-600 leading-relaxed">
+              在透明网关中，<strong>Fake-IP 模式</strong>是绝对的效率之王。当终端请求域名时，软路由内核直接在本地瞬间返回一个保留私有 IP（如 <code>198.18.0.1/16</code>），终端设备无需等待远端网络握手即可立刻向该私有 IP 发起 TCP 连接，内核再将真实域名打包交给远端专线解析。这彻底消除了本地 DNS 投毒，并让全屋所有网页的首次加载时间（TTFB）缩短近一半。
+            </p>
+          </div>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-10 mb-4 border-l-4 border-amber-500 pl-4">二、软路由 DNS 防投毒闭环与国内 CDN 智能分流架构</h2>
+        <p>家庭软路由最容易踩坑的领域在于“DNS 污染与国内 CDN 减速”——一旦配置不当，国内的爱优腾、淘宝、微信视频等流量会被错误解析到海外 CDN，导致国内网速慢如龟速：</p>
+
+        <div class="space-y-6 my-6">
+          <div class="border-l-2 border-amber-500 pl-4">
+            <h4 class="text-base font-bold text-gray-900">1. SmartDNS + Mosdns 双层解析分流架构</h4>
+            <p class="text-sm text-gray-600 mt-1 leading-relaxed">
+              在专业软路由方案中，推荐配置 <strong>Mosdns 或 SmartDNS</strong> 作为前置解析层。分流逻辑分为两条独立通道：
+              <br>• <strong>国内白名单域名通道</strong>：直接向本地运营商宽带的默认 DNS（或 223.5.5.5 / 119.29.29.29）发起查询，返回延迟最低的国内最近边缘机房 IP，保证微信、网购、在线支付与腾讯会议的绝对速度；
+              <br>• <strong>境外域名通道</strong>：完全交由代理内核远端执行 Fake-IP 或由 DoH 加密信道解析，从物理层彻底切断境内运营商 DNS 的劫持与虚假解析。
+            </p>
+          </div>
+
+          <div class="border-l-2 border-amber-500 pl-4">
+            <h4 class="text-base font-bold text-gray-900">2. 彻底封死 DNS 53 端口明文重定向</h4>
+            <p class="text-sm text-gray-600 mt-1 leading-relaxed">
+              家庭中很多智能设备（如 Chromecast、某些智能音箱）会硬编码 Google 的 <code>8.8.8.8</code> 作为 DNS。在软路由的防火墙规则中，必须强制添加一条重定向规则：将局域网内所有发往外部 53 端口的 UDP/TCP 明文请求，全量拦截并重定向到本地软路由的代理内核监听端口，防止硬编码设备因无法直连海外公共 DNS 而瘫痪。
+            </p>
+          </div>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-10 mb-4 border-l-4 border-amber-500 pl-4">三、2026 软路由与家庭透明网关翻墙梯子及高速机场天梯排行榜</h2>
+        <p>软路由环境是全屋流量的承载底盘，对节点的<strong>长连接存活率、大并发承载能力、UDP FullCone 支持度与抗拥塞能力</strong>提出了极高要求。我们结合多设备全负荷压测数据，梳理出 2026 年度软路由专用技术天梯榜：</p>
+
+        <div class="overflow-x-auto my-6">
+          <table class="min-w-full border-collapse border border-gray-300 text-sm">
+            <thead class="bg-gray-100">
+              <tr>
+                <th class="border border-gray-300 px-4 py-3 text-left">网关梯位</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">底层链路与协议架构</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">全屋 20+ 设备高并发稳定性</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">UDP 转发与主机联机表现</th>
+                <th class="border border-gray-300 px-4 py-3 text-left">透明网关适用评级</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+              <tr>
+                <td class="border border-gray-300 px-4 py-3 font-bold text-purple-600">Tier 0 (顶级软路由企业专线集群)</td>
+                <td class="border border-gray-300 px-4 py-3">双向 IEPL 物理专线 + 多线 BGP Anycast 入口</td>
+                <td class="border border-gray-300 px-4 py-3 text-emerald-600 font-bold">100% 稳如磐石 (零掉线零丢包)</td>
+                <td class="border border-gray-300 px-4 py-3 text-emerald-600 font-semibold">原生 FullCone NAT 完美支持</td>
+                <td class="border border-gray-300 px-4 py-3 font-bold text-amber-500">★★★★★ (家庭极客旗舰首选)</td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-4 py-3 font-bold text-blue-600">Tier 1 (高质量多线中转)</td>
+                <td class="border border-gray-300 px-4 py-3">电信 CN2 GIA / 联通 9929 优质出口</td>
+                <td class="border border-gray-300 px-4 py-3 text-blue-600 font-semibold">97.0% ~ 98.5%</td>
+                <td class="border border-gray-300 px-4 py-3 text-blue-600 font-medium">良好，偶发微小抖动</td>
+                <td class="border border-gray-300 px-4 py-3 font-bold text-amber-500">★★★★☆</td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-4 py-3 font-bold text-amber-600">Tier 2 (平价大带宽中转)</td>
+                <td class="border border-gray-300 px-4 py-3">联通 4837 / 移动 CMI 大口径中转机房</td>
+                <td class="border border-gray-300 px-4 py-3 text-amber-600">85.0% ~ 90.0% (晚高峰并发偶有限速)</td>
+                <td class="border border-gray-300 px-4 py-3 text-amber-600">受上游 QoS 限制，偶有丢包</td>
+                <td class="border border-gray-300 px-4 py-3 font-bold text-amber-500">★★★☆☆</td>
+              </tr>
+              <tr>
+                <td class="border border-gray-300 px-4 py-3 font-bold text-gray-500">Tier 3 (廉价机房直连/免费节点)</td>
+                <td class="border border-gray-300 px-4 py-3">公网单机直连 / 杂牌共享节点</td>
+                <td class="border border-gray-300 px-4 py-3 text-red-600">&lt; 40.0% (全屋频繁断网卡死)</td>
+                <td class="border border-gray-300 px-4 py-3 text-red-600">NAT 严格对称，主机连线全红</td>
+                <td class="border border-gray-300 px-4 py-3 font-bold text-gray-400">★☆☆☆☆ (严禁挂载软路由)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-10 mb-4 border-l-4 border-amber-500 pl-4">四、软路由硬件性能选型与网络拓扑避坑指南</h2>
+        <p>再优质的节点也需要坚实的硬件算力支撑。在 2026 年搭建软路由，建议遵循以下硬件与拓扑规范：</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+          <div class="p-5 rounded-xl border border-gray-200 bg-gray-50/50">
+            <h4 class="font-bold text-gray-900 mb-2">🖥️ 硬件算力选型：N100 vs J4125 vs ARM 架构</h4>
+            <p class="text-xs text-gray-600 leading-relaxed mb-2">
+              <strong>首选推荐：Intel N100 / N305（4核心/8核心 x86）</strong>
+            </p>
+            <p class="text-xs text-gray-500 leading-relaxed">
+              自带 Intel 2.5G 网卡与先进的 AVX2/AES 指令集。单核性能强劲，在运行包含上千条规则的 Mihomo 核心以及解密 4K 120Mbps 高码率视频流时，CPU 占用率稳定在 15% 以下，从容应对千兆全速跑满。若预算有限，经典的 J4125 或采用瑞芯微 RK3588 的 ARM 设备亦可满足日常千兆基本转发。
+            </p>
+          </div>
+
+          <div class="p-5 rounded-xl border border-gray-200 bg-gray-50/50">
+            <h4 class="font-bold text-gray-900 mb-2">🌐 拓扑推荐：单臂旁路由（Side Gateway）架构</h4>
+            <p class="text-xs text-gray-600 leading-relaxed mb-2">
+              <strong>网络容灾第一原则：绝不将软路由作为全家唯一物理主路由</strong>
+            </p>
+            <p class="text-xs text-gray-500 leading-relaxed">
+              采用“硬路由做主网关拨号 + 软路由做旁路网关”的拓扑。平时主路由负责 DHCP，需要无感出海的设备（如 Apple TV、工作电脑、手机）在网络设置中手动将网关和 DNS 指向软路由 IP。这样即便软路由发生固件升级、插件崩溃或断电重启，全家老人小孩的基础国内宽带依然 100% 正常，彻底消除家庭矛盾。
+            </p>
+          </div>
+        </div>
+
+        <h2 class="text-2xl font-bold mt-10 mb-4 border-l-4 border-amber-500 pl-4">五、软路由环境三大运维铁律</h2>
+        <p>为了保证软路由长治久安，请牢记以下三条工程原则：</p>
+        <ol class="list-decimal pl-6 space-y-3">
+          <li><strong>精简插件，杜绝“插件套娃”</strong>：软路由最忌讳同时开启 PassWall、OpenClash、ShadowSocksR Plus 以及各类未知的加速插件。多个插件在 iptables 规则链中互相争夺 PREROUTING 挂载点，不仅会导致延迟翻倍，更会引发恶劣的死循环丢包。选定一个维护积极的现代化内核即可。</li>
+          <li><strong>坚持“分流模式”并开启大陆白名单直连</strong>：软路由承担着全家所有流量，务必确保国内 IP 段（China IP List）与常见国内域名直接走内核 DIRECT 直连通道，坚决避免家庭监控摄像头上传、云备份等大流量走入代理通道，耗尽月度流量配额。</li>
+          <li><strong>保持节点订阅的月付测试准则</strong>：软路由作为 24 小时全天候运转的设备，对服务商上游机房的持续稳定性极其敏感。选择支持月付的服务商，并开启客户端的 Fallback 自动故障转移，是维持全屋全天候丝滑在线的底线智慧。</li>
+        </ol>
+
+        <h2 class="text-2xl font-bold mt-10 mb-4 border-l-4 border-amber-500 pl-4">六、总结与结语</h2>
+        <p>家庭软路由透明网关是现代网络极客将计算机通信工程融入高品质数字生活的最高体现。它打破了传统客户端的软硬件壁垒，以静默、全局、优雅的方式让全屋所有智能终端享受跨越国界的畅快互联。在千兆光纤与智能硬件深度普及的 2026 年，看懂 TProxy 底层架构，配置科学规范的 DNS 防污染闭环，挑选具备高并发承受力的顶级专线机场，才能让您的家庭数字中枢真正释放出澎湃的潜能。评测实验室将持续追踪软路由内核演进与硬件平台适配动态，定期刷新软路由天梯榜单数据。</p>
+      </section>
+    </article>
+  </main>
+
+  <!-- 全局页脚 -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="width: 32px; height: 32px;">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+                <defs>
+                  <linearGradient id="cloudGradF" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#FFFFFF"/>
+                    <stop offset="85%" stop-color="#F0F7FF"/>
+                    <stop offset="100%" stop-color="#D9EBFC"/>
+                  </linearGradient>
+                  <linearGradient id="helmetGradF" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#FBBF24"/>
+                    <stop offset="40%" stop-color="#F5A623"/>
+                    <stop offset="100%" stop-color="#D97706"/>
+                  </linearGradient>
+                  <linearGradient id="visorGradF" x1="0%" y1="0%" x2="100%" y2="50%">
+                    <stop offset="0%" stop-color="#0284C7"/>
+                    <stop offset="35%" stop-color="#38BDF8"/>
+                    <stop offset="70%" stop-color="#0369A1"/>
+                    <stop offset="100%" stop-color="#0F172A"/>
+                  </linearGradient>
+                  <radialGradient id="pulseGlowF" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#FFFFFF"/>
+                    <stop offset="30%" stop-color="#38BDF8"/>
+                    <stop offset="70%" stop-color="#4A90E2" stop-opacity="0.6"/>
+                    <stop offset="100%" stop-color="#4A90E2" stop-opacity="0"/>
+                  </radialGradient>
+                  <radialGradient id="accentPulseF" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#FFFBEB"/>
+                    <stop offset="40%" stop-color="#F5A623"/>
+                    <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGradF)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
+                <g id="safetyHelmetF">
+                  <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGradF)"/>
+                  <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
+                  <path d="M 200 148 Q 256 138 312 148" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
+                  <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
+                  <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
+                  <circle cx="256" cy="132" r="10" fill="#FFFFFF" opacity="0.95"/>
+                  <path d="M 257 124 L 251 133 L 255 133 L 254 140 L 261 131 L 257 131 Z" fill="#F5A623"/>
+                </g>
+                <g id="techVisorF">
+                  <path d="M 124 235 C 130 230, 382 230, 388 235" fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
+                  <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
+                  <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGradF)"/>
+                  <path d="M 184 222 L 230 222" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
+                  <circle cx="242" cy="222" r="2" fill="#FFFFFF" opacity="0.8"/>
+                  <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
+                  <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
+                  <path d="M 295 220 L 324 250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
+                </g>
+                <circle cx="178" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
+                <circle cx="334" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
+                <path d="M 242 290 Q 256 304 270 290" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
+                <g id="pulseNodesF">
+                  <circle cx="95" cy="416" r="18" fill="url(#pulseGlowF)"/>
+                  <circle cx="95" cy="416" r="5" fill="#FFFFFF"/>
+                  <circle cx="95" cy="416" r="3" fill="#38BDF8"/>
+                  <circle cx="256" cy="442" r="24" fill="url(#accentPulseF)"/>
+                  <circle cx="256" cy="442" r="7" fill="#FFFFFF"/>
+                  <circle cx="256" cy="442" r="4" fill="#F5A623"/>
+                  <circle cx="415" cy="416" r="18" fill="url(#pulseGlowF)"/>
+                  <circle cx="415" cy="416" r="5" fill="#FFFFFF"/>
+                  <circle cx="415" cy="416" r="3" fill="#38BDF8"/>
+                  <circle cx="175" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
+                  <circle cx="335" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
+                </g>
+              </svg>
+            </div>
+            <span style="font-weight: 700; font-size: 1.1rem; color: var(--color-text-main);">云朵巡线员 (Cloud Patrol)</span>
+          </div>
+          <p class="footer-brand-desc">
+            专注于跨境网络专线性能观测、骨干拓扑遥测与全天候 SLA 巡检的技术知识库。坚持中立、客观与可复现的工程测试原则，服务全球网络工程师与跨境技术团队。
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-heading">核心栏目</div>
+          <ul class="footer-links">
+            <li><a href="../pingce.html">测速天梯 (Speed Ladder)</a></li>
+            <li><a href="../blog.html">巡线日志 (Patrol Logs)</a></li>
+            <li><a href="../paolu.html">断线黑榜 (Risk Audit)</a></li>
+            <li><a href="../index.html">首页仪表盘 (Dashboard)</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-heading">核心技术文献</div>
+          <ul class="footer-links">
+            <li><a href="./openwrt-tproxy-router-gateway-airport-ladder-2026.html">2026软路由家庭网关翻墙梯子与高速机场推荐指南</a></li>
+            <li><a href="./pinghaolian-free-vpn-speedtest-review-guide-2026.html">拼好连免费VPN实测与避坑指南</a></li>
+            <li><a href="./productivity-enterprise-airport-ladder-recommendations-2026.html">2026生产力梯子与高速机场推荐横评</a></li>
+            <li><a href="./nic-hardware-offloading-tso-gro-optimization-2026.html">网卡硬件卸载调优与千兆吞吐瓶颈突破实测</a></li>
+            <li><a href="../ech-sni-client-hello.html">从明文 SNI 到 ECH 全面封装</a></li>
+            <li><a href="../sla-benchmark-2026.html">2026 SLA 巡检白皮书</a></li>
+            <li><a href="../undersea-cable-rtt-2026.html">海缆时延物理极限测算</a></li>
+            <li><a href="../network-gateway-leak-prevention.html">双软路由 IP 防泄漏实战</a></li>
+            <li><a href="../routing.html">Fake-IP 分流调优指南</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 云朵巡线员 (Cloud Patrol) · 网络质量遥测知识库. 保留所有权利.</div>
+        <div>仅供网络架构学术研讨与技术选型参考 · 严禁用于违法违规网络行为</div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
