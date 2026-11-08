@@ -7,7 +7,7 @@
 # 1. 路径风格 /go/xxx 301 重定向
 /go/huanqiuti     https://123pps01.huanqiutiaff.com/#/?code=j5VBUvw0  301
 /go/dalaoyun      https://ppsvip01.dalaoyunaff.com/#/?code=Iz1GlCVa   301
-/go/yunjiexian    https://pp01.yunjiexianaff.com/#/?code=bp0ZSKBV     301
+/go/yunjiexian    https://pp01.yunjiexianaff.com/#/?code=6Y9vSMcc     301
 /go/shandianshu   https://ppsvip01.shandianshuaff.com/#/?code=QbLF8tjB 301
 /go/shenxing      https://pps123.shenxingaff.com/#/?code=6tQ7zHUc     301
 /go/liulianyun    https://123pp01.liulianyunaff.com/#/?code=MsZP3u7G  301
@@ -30,7 +30,7 @@
 # 2. 查询参数风格 /go.html?id=xxx 与 /go?id=xxx 301 重定向 (Netlify)
 /go.html id=huanqiuti     https://123pps01.huanqiutiaff.com/#/?code=j5VBUvw0  301
 /go.html id=dalaoyun      https://ppsvip01.dalaoyunaff.com/#/?code=Iz1GlCVa   301
-/go.html id=yunjiexian    https://pp01.yunjiexianaff.com/#/?code=bp0ZSKBV     301
+/go.html id=yunjiexian    https://pp01.yunjiexianaff.com/#/?code=6Y9vSMcc     301
 /go.html id=shandianshu   https://ppsvip01.shandianshuaff.com/#/?code=QbLF8tjB 301
 /go.html id=shenxing      https://pps123.shenxingaff.com/#/?code=6tQ7zHUc     301
 /go.html id=liulianyun    https://123pp01.liulianyunaff.com/#/?code=MsZP3u7G  301
@@ -52,7 +52,7 @@
 
 /go id=huanqiuti          https://123pps01.huanqiutiaff.com/#/?code=j5VBUvw0  301
 /go id=dalaoyun           https://ppsvip01.dalaoyunaff.com/#/?code=Iz1GlCVa   301
-/go id=yunjiexian         https://pp01.yunjiexianaff.com/#/?code=bp0ZSKBV     301
+/go id=yunjiexian         https://pp01.yunjiexianaff.com/#/?code=6Y9vSMcc     301
 /go id=shandianshu        https://ppsvip01.shandianshuaff.com/#/?code=QbLF8tjB 301
 /go id=shenxing           https://pps123.shenxingaff.com/#/?code=6tQ7zHUc     301
 /go id=liulianyun         https://123pp01.liulianyunaff.com/#/?code=MsZP3u7G  301
