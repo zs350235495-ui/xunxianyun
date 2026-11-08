@@ -45,8 +45,8 @@ for (const relPath of requiredFiles) {
   }
 }
 
-// 2. 检查 301 隔离合规系统专属规范 (go.html 与 robots.txt)
-console.log('\n🔒 正在审计 301 隔离与搜索引擎策略...');
+// 2. 检查 302 隔离合规系统专属规范 (go.html 与 robots.txt)
+console.log('\n🔒 正在审计 302 隔离与搜索引擎策略...');
 
 // 2.1 robots.txt 严禁设置 Disallow /go (避免 Bing Webmaster Tools 报 Blocked 错误)
 const robotsTxt = fs.readFileSync(path.join(cwd, 'robots.txt'), 'utf8');
@@ -122,12 +122,12 @@ for (const file of htmlFiles) {
       goCount++;
       const tag = goMatch[0];
       if (!tag.includes('rel="nofollow sponsored noopener noreferrer"')) {
-        console.error(`❌ [缺少合规 rel] ${file} 中的 301 隔离链接缺少 rel="nofollow sponsored noopener noreferrer": ${tag}`);
+        console.error(`❌ [缺少合规 rel] ${file} 中的 302 隔离链接缺少 rel="nofollow sponsored noopener noreferrer": ${tag}`);
         hasError = true;
       }
     }
     if (goCount > 0) {
-      console.log(`  [OK] 检测到 ${goCount} 处安全 301 隔离链接，全部严格附加 rel="nofollow sponsored noopener noreferrer"`);
+      console.log(`  [OK] 检测到 ${goCount} 处安全 302 隔离链接，全部严格附加 rel="nofollow sponsored noopener noreferrer"`);
     }
   }
 
