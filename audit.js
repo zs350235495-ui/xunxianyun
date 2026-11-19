@@ -30,7 +30,9 @@ const requiredFiles = [
   'articles/nic-hardware-offloading-tso-gro-optimization-2026.html',
   'articles/productivity-enterprise-airport-ladder-recommendations-2026.html',
   'articles/pinghaolian-free-vpn-speedtest-review-guide-2026.html',
-  'articles/openwrt-tproxy-router-gateway-airport-ladder-2026.html'
+  'articles/openwrt-tproxy-router-gateway-airport-ladder-2026.html',
+  'articles/bgp-iepl-latency-optimization-protocol-guide-2026.html',
+  'articles/2026-airport-ladder-mobile-travel-guide.html'
 ];
 
 let hasError = false;
@@ -82,7 +84,9 @@ const htmlFiles = [
   'articles/nic-hardware-offloading-tso-gro-optimization-2026.html',
   'articles/productivity-enterprise-airport-ladder-recommendations-2026.html',
   'articles/pinghaolian-free-vpn-speedtest-review-guide-2026.html',
-  'articles/openwrt-tproxy-router-gateway-airport-ladder-2026.html'
+  'articles/openwrt-tproxy-router-gateway-airport-ladder-2026.html',
+  'articles/bgp-iepl-latency-optimization-protocol-guide-2026.html',
+  'articles/2026-airport-ladder-mobile-travel-guide.html'
 ];
 const forbiddenPatterns = [/\?aff=/i, /\?ref=/i, /href="#"/, /href=""/];
 const allowedExternalPrefixes = [
