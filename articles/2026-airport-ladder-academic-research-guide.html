@@ -166,6 +166,7 @@ a:hover {
   padding-right: 20px;
 }
 
+/* 顶部导航栏 */
 .site-header {
   background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(8px);
@@ -174,7 +175,7 @@ a:hover {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: var(--shadow-sm);
+  transition: var(--transition-normal);
 }
 
 .header-inner {
@@ -204,39 +205,41 @@ a:hover {
 
 .brand-title {
   font-size: 1.25rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: 700;
   color: var(--color-text-main);
-  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .brand-tagline {
   font-size: 0.75rem;
   color: var(--color-text-muted);
   font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
+/* 顶部导航弹性不折行 */
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: clamp(2px, 0.6vw, 8px);
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .nav-link {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  padding: 8px 14px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--color-text-main);
+  padding: 6px clamp(6px, 0.6vw, 12px);
   border-radius: var(--radius-sm);
   transition: var(--transition-normal);
+  white-space: nowrap;
+  flex-shrink: 0;
+  text-decoration: none;
 }
 
-.nav-link:hover {
-  color: var(--color-primary);
-  background-color: var(--color-primary-light);
-}
-
-.nav-link.active {
+.nav-link:hover, .nav-link.active {
   color: var(--color-primary);
   background-color: var(--color-primary-light);
 }
@@ -244,52 +247,63 @@ a:hover {
 .nav-tg-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: var(--radius-full);
   font-size: 0.82rem;
   font-weight: 600;
-  color: #FFFFFF !important;
-  background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
-  padding: 6px 12px;
-  border-radius: var(--radius-full);
-  margin-left: 6px;
+  background: #E0F2FE;
+  color: #0284C7 !important;
+  border: 1px solid #BAE6FD;
   text-decoration: none;
-  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
   transition: var(--transition-normal);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .nav-tg-btn:hover {
-  background: linear-gradient(135deg, #0369A1 0%, #075985 100%);
-  box-shadow: 0 4px 10px rgba(2, 132, 199, 0.35);
+  background: #0284C7;
+  color: #FFFFFF !important;
+  border-color: #0284C7;
   transform: translateY(-1px);
 }
 
 .nav-status-badge {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
+  padding: 5px 10px;
+  background-color: var(--color-success-bg);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: var(--radius-full);
   font-size: 0.78rem;
   font-weight: 600;
-  color: var(--color-success);
-  background-color: var(--color-success-bg);
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  margin-left: 8px;
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #065F46;
+  margin-left: clamp(2px, 0.5vw, 6px);
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .pulse-dot {
-  width: 7px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   background-color: var(--color-success);
   border-radius: 50%;
-  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
-  animation: pulseGreen 2s infinite;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulseAnimation 2s infinite;
 }
 
-@keyframes pulseGreen {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+@keyframes pulseAnimation {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
 }
 
 .article-container {
@@ -514,73 +528,50 @@ code {
   <!-- 顶部导航栏 -->
   <header class="site-header">
     <div class="container header-inner">
-      <a href="../index.html" class="site-brand">
+      <a href="../index.html" class="site-brand" title="返回云朵巡线员首页">
         <div class="brand-logo">
+          <!-- 拟态巡线员矢量图标 -->
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
             <defs>
-              <linearGradient id="cloudGradH" x1="0%" y1="0%" x2="0%" y2="100%">
+              <linearGradient id="cloudGradNav" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stop-color="#FFFFFF"/>
                 <stop offset="85%" stop-color="#F0F7FF"/>
                 <stop offset="100%" stop-color="#D9EBFC"/>
               </linearGradient>
-              <linearGradient id="helmetGradH" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="helmetGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stop-color="#FBBF24"/>
                 <stop offset="40%" stop-color="#F5A623"/>
                 <stop offset="100%" stop-color="#D97706"/>
               </linearGradient>
-              <linearGradient id="visorGradH" x1="0%" y1="0%" x2="100%" y2="50%">
+              <linearGradient id="visorGradNav" x1="0%" y1="0%" x2="100%" y2="50%">
                 <stop offset="0%" stop-color="#0284C7"/>
                 <stop offset="35%" stop-color="#38BDF8"/>
                 <stop offset="70%" stop-color="#0369A1"/>
                 <stop offset="100%" stop-color="#0F172A"/>
               </linearGradient>
-              <radialGradient id="pulseGlowH" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#FFFFFF"/>
-                <stop offset="30%" stop-color="#38BDF8"/>
-                <stop offset="70%" stop-color="#4A90E2" stop-opacity="0.6"/>
-                <stop offset="100%" stop-color="#4A90E2" stop-opacity="0"/>
-              </radialGradient>
-              <radialGradient id="accentPulseH" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#FFFBEB"/>
-                <stop offset="40%" stop-color="#F5A623"/>
-                <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
-              </radialGradient>
+              <linearGradient id="fiberGradNav" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
+                <stop offset="20%" stop-color="#38BDF8"/>
+                <stop offset="50%" stop-color="#60A5FA"/>
+                <stop offset="80%" stop-color="#38BDF8"/>
+                <stop offset="100%" stop-color="#2563EB" stop-opacity="0.2"/>
+              </linearGradient>
             </defs>
-            <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGradH)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
-            <g id="safetyHelmetH">
-              <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGradH)"/>
+            <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="#CBD5E1" stroke-width="14" stroke-linecap="round" opacity="0.5"/>
+            <path d="M 40 400 C 140 450, 372 450, 472 400" fill="none" stroke="url(#fiberGradNav)" stroke-width="8" stroke-linecap="round"/>
+            <path d="M 170 370 L 342 370 A 64 64 0 0 0 406 306 A 54 54 0 0 0 380 220 A 72 72 0 0 0 320 160 A 88 88 0 0 0 192 160 A 72 72 0 0 0 132 220 A 54 54 0 0 0 106 306 A 64 64 0 0 0 170 370 Z" fill="url(#cloudGradNav)" stroke="#C8DFF5" stroke-width="3" stroke-linejoin="round"/>
+            <g id="safetyHelmetNav">
+              <path d="M 186 160 C 186 96, 326 96, 326 160 Z" fill="url(#helmetGradNav)"/>
               <path d="M 251 102 C 251 102, 256 125, 256 160 C 256 125, 261 102, 261 102 Z" fill="#FDE68A" opacity="0.8"/>
               <path d="M 200 148 Q 256 138 312 148" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.75"/>
               <path d="M 166 160 C 166 150, 346 150, 346 160 C 346 172, 166 172, 166 160 Z" fill="#D97706"/>
               <path d="M 172 160 C 172 153, 340 153, 340 160 C 340 166, 172 166, 172 160 Z" fill="#F5A623"/>
-              <circle cx="256" cy="132" r="10" fill="#FFFFFF" opacity="0.95"/>
-              <path d="M 257 124 L 251 133 L 255 133 L 254 140 L 261 131 L 257 131 Z" fill="#F5A623"/>
             </g>
-            <g id="techVisorH">
-              <path d="M 124 235 C 130 230, 382 230, 388 235" fill="none" stroke="#475569" stroke-width="6" stroke-linecap="round"/>
+            <g id="techVisorNav">
               <rect x="168" y="210" width="176" height="58" rx="26" fill="#1E293B" stroke="#0F172A" stroke-width="3"/>
-              <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGradH)"/>
-              <path d="M 184 222 L 230 222" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8"/>
-              <circle cx="242" cy="222" r="2" fill="#FFFFFF" opacity="0.8"/>
+              <rect x="174" y="215" width="164" height="48" rx="22" fill="url(#visorGradNav)"/>
               <circle cx="256" cy="239" r="12" fill="none" stroke="#38BDF8" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.75"/>
               <circle cx="256" cy="239" r="3" fill="#38BDF8" opacity="0.9"/>
-              <path d="M 295 220 L 324 250" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity="0.25"/>
-            </g>
-            <circle cx="178" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
-            <circle cx="334" cy="292" r="12" fill="#FCA5A5" opacity="0.5"/>
-            <path d="M 242 290 Q 256 304 270 290" fill="none" stroke="#475569" stroke-width="3.5" stroke-linecap="round"/>
-            <g id="pulseNodesH">
-              <circle cx="95" cy="416" r="18" fill="url(#pulseGlowH)"/>
-              <circle cx="95" cy="416" r="5" fill="#FFFFFF"/>
-              <circle cx="95" cy="416" r="3" fill="#38BDF8"/>
-              <circle cx="256" cy="442" r="24" fill="url(#accentPulseH)"/>
-              <circle cx="256" cy="442" r="7" fill="#FFFFFF"/>
-              <circle cx="256" cy="442" r="4" fill="#F5A623"/>
-              <circle cx="415" cy="416" r="18" fill="url(#pulseGlowH)"/>
-              <circle cx="415" cy="416" r="5" fill="#FFFFFF"/>
-              <circle cx="415" cy="416" r="3" fill="#38BDF8"/>
-              <circle cx="175" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
-              <circle cx="335" cy="434" r="3.5" fill="#BAE6FD" opacity="0.9"/>
             </g>
           </svg>
         </div>
@@ -590,6 +581,7 @@ code {
         </div>
       </a>
 
+      <!-- 完整 7 项板块 + 探针状态胶囊 -->
       <nav class="site-nav">
         <a href="../index.html" class="nav-link">首页</a>
         <a href="../pingce.html" class="nav-link">测速天梯</a>
