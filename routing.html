@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>跨境路由智能分流与策略分流观测实践 - 云朵巡线员</title>
-  <meta name="description" content="跨境网络分流技术深度指南：探讨基于 GeoIP 数据库、BGP AS 路由号、EDNS Client Subnet 与透明代理策略分流的最佳实践，消除 DNS 污染与不必要的跨境跨洋回路。">
-  <meta name="keywords" content="跨境路由分流,策略路由,GeoIP,BGP分流,DNS分流,云朵巡线员">
+  <meta name="description" content="跨境网络分流与多端订阅实战指南：覆盖 Clash、Clash Verge、Clash Meta、Shadowrocket（小火箭）、Quantumult X（圈 X）、Surge、Stash、v2rayN、v2rayNG、sing-box 与 Hiddify 客户端分流策略，结合 GeoIP、Fake-IP 与专线机场推荐选型消除 DNS 污染。">
+  <meta name="keywords" content="Clash 机场推荐,Clash 订阅机场推荐,Clash 节点推荐,Clash 科学上网机场,Clash Verge 机场推荐,Clash Meta 机场推荐,Shadowrocket 机场推荐,Shadowrocket 节点推荐,小火箭机场推荐,小火箭订阅推荐,Quantumult X 机场推荐,圈 X 机场推荐,Surge 机场推荐,Stash 机场推荐,v2rayN 机场推荐,v2rayNG 机场推荐,sing-box 机场推荐,Hiddify 机场推荐,ChatGPT 机场推荐,TikTok 机场推荐,云朵巡线员">
   <link rel="canonical" href="https://xunxianyuan.org/routing.html">
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 
@@ -1279,19 +1279,19 @@ code.inline-code {
               <td><strong>AI 大模型交互</strong><br><small>ChatGPT / Claude / Gemini</small></td>
               <td>IP 清洁度极高、防 Cloudflare 盾拦截、防账号风控封禁</td>
               <td>固定节点 / 故障被动切换，禁止频繁并发漂移</td>
-              <td>选用提供原生商业宽带/住宅级静态 IP 的专线服务商，如 <strong>极连云</strong>、<strong>云图机场</strong>。</td>
+              <td>适合 <strong>ChatGPT 机场推荐</strong> 场景的原生商业宽带/住宅级静态 IP <strong>专线机场推荐</strong>，如 <strong>极连云</strong>、<strong>云图机场</strong>。</td>
             </tr>
             <tr>
               <td><strong>跨境电竞与研发即时协同</strong><br><small>SSH / GitHub / 远程调试</small></td>
               <td>往返延迟极低 (RTT &lt; 30ms)、Jitter 抖动 &lt; 1.5ms、零丢包</td>
               <td>主备自动故障转移 (Fallback)，优先亚太 IPLC 物理电路</td>
-              <td>必须采用双程独立海缆的标杆服务商，如稳居天梯榜首的 <strong>环球梯</strong> 与 <strong>大佬云</strong>。</td>
+              <td>优先选择双程独立海缆的 <strong>低延迟机场推荐</strong> 与 <strong>晚高峰稳定机场</strong>，如稳居榜首的 <strong>环球梯</strong> 与 <strong>大佬云</strong>。</td>
             </tr>
             <tr>
-              <td><strong>4K/8K 国际流媒体</strong><br><small>Netflix / YouTube / Disney+</small></td>
-              <td>超大突发带宽、不限速并发、单价性价比高</td>
+              <td><strong>4K/8K 国际流媒体与短视频</strong><br><small>Netflix / TikTok / Disney+</small></td>
+              <td>超大突发带宽、原生区解锁、不限速并发且性价比高</td>
               <td>负载均衡 (Load Balance) 或按延迟轮询 (URL-Test)</td>
-              <td>选用大容量流量池、全节点 1 倍率架构的节点，如 <strong>速界</strong>、<strong>鲲鹏加速</strong>。</td>
+              <td>适合 <strong>TikTok 机场推荐</strong> 与影音追剧的 <strong>BGP 机场推荐</strong> / <strong>中转机场推荐</strong>（对比 <strong>直连机场推荐</strong> 抗丢包更优），如 <strong>速界</strong>、<strong>鲲鹏加速</strong>。</td>
             </tr>
             <tr>
               <td><strong>移动备用与边缘容灾</strong><br><small>差旅办公 / 敏感期冷备</small></td>
@@ -1303,9 +1303,12 @@ code.inline-code {
         </table>
       </div>
 
-      <h2>四、生产级分流策略配置规范 (YAML 模板解析)</h2>
+      <h2>四、生产级分流策略配置与多客户端订阅适配规范</h2>
       <p>
-        以下为标准的生产级分流核心配置文件架构，可直接作为 Clash Meta (Mihomo) 或 Sing-box 策略参考：
+        不同操作系统的代理客户端在规则语法与订阅解析上各有侧重。在桌面端（Windows / macOS / Linux），<strong>Clash 机场推荐</strong> 生态最为成熟，无论是参考 <strong>Clash 订阅机场推荐</strong>、<strong>Clash 节点推荐</strong>，还是选择 <strong>Clash 科学上网机场</strong>，主流用户多采用 <strong>Clash Verge 机场推荐</strong> 适配客户端或基于 Mihomo 内核的 <strong>Clash Meta 机场推荐</strong> 订阅；轻量桌面用户也可搭配 <strong>v2rayN 机场推荐</strong>、跨平台新锐 <strong>sing-box 机场推荐</strong> 或开源多端的 <strong>Hiddify 机场推荐</strong> 导入订阅。
+      </p>
+      <p>
+        在 Apple iOS / macOS 与 Android 移动生态中，iOS 用户常重点关注 <strong>Shadowrocket 机场推荐</strong>（即 <strong>小火箭机场推荐</strong>），通过高质量 <strong>Shadowrocket 节点推荐</strong> 与 <strong>小火箭订阅推荐</strong> 实现低功耗常驻；高阶苹果用户则可根据分流需求选择 <strong>Quantumult X 机场推荐</strong>（<strong>圈 X 机场推荐</strong>）、<strong>Surge 机场推荐</strong> 或基于 Clash 内核的 <strong>Stash 机场推荐</strong>；Android 端除 Clash Meta 与 Hiddify 外，亦广泛使用 <strong>v2rayNG 机场推荐</strong> 兼容订阅。以下为标准的生产级分流核心配置文件架构，可直接作为 Clash Meta (Mihomo) 或 Sing-box 策略参考：
       </p>
 
       <pre class="code-block"><code># 1. 核心 DNS 分流体系 (Fake-IP 模式)

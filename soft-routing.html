@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>双软路由（iKuai + OpenWrt）分流与 WebRTC IP 防泄漏工程实践 - 云朵巡线员</title>
-  <meta name="description" content="深入解析家庭与企业网关场景下 iKuai 主路由 + OpenWrt 旁路网关双软路由分流拓扑配置，彻底解决 STUN 穿透与浏览器 WebRTC 本地真实 IP 泄漏难题。">
-  <meta name="keywords" content="双软路由,iKuai,OpenWrt,旁路由,WebRTC防泄漏,STUN阻断,云朵巡线员">
+  <meta name="description" content="深入解析家庭与企业网关场景下 iKuai 主路由 + OpenWrt 旁路网关双软路由分流拓扑配置，结合 Clash Meta、sing-box 与专线机场推荐策略彻底解决 STUN 穿透与浏览器 WebRTC 本地真实 IP 泄漏难题。">
+  <meta name="keywords" content="双软路由,iKuai,OpenWrt,旁路由,WebRTC防泄漏,STUN阻断,Clash Meta 机场推荐,sing-box 机场推荐,专线机场推荐,云朵巡线员">
   <link rel="canonical" href="https://xunxianyuan.org/soft-routing.html">
   <link rel="icon" type="image/svg+xml" href="./favicon.svg">
 
@@ -1139,7 +1139,7 @@ code.inline-code {
         <ol>
           <li><strong>iptables 丢弃非代理 UDP 3478 / 19302 端口</strong>：在旁路由防火墙中，强制过滤 STUN 默认请求。</li>
           <li><strong>客户端浏览器层面</strong>：在 Chrome / Firefox 中启用 <code>webRTCIPHandlingPolicy = disable_non_proxied_udp</code>。</li>
-          <li><strong>搭配高质量专线</strong>：依靠 <strong>环球梯</strong> 或 <strong>大佬云</strong> 的全协议 UDP 转发，确保 UDP 数据流完全包裹在专线管道中出境。</li>
+          <li><strong>搭配高质量专线</strong>：依靠 <strong>环球梯</strong> 或 <strong>大佬云</strong> 等 <strong>晚高峰稳定机场</strong> 与 <strong>低延迟机场推荐</strong> 标杆的全协议 UDP 转发，配合 OpenWrt 上的 <strong>Clash Meta 机场推荐</strong> 或 <strong>sing-box 机场推荐</strong> 订阅核心，确保 UDP 数据流完全包裹在专线管道中出境。</li>
         </ol>
       </div>
     </article>
